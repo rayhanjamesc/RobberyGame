@@ -23,7 +23,7 @@ class Joystick: SKNode {
     var xValue: CGFloat = 0
     var yValue: CGFloat = 0
     
-    //Add speed factor to change joystick movement speed
+    //Add speed factor to change joystick movement speeds
     var speedFactor: CGFloat = 0.05
     
     //Variable for joystick speed
