@@ -8,7 +8,14 @@
 import Foundation
 import SpriteKit
 
+//Protocol for camera movement
+protocol SneakyJoystickDelegate {
+    func joystickMoved(to direction: CGPoint)
+}
+
 class Joystick: SKNode {
+    
+    var delegate: SneakyJoystickDelegate?
     
     //Gray joystick on the bottom
     var joystick = SKShapeNode()
@@ -24,7 +31,7 @@ class Joystick: SKNode {
     var yValue: CGFloat = 0
     
     //Add speed factor to change joystick movement speeds
-    var speedFactor: CGFloat = 0.05
+    var speedFactor: CGFloat = 0.25
     
     //Variable for joystick speed
     var joystickAction: ((_ x: CGFloat, _ y: CGFloat) -> ())?
@@ -33,7 +40,7 @@ class Joystick: SKNode {
     override init() {
         
         //Gray background joystick
-        let joystickRect = CGRect(x: 0, y: 0, width: 200, height: 200)
+        let joystickRect = CGRect(x: 0, y: 0, width: 150, height: 150)
         let joystickPath = UIBezierPath(ovalIn: joystickRect)
         
         joystick = SKShapeNode(path: joystickPath.cgPath, centered: true)
@@ -41,7 +48,7 @@ class Joystick: SKNode {
         joystick.strokeColor = UIColor.clear
         
         //Black movable stick
-        let stickRect = CGRect(x: 0, y: 0, width: 80, height: 80)
+        let stickRect = CGRect(x: 0, y: 0, width: 60, height: 60)
         let stickPath = UIBezierPath(ovalIn: stickRect)
         
         stick = SKShapeNode(path: stickPath.cgPath, centered: true)
@@ -69,8 +76,20 @@ class Joystick: SKNode {
         stick.position = CGPoint(x: x, y: y)
         xValue = x / maxRange * speedFactor
         yValue = y / maxRange * speedFactor
+        
+        if let delegate = delegate {
+            delegate.joystickMoved(to: CGPoint(x: xValue, y: yValue))
+        }
     }
     
+    //Stops player movement when joystick is released
+    func resetJoystick() {
+        xValue = 0
+        yValue = 0
+        if let joystickAction = joystickAction {
+            joystickAction(xValue, yValue)
+        }
+    }
 }
 
 
