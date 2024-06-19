@@ -10,11 +10,23 @@ import GameplayKit
 
 class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
+    //Create game border
+    var gameBorder = GameBorder()
+    
     //Create joystick on scene
     let joystick = Joystick()
     
     //Create player instance
     let player = SKSpriteNode(color: UIColor.red, size: CGSize(width: 50, height: 50))
+    
+    //Create protector instance (ask Michelle what's the difference between this and enemy)
+    var protector = Protector(size: CGSize(width: 10, height: 50))
+    
+    //Check with Michelle if this is needed or not
+    var coneShape = ConeShape()
+    
+    //Create enemy instance
+    var enemy = Enemy(size: CGSize(width: 50, height: 50))
     
     //Create camera node
     let cameraNode = SKCameraNode()
@@ -32,20 +44,44 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     var isTouchingBottom = false
     var isTouchingLeft = false
     
-    //Variables for Contact Test Bit Mask (Colliding)
+    //Variables for Contact Test Bit Mask (Colliding) (Category Bit Mask)
     let playerCol: UInt32 = 0x1 << 0
     
     let topCol: UInt32 = 0x1 << 1
     let rightCol: UInt32 = 0x1 << 2
     let bottomCol: UInt32 = 0x1 << 3
     let leftCol: UInt32 = 0x1 << 4
+    let protectorCol: UInt32 = 0x1 << 5
+    let enemyCol: UInt32 = 0x1 << 6
+    let coneCol: UInt32 = 0x1 << 7
     
     //Timer properties
     var timerLabel: SKLabelNode!
     var countdown: Int = 60
     var isTimerRunning = false
     
+    override required init(size: CGSize) {
+        super.init(size: size)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     override func didMove(to view: SKView) {
+        
+        //Border properties
+        addChild(gameBorder)
+        gameBorder.addChild(protector)
+        gameBorder.addChild(enemy)
+        player.addChild(coneShape)
+        
+        //Position cone shape relative to player
+        coneShape.position = CGPoint(x: player.size.width / 2 + coneShape.frame.width / 2, y: 0)
+        protector.position = CGPoint(x: 350, y: 0)
+        enemy.position = CGPoint(x: 320, y: 0)
+        protector.zPosition = enemy.zPosition + 1
         
         //Line properties
         let topPath = UIBezierPath()
@@ -111,6 +147,29 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         player.physicsBody?.collisionBitMask = topCol | rightCol | bottomCol | leftCol
         player.physicsBody?.contactTestBitMask = topCol | rightCol | bottomCol | leftCol
         
+        //Category masks for protector, cone and enemy
+        protector.physicsBody?.categoryBitMask = protectorCol
+        coneShape.physicsBody?.categoryBitMask = coneCol
+        enemy.physicsBody?.categoryBitMask = enemyCol
+        
+        //Contact test bit masks
+        coneShape.physicsBody?.contactTestBitMask = playerCol | enemyCol
+        enemy.physicsBody?.contactTestBitMask = enemyCol
+        
+        //Collision bit masks for protector, cone and enemy
+        protector.physicsBody?.collisionBitMask = 0
+        coneShape.physicsBody?.collisionBitMask = 0
+        enemy.physicsBody?.collisionBitMask = 0
+        
+        //Ensure contact notifications are still sent
+        coneShape.physicsBody?.contactTestBitMask = coneShape.physicsBody!.categoryBitMask
+        enemy.physicsBody?.contactTestBitMask = coneShape.physicsBody!.categoryBitMask
+        
+        //Prevent objects falling over
+        protector.physicsBody?.affectedByGravity = false
+        coneShape.physicsBody?.affectedByGravity = false
+        enemy.physicsBody?.affectedByGravity = false
+        
         joystick.position = CGPoint(x: -150, y: 450)
         
         //Add physics to player instance
@@ -118,6 +177,12 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         
         self.physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
+        
+        //Physics bodies for protector, coneShape and enemy
+        let enemyPhysicsSize = CGSize(width: enemy.size.width, height: enemy.size.height)
+        coneShape.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 100, height: 100), center: CGPoint(x: 50, y: 50))
+        enemy.physicsBody = SKPhysicsBody(rectangleOf: enemyPhysicsSize, center: CGPoint(x: enemyPhysicsSize.width / 2, y: enemyPhysicsSize.height / 2))
+        protector.physicsBody = SKPhysicsBody(rectangleOf: protector.size, center: CGPoint(x: protector.size.width / 2, y: protector.size.height / 2))
         
         //Camera node properties
         cameraNode.position = CGPoint(x: 0, y: 0)
@@ -151,11 +216,22 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     //Handling collision response
     func didBegin(_ contact: SKPhysicsContact) {
+        let collision = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+        
         //Add response later eg. sound effects
         if contact.bodyA.categoryBitMask == 0b1 || contact.bodyB.categoryBitMask == 0b1 {
             handleCollision(contact: contact)
             
             return
+        } else if collision == enemyCol {
+            //Player and enemy collision
+            backgroundColor = SKColor.yellow
+            print("Game over")
+            
+            //Stop enemy's movement
+            enemy.removeAllActions()
+            coneShape.removeAllActions()
+            player.removeAllActions()
         }
     }
     
