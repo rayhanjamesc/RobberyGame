@@ -40,6 +40,11 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     let bottomCol: UInt32 = 0x1 << 3
     let leftCol: UInt32 = 0x1 << 4
     
+    //Timer properties
+    var timerLabel: SKLabelNode!
+    var countdown: Int = 60
+    var isTimerRunning = false
+    
     override func didMove(to view: SKView) {
         
         //Line properties
@@ -125,6 +130,22 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         
         joystick.delegate = self
         
+        //Add timer label
+        timerLabel = SKLabelNode(fontNamed: "Helvetica")
+        timerLabel.fontSize = 24
+        timerLabel.fontColor = SKColor.white
+        timerLabel.position = CGPoint(x: 0, y: -200)
+        timerLabel.text = "Time: \(countdown)"
+        cameraNode.addChild(timerLabel)
+        
+        //Add play button
+        let playButton = SKLabelNode(fontNamed: "Helvetica")
+        playButton.text = "Play"
+        playButton.fontSize = 24
+        playButton.fontColor = SKColor.green
+        playButton.position = CGPoint(x: 0, y: 0)
+        playButton.name = "playButton"
+        cameraNode.addChild(playButton)
         
     }
     
@@ -140,7 +161,15 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            joystick.moveJoystick(touch: touch)
+            let location = touch.location(in: self)
+            let touchedNode = atPoint(location)
+            
+            if touchedNode.name == "playButton" {
+                print("timer started")
+                startTimer()
+            } else {
+                joystick.moveJoystick(touch: touch)
+            }
         }
     }
     
@@ -211,6 +240,32 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             
         default:
             break
+        }
+    }
+    
+    func startTimer() {
+        if !isTimerRunning {
+            print("function is running")
+            isTimerRunning = true
+            let wait = SKAction.wait(forDuration: 1)
+            let action = SKAction.run { [weak self] in
+                self?.updateTimer()
+            }
+            let sequence = SKAction.sequence([wait, action])
+            let repeatAction = SKAction.repeatForever(sequence)
+            run(repeatAction, withKey: "timer")
+        }
+    }
+    
+    func updateTimer() {
+        if countdown > 0 {
+            countdown -= 1
+            timerLabel.text = "Time: \(countdown)"
+        } else {
+            isTimerRunning = false
+            removeAction(forKey: "timer")
+            
+            //Handle timer end (add game over later)
         }
     }
 }
