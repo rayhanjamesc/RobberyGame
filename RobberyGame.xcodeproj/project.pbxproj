@@ -16,6 +16,7 @@
 		1A8A7D0E2C17F21C0023826B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A8A7D0D2C17F21C0023826B /* Assets.xcassets */; };
 		1A8A7D112C17F21C0023826B /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 1A8A7D102C17F21C0023826B /* Base */; };
 		1A8A7D1A2C17F2AC0023826B /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8A7D192C17F2AC0023826B /* Joystick.swift */; };
+		1AD066F52C25290700DC384D /* MiniGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD066F42C25290700DC384D /* MiniGameScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		1A8A7D0D2C17F21C0023826B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A8A7D102C17F21C0023826B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1A8A7D192C17F2AC0023826B /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
+		1AD066F42C25290700DC384D /* MiniGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniGameScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 				1A8A7D022C17F21B0023826B /* GameScene.sks */,
 				1A8A7D042C17F21B0023826B /* Actions.sks */,
 				1A8A7D062C17F21B0023826B /* GameScene.swift */,
+				1AD066F42C25290700DC384D /* MiniGameScene.swift */,
 				1A8A7D082C17F21B0023826B /* GameViewController.swift */,
 				1A8A7D192C17F2AC0023826B /* Joystick.swift */,
 				1A8A7D0A2C17F21B0023826B /* Main.storyboard */,
@@ -148,6 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A8A7D072C17F21B0023826B /* GameScene.swift in Sources */,
+				1AD066F52C25290700DC384D /* MiniGameScene.swift in Sources */,
 				1A8A7D1A2C17F2AC0023826B /* Joystick.swift in Sources */,
 				1A8A7D092C17F21B0023826B /* GameViewController.swift in Sources */,
 				1A8A7D012C17F21B0023826B /* AppDelegate.swift in Sources */,
