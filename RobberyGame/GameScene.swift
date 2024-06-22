@@ -47,6 +47,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         
+        //Border creation
         //Line properties
         let topPath = UIBezierPath()
         topPath.move(to: CGPoint(x: -100, y: 50))

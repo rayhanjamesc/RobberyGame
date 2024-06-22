@@ -8,11 +8,13 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import GameKit
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, GKGameCenterControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        authenticateLocalPlayer()
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
@@ -41,5 +43,24 @@ class GameViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+    
+    func authenticateLocalPlayer() {
+            let localPlayer = GKLocalPlayer.local
+            localPlayer.authenticateHandler = { (viewController, error) in
+                if let vc = viewController {
+                    self.present(vc, animated: true, completion: nil)
+                } else if localPlayer.isAuthenticated {
+                    // Player is authenticated
+                    print("Player authenticated")
+                } else {
+                    // Authentication failed
+                    print("Authentication failed")
+                }
+            }
+        }
+
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismiss(animated: true, completion: nil)
     }
 }
