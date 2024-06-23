@@ -25,6 +25,9 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     let bottomLine = SKShapeNode()
     let leftLine = SKShapeNode()
     
+    //Game walls
+    let room1_1 = SKSpriteNode(imageNamed: "room1_1.png")
+    
     //Checking if player is currently colliding with respective borders
     var isPlayerTouchingBorder = false
     var isTouchingTop = false
@@ -46,6 +49,13 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     var isTimerRunning = false
     
     override func didMove(to view: SKView) {
+        view.showsPhysics = true
+        view.showsNodeCount = true
+        view.showsFPS = true
+        
+        //Set screen size for horizontal layout
+        self.size = CGSize(width: 1334, height: 750)
+        self.scaleMode = .aspectFit
         
         //Line properties
         let topPath = UIBezierPath()
@@ -102,6 +112,11 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         leftLine.physicsBody?.categoryBitMask = leftCol
         leftLine.physicsBody?.collisionBitMask = playerCol
         
+        //Physics body for left walls
+        
+            room1_1.physicsBody = SKPhysicsBody(edgeLoopFrom: room1_1.frame)
+            room1_1.physicsBody?.categoryBitMask = leftCol
+            room1_1.physicsBody?.collisionBitMask = playerCol
         
         //Create physics body for player
         player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: player.size.width, height: player.size.height))
@@ -111,7 +126,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         player.physicsBody?.collisionBitMask = topCol | rightCol | bottomCol | leftCol
         player.physicsBody?.contactTestBitMask = topCol | rightCol | bottomCol | leftCol
         
-        joystick.position = CGPoint(x: -150, y: 450)
+        joystick.position = CGPoint(x: -500, y: -225)
         
         //Add physics to player instance
         player.position = CGPoint(x: 0, y: 0)
@@ -147,6 +162,16 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         playButton.name = "playButton"
         cameraNode.addChild(playButton)
         
+        //Add walls to the scene
+        setupWalls()
+    }
+    
+    //Add walls to the map
+    func setupWalls() {
+        // Room 1_1
+        room1_1.position = CGPoint(x: -35, y: 30)
+        room1_1.physicsBody?.isDynamic = false
+        addChild(room1_1)
     }
     
     //Handling collision response
