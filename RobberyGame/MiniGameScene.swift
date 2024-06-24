@@ -8,60 +8,79 @@
 import Foundation
 import SpriteKit
 
+class PixelNode: SKShapeNode {
+    var row: Int = 0
+    var column: Int = 0
+}
+
 class MiniGameScene: SKScene {
     
-    // Constants for pixel grid size and spacing
+    //Constants for pixel grid size and spacing
     let pixelSize: CGFloat = 10  // Size of each pixel
     let pixelSpacing: CGFloat = 1  // Spacing between pixels
+    let numRows = 20
+    let numColumns = 20
     
-    var selectedColor: UIColor = .red  // Initial color
-    var colorButtons: [SKSpriteNode] = []
+    var referencePixels: [[SKColor]] = []
+    var playerPixels: [[SKColor?]] = []
     
     override func didMove(to view: SKView) {
+        self.size = CGSize(width: 1334, height: 750)
+        self.scaleMode = .aspectFit
+        
         setupImage()
-        setupPixelArt()
-        setupColorButtons()
+        setupTrace()
+        setupFinishButton()
+        setupReference()
+        
+        //Add back to map button
+        let mapButton = UIButton(type: .custom)
+        mapButton.setTitle("Back to map", for: .normal)
+        mapButton.setTitleColor(.blue, for: .normal)
+        mapButton.addTarget(self, action: #selector(mapButtonPressed), for: .touchUpInside)
+        self.view?.addSubview(mapButton)
+        mapButton.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+    }
+    
+    @objc func mapButtonPressed() {
+        if let gameViewController = self.view?.window?.rootViewController as? GameViewController {
+            gameViewController.transitionToGameScene()
+        }
     }
     
     func setupImage() {
         let art = SKSpriteNode(imageNamed: "Mario_Pixel")
-        art.position = CGPoint(x: 0, y: 0)
+        art.position = CGPoint(x: size.width / 2, y: size.height / 2)
         art.zPosition = -1
         addChild(art)
     }
     
-    func setupPixelArt() {
-        // Setup pixel art grid as before
-        let numRows = 20
-        let numColumns = 20
-        
+    func setupReference() {
+        referencePixels = Array(repeating: Array(repeating: .clear, count: numColumns), count: numRows)
+    }
+    
+    func setupTrace() {
         let startX = frame.midX - CGFloat(numColumns) / 2 * (pixelSize + pixelSpacing)
         let startY = frame.midY - CGFloat(numRows) / 2 * (pixelSize + pixelSpacing)
         
         for row in 0..<numRows {
+            var rowArray: [SKColor?] = []
             for column in 0..<numColumns {
-                let pixel = SKShapeNode(rectOf: CGSize(width: pixelSize, height: pixelSize))
-                pixel.position = CGPoint(x: startX + CGFloat(column) * (pixelSize + pixelSpacing),
+                let trace = PixelNode(rectOf: CGSize(width: pixelSize, height: pixelSize))
+                
+                //Set row and column properties
+                trace.row = row
+                trace.column = column
+                
+                trace.position = CGPoint(x: startX + CGFloat(column) * (pixelSize + pixelSpacing),
                                          y: startY + CGFloat(row) * (pixelSize + pixelSpacing))
-                pixel.fillColor = .clear
-                pixel.strokeColor = .black
-                addChild(pixel)
+                trace.fillColor = .clear
+                trace.strokeColor = .black
+                addChild(trace)
+                
+                rowArray.append(.clear)
             }
-        }
-    }
-    
-    func setupColorButtons() {
-        let colors: [UIColor] = [.red, .blue, .green, .yellow, .purple]
-        let buttonSize = CGSize(width: 40, height: 40)
-        let startX = -frame.midX + buttonSize.width / 2 + 20 //Adjusts starting X position
-        let startY = frame.maxY - buttonSize.height / 2 - 20 //Adjusts starting Y position
-        
-        for (index, color) in colors.enumerated() {
-            let button = SKSpriteNode(color: color, size: buttonSize)
-            button.position = CGPoint(x: startX + CGFloat(index) * (buttonSize.width + 10), y: -150)
-            button.name = color.description // Set name to identify each button
-            addChild(button)
-            colorButtons.append(button)
+            playerPixels.append(rowArray)
         }
     }
     
@@ -69,16 +88,37 @@ class MiniGameScene: SKScene {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
         
-        for button in colorButtons {
-            if button.contains(touchLocation) {
-                selectedColor = button.color
-                print("Selected color")
-                return
+        if let pixelNode = self.atPoint(touchLocation) as? PixelNode {
+            pixelNode.fillColor = .red
+            playerPixels[pixelNode.row][pixelNode.column] = .red
+        } else if let finishButton = self.atPoint(touchLocation) as? SKLabelNode, finishButton.name == "finishButton" {
+            let accuracy = calculateAccuracy()
+            print("Accuracy: \(accuracy)%")
+        }
+    }
+    
+    func calculateAccuracy() -> Double {
+        var correctPixels = 0
+        var totalPixels = 0
+        
+        for row in 0..<numRows {
+            for column in 0..<numColumns {
+                totalPixels += 1
+                if let playerColor = playerPixels[row][column], playerColor == referencePixels[row][column] {
+                    correctPixels += 1
+                }
             }
         }
         
-        if let pixelNode = self.atPoint(touchLocation) as? SKShapeNode {
-            pixelNode.fillColor = selectedColor
-        }
+        return totalPixels > 0 ? (Double(correctPixels) / Double(totalPixels)) * 100 : 0
+    }
+    
+    func setupFinishButton() {
+        let finishButton = SKLabelNode(text: "Finish")
+        finishButton.fontSize = 30
+        finishButton.fontColor = .green
+        finishButton.position = CGPoint(x: 300, y: size.height / 2)
+        finishButton.name = "finishButton"
+        addChild(finishButton)
     }
 }

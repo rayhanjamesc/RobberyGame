@@ -19,6 +19,9 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     //Create camera node
     let cameraNode = SKCameraNode()
     
+    //Win mechanic conditional
+    
+    
     //Game walls
     let room1_1 = SKSpriteNode(imageNamed: "room1_1.png")
     let room1_2 = SKSpriteNode(imageNamed: "room1_2.png")
@@ -84,7 +87,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     //Timer properties
     var timerLabel: SKLabelNode!
-    var countdown: Int = 60
+    var countdown: Int = 3
     var isTimerRunning = false
     
     override func didMove(to view: SKView) {
@@ -288,8 +291,22 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         playButton.name = "playButton"
         cameraNode.addChild(playButton)
         
+        //Add trace button
+        let traceButton = UIButton(type: .custom)
+        traceButton.setTitle("Start tracing", for: .normal)
+        traceButton.setTitleColor(.blue, for: .normal)
+        traceButton.addTarget(self, action: #selector(traceButtonPressed), for: .touchUpInside)
+        self.view?.addSubview(traceButton)
+        traceButton.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        
         //Add walls to the scene
         setupWalls()
+    }
+    
+    @objc func traceButtonPressed() {
+        if let gameViewController = self.view?.window?.rootViewController as? GameViewController {
+            gameViewController.transitionToMiniGameScene()
+        }
     }
     
     //Add walls to the map
@@ -491,8 +508,9 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             let touchedNode = atPoint(location)
             
             if touchedNode.name == "playButton" {
-                print("timer started")
                 startTimer()
+            } else if touchedNode.name == "retryButton" {
+                resetGame()
             } else {
                 joystick.moveJoystick(touch: touch)
             }
@@ -599,7 +617,6 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     func startTimer() {
         if !isTimerRunning {
-            print("function is running")
             isTimerRunning = true
             let wait = SKAction.wait(forDuration: 1)
             let action = SKAction.run { [weak self] in
@@ -616,10 +633,59 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             countdown -= 1
             timerLabel.text = "Time: \(countdown)"
         } else {
-            isTimerRunning = false
+            gameOver()
             removeAction(forKey: "timer")
             
             //Handle timer end (add game over later)
         }
+    }
+    
+    func gameOver() {
+        //Stops the timer
+        isTimerRunning = false
+        removeAllActions()
+        
+        //Creates and displays game over screen
+        let gameOverLabel = SKLabelNode(fontNamed: "Chalkduster")
+        gameOverLabel.fontSize = 60
+        gameOverLabel.fontColor = SKColor.red
+        gameOverLabel.position = CGPoint(x: 0, y: 0)
+        gameOverLabel.zPosition = 200
+        gameOverLabel.text = "Game Over"
+        gameOverLabel.name = "gameOver"
+        cameraNode.addChild(gameOverLabel)
+        
+        //Retry button
+        let retryButton = SKLabelNode(fontNamed: "Chalkduster")
+        retryButton.fontSize = 40
+        retryButton.fontColor = SKColor.green
+        retryButton.position = CGPoint(x: 0, y: -50)
+        retryButton.zPosition = 201
+        retryButton.text = "Retry"
+        retryButton.name = "retryButton"
+        cameraNode.addChild(retryButton)
+    }
+    
+    func resetGame() {
+        //Resets player position
+        player.position = CGPoint(x: 0, y: 0)
+        joystick.resetJoystick()
+        
+        //Resets camera position
+        cameraNode.position = CGPoint(x: 0, y: 0)
+        
+        //Resets timer
+        countdown = 3
+        timerLabel.text = "Time: \(countdown)"
+        
+        //Remove game over screen elements
+        cameraNode.childNode(withName: "gameOver")?.removeFromParent()
+        cameraNode.childNode(withName: "retryButton")?.removeFromParent()
+        
+        //Reset game state
+        isTimerRunning = false
+        startTimer()
+        
+        print("game reset")
     }
 }

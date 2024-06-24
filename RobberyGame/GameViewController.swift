@@ -16,19 +16,49 @@ class GameViewController: UIViewController {
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "GameScene") {
-                // Set the scale mode to scale to fit the window
-                scene.scaleMode = .aspectFill
-                
-                // Present the scene
-                view.presentScene(scene)
-            }
+            let scene = GameScene(size: view.bounds.size)
+            // Set the scale mode to scale to fit the window
+            scene.scaleMode = .aspectFill
+            
+            // Present the scene
+            view.presentScene(scene)
+            
             
             view.ignoresSiblingOrder = true
             
-            view.showsFPS = true
-            view.showsNodeCount = true
-            view.showsPhysics = true
+            view.showsFPS = false
+            view.showsNodeCount = false
+            view.showsPhysics = false
+        }
+    }
+    
+    //Method to transition to Mini Game Scene
+    func transitionToMiniGameScene() {
+        if let view = self.view as! SKView? {
+            let miniGameScene = MiniGameScene(size: view.bounds.size)
+            
+            miniGameScene.scaleMode = .aspectFill
+            view.presentScene(miniGameScene)
+            
+            view.ignoresSiblingOrder = true
+            view.showsFPS = false
+            view.showsNodeCount = false
+            view.showsPhysics = false
+        }
+    }
+    
+    //Method to transition to Game Scene
+    func transitionToGameScene() {
+        if let view = self.view as! SKView? {
+            let scene = GameScene(size: view.bounds.size)
+            
+            scene.scaleMode = .aspectFill
+            view.presentScene(scene)
+            
+            view.ignoresSiblingOrder = true
+            view.showsFPS = false
+            view.showsNodeCount = false
+            view.showsPhysics = false
         }
     }
 
