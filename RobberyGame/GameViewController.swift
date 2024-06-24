@@ -8,8 +8,11 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import GameKit
 
 class GameViewController: UIViewController {
+    
+    private var gameCenterHelper: GameCenterHelper!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +33,10 @@ class GameViewController: UIViewController {
             view.showsNodeCount = false
             view.showsPhysics = false
         }
+        
+        gameCenterHelper = GameCenterHelper()
+        gameCenterHelper.delegate = self
+        gameCenterHelper.authenticatePlayer()
     }
     
     //Method to transition to Mini Game Scene
@@ -72,5 +79,25 @@ class GameViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+}
+
+extension GameViewController: GameCenterHelperDelegate {
+    func didChangeAuthStatus(isAuthenticated: Bool) {
+//        buttonMultiplayer.isEnabled = isAuthenticated
+    }
+    
+    func presentGameCenterAuth(viewController: UIViewController?) {
+        guard let vc = viewController else {return}
+        self.present(vc, animated: true)
+    }
+    
+    func presentMatchmaking(viewController: UIViewController?) {
+        guard let vc = viewController else {return}
+        self.present(vc, animated: true)
+    }
+    
+    func presentGame(match: GKMatch) {
+        performSegue(withIdentifier: "showGame", sender: match)
     }
 }

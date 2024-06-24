@@ -17,6 +17,7 @@
 		1A8A7D112C17F21C0023826B /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 1A8A7D102C17F21C0023826B /* Base */; };
 		1A8A7D1A2C17F2AC0023826B /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8A7D192C17F2AC0023826B /* Joystick.swift */; };
 		1AD066F52C25290700DC384D /* MiniGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD066F42C25290700DC384D /* MiniGameScene.swift */; };
+		85A720F22C29399400CFEA92 /* GameCenterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A720F12C29399400CFEA92 /* GameCenterHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,8 @@
 		1A8A7D102C17F21C0023826B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1A8A7D192C17F2AC0023826B /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 		1AD066F42C25290700DC384D /* MiniGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniGameScene.swift; sourceTree = "<group>"; };
+		85A720F12C29399400CFEA92 /* GameCenterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCenterHelper.swift; sourceTree = "<group>"; };
+		85A720F32C29409C00CFEA92 /* RobberyGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RobberyGame.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,12 +66,14 @@
 		1A8A7CFF2C17F21B0023826B /* RobberyGame */ = {
 			isa = PBXGroup;
 			children = (
+				85A720F32C29409C00CFEA92 /* RobberyGame.entitlements */,
 				1A8A7D002C17F21B0023826B /* AppDelegate.swift */,
 				1A8A7D022C17F21B0023826B /* GameScene.sks */,
 				1A8A7D042C17F21B0023826B /* Actions.sks */,
 				1A8A7D062C17F21B0023826B /* GameScene.swift */,
 				1AD066F42C25290700DC384D /* MiniGameScene.swift */,
 				1A8A7D082C17F21B0023826B /* GameViewController.swift */,
+				85A720F12C29399400CFEA92 /* GameCenterHelper.swift */,
 				1A8A7D192C17F2AC0023826B /* Joystick.swift */,
 				1A8A7D0A2C17F21B0023826B /* Main.storyboard */,
 				1A8A7D0D2C17F21C0023826B /* Assets.xcassets */,
@@ -150,6 +155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85A720F22C29399400CFEA92 /* GameCenterHelper.swift in Sources */,
 				1A8A7D072C17F21B0023826B /* GameScene.swift in Sources */,
 				1AD066F52C25290700DC384D /* MiniGameScene.swift in Sources */,
 				1A8A7D1A2C17F2AC0023826B /* Joystick.swift in Sources */,
@@ -304,9 +310,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = RobberyGame/RobberyGame.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = X95N2BVUA6;
+				DEVELOPMENT_TEAM = C39W5GB8W3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -314,6 +321,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -332,9 +340,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = RobberyGame/RobberyGame.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = X95N2BVUA6;
+				DEVELOPMENT_TEAM = C39W5GB8W3;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -342,6 +351,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
