@@ -7,7 +7,7 @@
 
 import SpriteKit
 
-class CCTV: SKSpriteNode {
+class CCTVTop: SKSpriteNode {
     init() {
         // Load the image from your asset catalog
         let texture = SKTexture(imageNamed: "cctv-top")
@@ -21,12 +21,45 @@ class CCTV: SKSpriteNode {
         // Set up physics body
         let physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
         physicsBody.isDynamic = true // Set to true if you want it to interact with other dynamic bodies
-        self.physicsBody = physicsBody
         physicsBody.affectedByGravity = false
         physicsBody.categoryBitMask = 0
+        physicsBody.collisionBitMask = 0
+        physicsBody.contactTestBitMask = 0
+        self.physicsBody = physicsBody
+        
+        // Set other properties as needed
+        name = "cctv-top"
+    }
+    
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class CCTVDown: SKSpriteNode {
+    init() {
+        // Load the image from your asset catalog
+        let texture = SKTexture(imageNamed: "cctv-down")
+        let originalSize = texture.size()
+        let scaledSize = CGSize(width: originalSize.width, height: originalSize.height)
+        
+        // Initialize the sprite node with the texture
+        super.init(texture: texture, color: .clear, size: scaledSize)
+        self.anchorPoint = CGPoint(x: 0, y: 0)
+        self.zPosition = -1.0
+        
+        // Set up physics body
+        let physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
+        physicsBody.isDynamic = true // Set to true if you want it to interact with other dynamic bodies
+        physicsBody.affectedByGravity = false
+        physicsBody.categoryBitMask = 0
+        physicsBody.collisionBitMask = 0
+        physicsBody.contactTestBitMask = 0
+        self.physicsBody = physicsBody
 
         // Set other properties as needed
-        name = "cctv"
+        name = "cctv-down"
     }
     
     @available(*, unavailable)

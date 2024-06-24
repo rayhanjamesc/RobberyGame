@@ -22,10 +22,16 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     //Win mechanic conditional
     
     // Game elements
-    let cctv = CCTV()
+    let cctv1 = CCTVTop()
+    let cctv2 = CCTVDown()
+    let cctv3 = CCTVTop()
+    let cctv4 = CCTVDown()
+    let range1 = CCTVRange()
+    let range2 = CCTVRange()
+    let range3 = CCTVRange()
+    let range4 = CCTVRange()
     let bear = Bear()
     let track = GuardTrack()
-    let range = CCTVRange()
     
     //Game walls
     let room1_1 = SKSpriteNode(imageNamed: "room1_1.png")
@@ -107,11 +113,8 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         
         // Physics body for elements
-        cctv.physicsBody = SKPhysicsBody(texture: cctv.texture!, size: cctv.size)
-        cctv.physicsBody?.affectedByGravity = false
-        cctv.physicsBody?.isDynamic = false
-        cctv.physicsBody?.collisionBitMask = 0
-        cctv.physicsBody?.contactTestBitMask = 0
+
+
 
 
     
@@ -370,13 +373,13 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         room2_2.physicsBody?.isDynamic = false
         addChild(room2_2)
         
-        cctv.zPosition = 3
-        cctv.position = CGPoint(x: -100, y: 20)
-        room2_2.addChild(cctv)
-        cctv.addChild(range)
-        range.position = CGPoint(x: 20, y: 15)
+        cctv1.zPosition = 3
+        cctv1.position = CGPoint(x: -100, y: 20)
+        room2_2.addChild(cctv1)
+        cctv1.addChild(range1)
+        range1.position = CGPoint(x: 20, y: 15)
 
-        range.startMovementAnimation()
+        range1.startMovementAnimation(turnRight: false)
         
         //Room 2_3
         room2_3.position = CGPoint(x: 1005, y: 401)
@@ -410,6 +413,15 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         room2_8.physicsBody?.isDynamic = false
         addChild(room2_8)
         
+        cctv3.xScale = -1.0
+        cctv3.zPosition = 3
+        range3.zPosition = 3
+        room2_8.addChild(cctv3)
+        cctv3.addChild(range3)
+        cctv3.position = CGPoint(x: -85, y: 30)
+        range3.position = CGPoint(x: 20, y: 10)
+        range3.startMovementAnimation(turnRight: false)
+        
         //Room 2_9
         room2_9.position = CGPoint(x: 2076, y: 245)
         room2_9.physicsBody?.isDynamic = false
@@ -434,6 +446,15 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         room2_11.position = CGPoint(x: 1828, y: -370)
         room2_11.physicsBody?.isDynamic = false
         addChild(room2_11)
+        
+        cctv4.zPosition = 3
+        cctv4.xScale = -1.0
+        cctv4.position = CGPoint(x: 100, y: 30)
+        room2_11.addChild(cctv4)
+        cctv4.addChild(range4)
+        range4.zRotation = .pi
+        range4.position = CGPoint(x: 20, y: 13)
+        range4.startMovementAnimation(turnRight: true)
         
         //Room 2_12
         room2_12.position = CGPoint(x: 1580, y: -422)
@@ -464,6 +485,14 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         room2_17.position = CGPoint(x: 766, y: -372)
         room2_17.physicsBody?.isDynamic = false
         addChild(room2_17)
+        
+        cctv2.zPosition = 3
+        cctv2.position = CGPoint(x: 100, y: 30)
+        room2_17.addChild(cctv2)
+        cctv2.addChild(range2)
+        range2.zRotation = .pi
+        range2.position = CGPoint(x: 20, y: 13)
+        range2.startMovementAnimation(turnRight: true)
         
         //Room 2_18
         room2_18.position = CGPoint(x: 511, y: -251)
