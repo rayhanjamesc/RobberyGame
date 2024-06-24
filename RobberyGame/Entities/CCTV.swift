@@ -16,6 +16,7 @@ class CCTV: SKSpriteNode {
         
         // Initialize the sprite node with the texture
         super.init(texture: texture, color: .clear, size: scaledSize)
+        self.anchorPoint = CGPoint(x: 0, y: 0)
         
         // Set up physics body
         let physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
@@ -24,7 +25,6 @@ class CCTV: SKSpriteNode {
         physicsBody.affectedByGravity = false
         physicsBody.categoryBitMask = 0
 
-        
         // Set other properties as needed
         name = "cctv"
     }

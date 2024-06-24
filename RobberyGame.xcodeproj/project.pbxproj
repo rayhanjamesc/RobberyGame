@@ -18,9 +18,9 @@
 		1A8A7D1A2C17F2AC0023826B /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8A7D192C17F2AC0023826B /* Joystick.swift */; };
 		1AD066F52C25290700DC384D /* MiniGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD066F42C25290700DC384D /* MiniGameScene.swift */; };
 		32DA2EEA2C2960A4008E7298 /* CCTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA2EE92C2960A4008E7298 /* CCTV.swift */; };
-		32DA2EEE2C29655A008E7298 /* Guard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA2EED2C29655A008E7298 /* Guard.swift */; };
 		32DA2EF12C2966D6008E7298 /* GuardTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA2EF02C2966D6008E7298 /* GuardTrack.swift */; };
 		32DA2EF32C2967A7008E7298 /* Bear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA2EF22C2967A7008E7298 /* Bear.swift */; };
+		32DA2EF82C29A973008E7298 /* CCTVRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA2EF72C29A973008E7298 /* CCTVRange.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,9 +36,9 @@
 		1A8A7D192C17F2AC0023826B /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 		1AD066F42C25290700DC384D /* MiniGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniGameScene.swift; sourceTree = "<group>"; };
 		32DA2EE92C2960A4008E7298 /* CCTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCTV.swift; sourceTree = "<group>"; };
-		32DA2EED2C29655A008E7298 /* Guard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Guard.swift; sourceTree = "<group>"; };
 		32DA2EF02C2966D6008E7298 /* GuardTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuardTrack.swift; sourceTree = "<group>"; };
 		32DA2EF22C2967A7008E7298 /* Bear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bear.swift; sourceTree = "<group>"; };
+		32DA2EF72C29A973008E7298 /* CCTVRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCTVRange.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,8 +90,8 @@
 		32DA2EEC2C296545008E7298 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				32DA2EF42C29A3BD008E7298 /* PowerUp */,
 				32DA2EE92C2960A4008E7298 /* CCTV.swift */,
-				32DA2EED2C29655A008E7298 /* Guard.swift */,
 				32DA2EF22C2967A7008E7298 /* Bear.swift */,
 			);
 			path = Entities;
@@ -103,6 +103,14 @@
 				32DA2EF02C2966D6008E7298 /* GuardTrack.swift */,
 			);
 			path = Logic;
+			sourceTree = "<group>";
+		};
+		32DA2EF42C29A3BD008E7298 /* PowerUp */ = {
+			isa = PBXGroup;
+			children = (
+				32DA2EF72C29A973008E7298 /* CCTVRange.swift */,
+			);
+			path = PowerUp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -178,10 +186,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32DA2EEE2C29655A008E7298 /* Guard.swift in Sources */,
 				1A8A7D072C17F21B0023826B /* GameScene.swift in Sources */,
 				1AD066F52C25290700DC384D /* MiniGameScene.swift in Sources */,
 				32DA2EF12C2966D6008E7298 /* GuardTrack.swift in Sources */,
+				32DA2EF82C29A973008E7298 /* CCTVRange.swift in Sources */,
 				1A8A7D1A2C17F2AC0023826B /* Joystick.swift in Sources */,
 				1A8A7D092C17F21B0023826B /* GameViewController.swift in Sources */,
 				1A8A7D012C17F21B0023826B /* AppDelegate.swift in Sources */,
@@ -338,7 +346,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = X95N2BVUA6;
+				DEVELOPMENT_TEAM = U542U52PMZ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -367,7 +375,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = X95N2BVUA6;
+				DEVELOPMENT_TEAM = U542U52PMZ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
