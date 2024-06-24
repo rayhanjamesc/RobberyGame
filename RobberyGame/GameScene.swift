@@ -21,6 +21,10 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     //Win mechanic conditional
     
+    // Game elements
+    let cctv = CCTV()
+    let bear = Bear()
+    let track = GuardTrack()
     
     //Game walls
     let room1_1 = SKSpriteNode(imageNamed: "room1_1.png")
@@ -100,6 +104,10 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         self.scaleMode = .aspectFit
         
         physicsWorld.contactDelegate = self
+        
+        // Physics body for elements
+//        cctv.physicsBody = SKPhysicsBody(texture: cctv.texture!, size: cctv.size)
+        cctv.physicsBody?.affectedByGravity = false
         
         //Physics body for left walls
         
@@ -356,6 +364,9 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         room2_2.physicsBody?.isDynamic = false
         addChild(room2_2)
         
+        cctv.position = CGPoint(x: 30, y: 40)
+        room2_2.addChild(cctv)
+        
         //Room 2_3
         room2_3.position = CGPoint(x: 1005, y: 401)
         room2_3.physicsBody?.isDynamic = false
@@ -380,6 +391,8 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         room2_7.position = CGPoint(x: 1581, y: 404)
         room2_7.physicsBody?.isDynamic = false
         addChild(room2_7)
+        addChild(track)
+        track.position = CGPoint(x: 1500, y: -200)
         
         //Room 2_8
         room2_8.position = CGPoint(x: 1820, y: 347)

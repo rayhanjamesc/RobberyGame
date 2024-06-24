@@ -17,6 +17,10 @@
 		1A8A7D112C17F21C0023826B /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 1A8A7D102C17F21C0023826B /* Base */; };
 		1A8A7D1A2C17F2AC0023826B /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8A7D192C17F2AC0023826B /* Joystick.swift */; };
 		1AD066F52C25290700DC384D /* MiniGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD066F42C25290700DC384D /* MiniGameScene.swift */; };
+		32DA2EEA2C2960A4008E7298 /* CCTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA2EE92C2960A4008E7298 /* CCTV.swift */; };
+		32DA2EEE2C29655A008E7298 /* Guard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA2EED2C29655A008E7298 /* Guard.swift */; };
+		32DA2EF12C2966D6008E7298 /* GuardTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA2EF02C2966D6008E7298 /* GuardTrack.swift */; };
+		32DA2EF32C2967A7008E7298 /* Bear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA2EF22C2967A7008E7298 /* Bear.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +35,10 @@
 		1A8A7D102C17F21C0023826B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1A8A7D192C17F2AC0023826B /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 		1AD066F42C25290700DC384D /* MiniGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniGameScene.swift; sourceTree = "<group>"; };
+		32DA2EE92C2960A4008E7298 /* CCTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCTV.swift; sourceTree = "<group>"; };
+		32DA2EED2C29655A008E7298 /* Guard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Guard.swift; sourceTree = "<group>"; };
+		32DA2EF02C2966D6008E7298 /* GuardTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuardTrack.swift; sourceTree = "<group>"; };
+		32DA2EF22C2967A7008E7298 /* Bear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bear.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +71,8 @@
 		1A8A7CFF2C17F21B0023826B /* RobberyGame */ = {
 			isa = PBXGroup;
 			children = (
+				32DA2EEF2C2966C4008E7298 /* Logic */,
+				32DA2EEC2C296545008E7298 /* Entities */,
 				1A8A7D002C17F21B0023826B /* AppDelegate.swift */,
 				1A8A7D022C17F21B0023826B /* GameScene.sks */,
 				1A8A7D042C17F21B0023826B /* Actions.sks */,
@@ -75,6 +85,24 @@
 				1A8A7D0F2C17F21C0023826B /* LaunchScreen.storyboard */,
 			);
 			path = RobberyGame;
+			sourceTree = "<group>";
+		};
+		32DA2EEC2C296545008E7298 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				32DA2EE92C2960A4008E7298 /* CCTV.swift */,
+				32DA2EED2C29655A008E7298 /* Guard.swift */,
+				32DA2EF22C2967A7008E7298 /* Bear.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		32DA2EEF2C2966C4008E7298 /* Logic */ = {
+			isa = PBXGroup;
+			children = (
+				32DA2EF02C2966D6008E7298 /* GuardTrack.swift */,
+			);
+			path = Logic;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,11 +178,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32DA2EEE2C29655A008E7298 /* Guard.swift in Sources */,
 				1A8A7D072C17F21B0023826B /* GameScene.swift in Sources */,
 				1AD066F52C25290700DC384D /* MiniGameScene.swift in Sources */,
+				32DA2EF12C2966D6008E7298 /* GuardTrack.swift in Sources */,
 				1A8A7D1A2C17F2AC0023826B /* Joystick.swift in Sources */,
 				1A8A7D092C17F21B0023826B /* GameViewController.swift in Sources */,
 				1A8A7D012C17F21B0023826B /* AppDelegate.swift in Sources */,
+				32DA2EEA2C2960A4008E7298 /* CCTV.swift in Sources */,
+				32DA2EF32C2967A7008E7298 /* Bear.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,6 +346,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -342,6 +375,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
