@@ -19,7 +19,7 @@ class GameViewController: UIViewController {
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
-            let scene = GameScene(size: view.bounds.size)
+            let scene = StartScene(size: view.bounds.size)
             // Set the scale mode to scale to fit the window
             scene.scaleMode = .aspectFill
             
@@ -37,6 +37,7 @@ class GameViewController: UIViewController {
         gameCenterHelper = GameCenterHelper()
         gameCenterHelper.delegate = self
         gameCenterHelper.authenticatePlayer()
+        gameCenterHelper.presentMatchmaker()
     }
     
     //Method to transition to Mini Game Scene
@@ -99,5 +100,12 @@ extension GameViewController: GameCenterHelperDelegate {
     
     func presentGame(match: GKMatch) {
         performSegue(withIdentifier: "showGame", sender: match)
+    }
+}
+
+extension GameViewController: GKMatchDelegate {
+    func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
+//        guard let model = G.decode(data: data) else { return }
+//        gameModel = model
     }
 }
