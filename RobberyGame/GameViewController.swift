@@ -8,15 +8,18 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import GameKit
 
 class GameViewController: UIViewController {
+    
+    private var gameCenterHelper: GameCenterHelper!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
-            let scene = GameScene(size: view.bounds.size)
+            let scene = StartScene(size: view.bounds.size)
             // Set the scale mode to scale to fit the window
             scene.scaleMode = .aspectFill
             
@@ -30,6 +33,10 @@ class GameViewController: UIViewController {
             view.showsNodeCount = false
             view.showsPhysics = false
         }
+        
+        gameCenterHelper = GameCenterHelper()
+        gameCenterHelper.delegate = self
+        gameCenterHelper.authenticatePlayer()
     }
     
     //Method to transition to Mini Game Scene
@@ -49,6 +56,7 @@ class GameViewController: UIViewController {
     
     //Method to transition to Game Scene
     func transitionToGameScene() {
+        gameCenterHelper.presentMatchmaker()
         if let view = self.view as! SKView? {
             let scene = GameScene(size: view.bounds.size)
             
@@ -87,5 +95,32 @@ class GameViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+}
+
+extension GameViewController: GameCenterHelperDelegate {
+    func didChangeAuthStatus(isAuthenticated: Bool) {
+//        buttonMultiplayer.isEnabled = isAuthenticated
+    }
+    
+    func presentGameCenterAuth(viewController: UIViewController?) {
+        guard let vc = viewController else {return}
+        self.present(vc, animated: true)
+    }
+    
+    func presentMatchmaking(viewController: UIViewController?) {
+        guard let vc = viewController else {return}
+        self.present(vc, animated: true)
+    }
+    
+    func presentGame(match: GKMatch) {
+        //performSegue(withIdentifier: "showGame", sender: match)
+    }
+}
+
+extension GameViewController: GKMatchDelegate {
+    func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
+//        guard let model = G.decode(data: data) else { return }
+//        gameModel = model
     }
 }
