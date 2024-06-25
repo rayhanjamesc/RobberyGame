@@ -39,21 +39,6 @@ class GameViewController: UIViewController {
         gameCenterHelper.authenticatePlayer()
     }
     
-    //Method to transition to Mini Game Scene
-    func transitionToMiniGameScene() {
-        if let view = self.view as! SKView? {
-            let miniGameScene = MiniGameScene(size: view.bounds.size)
-            
-            miniGameScene.scaleMode = .aspectFill
-            view.presentScene(miniGameScene)
-            
-            view.ignoresSiblingOrder = true
-            view.showsFPS = false
-            view.showsNodeCount = false
-            view.showsPhysics = false
-        }
-    }
-    
     //Method to transition to Game Scene
     func transitionToGameScene() {
         gameCenterHelper.presentMatchmaker()
@@ -62,6 +47,21 @@ class GameViewController: UIViewController {
             
             scene.scaleMode = .aspectFill
             view.presentScene(scene)
+            
+            view.ignoresSiblingOrder = true
+            view.showsFPS = false
+            view.showsNodeCount = false
+            view.showsPhysics = false
+        }
+    }
+    
+    //Method to transition to Mini Game Scene
+    func transitionToMiniGameScene() {
+        if let view = self.view as! SKView? {
+            let miniGameScene = MiniGameScene(size: view.bounds.size)
+            
+            miniGameScene.scaleMode = .aspectFill
+            view.presentScene(miniGameScene)
             
             view.ignoresSiblingOrder = true
             view.showsFPS = false
@@ -120,7 +120,9 @@ extension GameViewController: GameCenterHelperDelegate {
 
 extension GameViewController: GKMatchDelegate {
     func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
-//        guard let model = G.decode(data: data) else { return }
-//        gameModel = model
+        guard let gameScene = self.view as? SKView, let scene = gameScene.scene as? GameScene else { return }
+            
+        // Handle received data (e.g., update player positions)
+        //scene.handleReceivedData(data)
     }
 }

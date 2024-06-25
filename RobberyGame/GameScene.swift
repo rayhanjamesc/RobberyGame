@@ -12,36 +12,8 @@ import GameKit
 class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     var match: GKMatch?
-    var player1: Player!
-    var player2: Player!
-//    var player: Player! //local player
-
-    //Start multiplayer
-    func playerSetUp(with match: GKMatch) {
-        self.match = match
-        print("match")
-            
-        // Set up player 1 and player 2
-        let player1Texture = SKTexture(imageNamed: "playerOne.png")
-        player1 = Player(playerName: "Player 1", texture: player1Texture)
-        player1.position = CGPoint(x: size.width * 0.2, y: size.height / 2)
-        addChild(player1)
-        print("Player One initiated")
-        
-        let player2Texture = SKTexture(imageNamed: "playerTwo.png")
-        player2 = Player(playerName: "Player 2", texture: player2Texture)
-        player2.position = CGPoint(x: size.width * 0.8, y: size.height / 2)
-        addChild(player2)
-        print("Player two initiated")
-    }
-    
-//    private func getLocalPlayer() {
-//        if player1.playerName == GKLocalPlayer.local.displayName {
-//            player = player1
-//        } else {
-//            player = player2
-//        }
-//    }
+    var localPlayer: Fox!
+    var remotePlayer: Cat!
     
     //Create joystick on scene
     let joystick = Joystick()
