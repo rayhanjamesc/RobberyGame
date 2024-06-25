@@ -206,7 +206,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             cctv1.position = CGPoint(x: -100, y: 20)
             room2_2.addChild(cctv1)
             cctv1.addChild(range1)
-            range1.position = CGPoint(x: 20, y: 15)
+            range1.position = CGPoint(x: 20, y: -5)
 
             range1.startMovementAnimation(turnRight: false)
         
@@ -236,14 +236,14 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             room2_8.physicsBody?.categoryBitMask = topCol
             room2_8.physicsBody?.collisionBitMask = playerCol
             
-            cctv3.xScale = -1.0
+            cctv3.xScale = 1.0
             cctv3.zPosition = 3
             range3.zPosition = 3
             room2_8.addChild(cctv3)
             cctv3.addChild(range3)
             cctv3.position = CGPoint(x: -85, y: 30)
             range3.position = CGPoint(x: 20, y: 10)
-            range3.startMovementAnimation(turnRight: false)
+            range3.startMovementAnimation(turnRight: true)
         
             room2_9.physicsBody = SKPhysicsBody(texture: room2_9.texture!, size: room2_9.size)
             room2_9.physicsBody?.categoryBitMask = rightCol
@@ -266,13 +266,13 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             room2_11.physicsBody?.collisionBitMask = playerCol
         
             cctv4.zPosition = 3
-            cctv4.xScale = -1.0
+            cctv4.xScale = 1.0
             cctv4.position = CGPoint(x: 100, y: 30)
             room2_11.addChild(cctv4)
             cctv4.addChild(range4)
             range4.zRotation = .pi
             range4.position = CGPoint(x: 20, y: 13)
-            range4.startMovementAnimation(turnRight: true)
+            range4.startMovementAnimation(turnRight: false)
         
             room2_12.physicsBody = SKPhysicsBody(texture: room2_12.texture!, size: room2_12.size)
             room2_12.physicsBody?.categoryBitMask = rightCol

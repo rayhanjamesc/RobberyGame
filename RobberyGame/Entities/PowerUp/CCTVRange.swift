@@ -12,13 +12,13 @@ import GameKit
 class CCTVRange: SKSpriteNode {
     init() {
         // Load the image from your asset catalog
-        let texture = SKTexture(imageNamed: "cctv-triangle") // Replace "Bear" with the name of your image asset
+        let texture = SKTexture(imageNamed: "cctv-triangle2") // Replace "Bear" with the name of your image asset
         let originalSize = texture.size()
         let scaledSize = CGSize(width: originalSize.width, height: originalSize.height)
 
         // Initialize the sprite node with the texture
         super.init(texture: texture, color: .clear, size: scaledSize)
-        self.anchorPoint = CGPoint(x: 0.5, y: 1.0)
+        self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
 
         // Set up physics body
         let physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
