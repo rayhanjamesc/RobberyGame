@@ -276,6 +276,8 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         joystick.position = CGPoint(x: -500, y: -200)
         joystick.zPosition = 2
         joystick.setScale(1.5)
+        joystick.delegate = self
+        joystick.player = player
         
         //Add physics to player instance
         player.position = CGPoint(x: 0, y: 0)
@@ -293,6 +295,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         cameraNode.addChild(player)
         
         joystick.delegate = self
+        joystick.player = player
         
         //Add timer label
         timerLabel = SKLabelNode(fontNamed: "Helvetica")
@@ -569,6 +572,8 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
                 resetGame()
             } else {
                 joystick.moveJoystick(touch: touch)
+                player.walkingState()
+
             }
         }
     }
@@ -576,6 +581,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             joystick.moveJoystick(touch: touch)
+            player.walkingState()
         }
     }
     
@@ -585,12 +591,20 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     func joystickMoved(to direction: CGPoint) {
         let cameraMovement = CGPoint(x: direction.x * 10, y: direction.y * 10)
+               
+        if joystick.isMoving {
+           player.walkingState()
+       } else {
+           player.idleState()
+       }
+            
         
         if isTouchingTop {
             cameraNode.position.y -= 5
             isTouchingTop = false
             isPlayerTouchingBorder = false
         } else if isTouchingRight {
+            player.flipPlayer()
             cameraNode.position.x -= 5
             isTouchingRight = false
             isPlayerTouchingBorder = false
@@ -599,25 +613,30 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             isTouchingBottom = false
             isPlayerTouchingBorder = false
         } else if isTouchingLeft {
+            player.flipPlayer()
             cameraNode.position.x += 5
             isTouchingLeft = false
             isPlayerTouchingBorder = false
         } else if isTouchingDiagonalTopLeft {
+            player.flipPlayer()
             cameraNode.position.x += 5
             cameraNode.position.y -= 5
             isTouchingDiagonalTopLeft = false
             isPlayerTouchingBorder = false
         } else if isTouchingDiagonalTopRight {
+            player.flipPlayer()
             cameraNode.position.x -= 5
             cameraNode.position.y -= 5
             isTouchingDiagonalTopRight = false
             isPlayerTouchingBorder = false
         } else if isTouchingDiagonalBottomRight {
+            player.flipPlayer()
             cameraNode.position.x -= 5
             cameraNode.position.y += 5
             isTouchingDiagonalBottomRight = false
             isPlayerTouchingBorder = false
         } else if isTouchingDiagonalBottomLeft {
+            player.flipPlayer()
             cameraNode.position.x += 5
             cameraNode.position.y += 5
             isTouchingDiagonalBottomLeft = false

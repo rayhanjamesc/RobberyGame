@@ -14,8 +14,10 @@ protocol SneakyJoystickDelegate {
 }
 
 class Joystick: SKNode {
+    var player: Fox?
     
     var delegate: SneakyJoystickDelegate?
+    var isMoving:Bool = false
     
     //Gray joystick on the bottom
     var joystick = SKShapeNode()
@@ -70,26 +72,40 @@ class Joystick: SKNode {
     
     //Moving the joystick
     func moveJoystick(touch: UITouch) {
+    
         let p = touch.location(in: self)
         let x = p.x.clamped(-maxRange, maxRange)
         let y = p.y.clamped(-maxRange, maxRange)
-        
+
         stick.position = CGPoint(x: x, y: y)
         xValue = x / maxRange * speedFactor
         yValue = y / maxRange * speedFactor
         
+        isMoving = true
+        
         if let delegate = delegate {
             delegate.joystickMoved(to: CGPoint(x: xValue, y: yValue))
         }
+
     }
     
     //Stops player movement when joystick is released
     func resetJoystick() {
         xValue = 0
         yValue = 0
+        stick.position = .zero
+        
+        isMoving = false
+        
+        if let delegate = delegate {
+            delegate.joystickMoved(to: CGPoint(x: xValue, y: yValue))
+        }
+  
+        
         if let joystickAction = joystickAction {
             joystickAction(xValue, yValue)
         }
+        
     }
 }
 
