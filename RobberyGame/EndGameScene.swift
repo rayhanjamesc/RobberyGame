@@ -1,28 +1,26 @@
 //
-//  GameScene.swift
+//  EndGameScene.swift
 //  RobberyGame
 //
-//  Created by James Cellars on 11/06/24.
+//  Created by James Cellars on 24/06/24.
 //
 
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
+class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     //Create joystick on scene
     let joystick = Joystick()
     
     //Create player instance
-    let player = SKSpriteNode(color: UIColor.red, size: CGSize(width: 50, height: 50))
+    let player = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 50, height: 50))
     
     //Create camera node
     let cameraNode = SKCameraNode()
     
     //Reference to GameViewController
     weak var gameViewController: GameViewController?
-    
-    //Win mechanic conditional
     
     //Game walls
     let room1_1 = SKSpriteNode(imageNamed: "room1_1.png")
@@ -103,8 +101,6 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         
         physicsWorld.contactDelegate = self
         
-        // Physics body for elements
-    
         //Physics body for left walls
         
             room1_1.physicsBody = SKPhysicsBody(texture: room1_1.texture!, size: room1_1.size)

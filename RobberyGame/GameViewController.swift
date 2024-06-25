@@ -61,6 +61,21 @@ class GameViewController: UIViewController {
             view.showsPhysics = false
         }
     }
+    
+    //Method to transition to End Game Scene
+    func transitionToEndGameScene() {
+        if let view = self.view as! SKView? {
+            let scene = EndGameScene(size: view.bounds.size)
+            
+            scene.scaleMode = .aspectFill
+            view.presentScene(scene)
+            
+            view.ignoresSiblingOrder = true
+            view.showsFPS = false
+            view.showsNodeCount = false
+            view.showsPhysics = false
+        }
+    }
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {
