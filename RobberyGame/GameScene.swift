@@ -55,6 +55,16 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     weak var gameViewController: GameViewController?
     
     //Win mechanic conditional
+    let cctv1 = CCTVTop()
+    let cctv2 = CCTVDown()
+    let cctv3 = CCTVTop()
+    let cctv4 = CCTVDown()
+    let range1 = CCTVRange()
+    let range2 = CCTVRange()
+    let range3 = CCTVRange()
+    let range4 = CCTVRange()
+    let bear = Bear()
+    let track = GuardTrack()
     
     //Game walls
     let room1_1 = SKSpriteNode(imageNamed: "room1_1.png")
@@ -175,6 +185,14 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             room2_2.physicsBody?.categoryBitMask = topCol
             room2_2.physicsBody?.collisionBitMask = playerCol
         
+            cctv1.zPosition = 3
+            cctv1.position = CGPoint(x: -100, y: 20)
+            room2_2.addChild(cctv1)
+            cctv1.addChild(range1)
+            range1.position = CGPoint(x: 20, y: 15)
+
+            range1.startMovementAnimation(turnRight: false)
+        
             room2_3.physicsBody = SKPhysicsBody(texture: room2_3.texture!, size: room2_3.size)
             room2_3.physicsBody?.categoryBitMask = leftCol
             room2_3.physicsBody?.collisionBitMask = playerCol
@@ -194,10 +212,21 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             room2_7.physicsBody = SKPhysicsBody(texture: room2_7.texture!, size: room2_7.size)
             room2_7.physicsBody?.categoryBitMask = rightCol
             room2_7.physicsBody?.collisionBitMask = playerCol
+            addChild(track)
+            track.position = CGPoint(x: 1500, y: -200)
             
             room2_8.physicsBody = SKPhysicsBody(texture: room2_8.texture!, size: room2_8.size)
             room2_8.physicsBody?.categoryBitMask = topCol
             room2_8.physicsBody?.collisionBitMask = playerCol
+            
+            cctv3.xScale = -1.0
+            cctv3.zPosition = 3
+            range3.zPosition = 3
+            room2_8.addChild(cctv3)
+            cctv3.addChild(range3)
+            cctv3.position = CGPoint(x: -85, y: 30)
+            range3.position = CGPoint(x: 20, y: 10)
+            range3.startMovementAnimation(turnRight: false)
         
             room2_9.physicsBody = SKPhysicsBody(texture: room2_9.texture!, size: room2_9.size)
             room2_9.physicsBody?.categoryBitMask = rightCol
@@ -218,6 +247,15 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             room2_11.physicsBody = SKPhysicsBody(texture: room2_11.texture!, size: room2_11.size)
             room2_11.physicsBody?.categoryBitMask = bottomCol
             room2_11.physicsBody?.collisionBitMask = playerCol
+        
+            cctv4.zPosition = 3
+            cctv4.xScale = -1.0
+            cctv4.position = CGPoint(x: 100, y: 30)
+            room2_11.addChild(cctv4)
+            cctv4.addChild(range4)
+            range4.zRotation = .pi
+            range4.position = CGPoint(x: 20, y: 13)
+            range4.startMovementAnimation(turnRight: true)
         
             room2_12.physicsBody = SKPhysicsBody(texture: room2_12.texture!, size: room2_12.size)
             room2_12.physicsBody?.categoryBitMask = rightCol
@@ -242,6 +280,14 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             room2_17.physicsBody = SKPhysicsBody(texture: room2_17.texture!, size: room2_17.size)
             room2_17.physicsBody?.categoryBitMask = bottomCol
             room2_17.physicsBody?.collisionBitMask = playerCol
+        
+            cctv2.zPosition = 3
+            cctv2.position = CGPoint(x: 100, y: 30)
+            room2_17.addChild(cctv2)
+            cctv2.addChild(range2)
+            range2.zRotation = .pi
+            range2.position = CGPoint(x: 20, y: 13)
+            range2.startMovementAnimation(turnRight: true)
         
             room2_18.physicsBody = SKPhysicsBody(texture: room2_18.texture!, size: room2_18.size)
             room2_18.physicsBody?.categoryBitMask = leftCol
