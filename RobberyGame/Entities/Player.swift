@@ -58,8 +58,12 @@ class Fox: SKSpriteNode {
     }
     
     
-    func flipPlayer() {
-        self.xScale *= -1.0
+    func flipPlayer(direction right: Bool) {
+        if(right == true){
+            self.xScale = -1.0
+        } else {
+            self.xScale = 1.0
+        }
     }
     
     @available(*, unavailable)

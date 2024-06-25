@@ -591,12 +591,18 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     func joystickMoved(to direction: CGPoint) {
         let cameraMovement = CGPoint(x: direction.x * 10, y: direction.y * 10)
-               
-        if joystick.isMoving {
-           player.walkingState()
-       } else {
-           player.idleState()
-       }
+        
+        if direction.x != 0 || direction.y != 0 {
+                player.walkingState()
+            } else {
+                player.idleState()
+            }
+    
+        if direction.x > 0 {
+               player.flipPlayer(direction: true)
+           } else if direction.x < 0 {
+               player.flipPlayer(direction: false)
+           }
             
         
         if isTouchingTop {
@@ -604,7 +610,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             isTouchingTop = false
             isPlayerTouchingBorder = false
         } else if isTouchingRight {
-            player.flipPlayer()
+//            player.flipPlayer(direction: true)
             cameraNode.position.x -= 5
             isTouchingRight = false
             isPlayerTouchingBorder = false
@@ -613,30 +619,30 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             isTouchingBottom = false
             isPlayerTouchingBorder = false
         } else if isTouchingLeft {
-            player.flipPlayer()
+//            player.flipPlayer(direction: false)
             cameraNode.position.x += 5
             isTouchingLeft = false
             isPlayerTouchingBorder = false
         } else if isTouchingDiagonalTopLeft {
-            player.flipPlayer()
+//            player.flipPlayer(direction: false)
             cameraNode.position.x += 5
             cameraNode.position.y -= 5
             isTouchingDiagonalTopLeft = false
             isPlayerTouchingBorder = false
         } else if isTouchingDiagonalTopRight {
-            player.flipPlayer()
+//            player.flipPlayer(direction: true)
             cameraNode.position.x -= 5
             cameraNode.position.y -= 5
             isTouchingDiagonalTopRight = false
             isPlayerTouchingBorder = false
         } else if isTouchingDiagonalBottomRight {
-            player.flipPlayer()
+//            player.flipPlayer(direction: true)
             cameraNode.position.x -= 5
             cameraNode.position.y += 5
             isTouchingDiagonalBottomRight = false
             isPlayerTouchingBorder = false
         } else if isTouchingDiagonalBottomLeft {
-            player.flipPlayer()
+//            player.flipPlayer(direction: false)
             cameraNode.position.x += 5
             cameraNode.position.y += 5
             isTouchingDiagonalBottomLeft = false

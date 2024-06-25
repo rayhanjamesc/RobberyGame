@@ -17,7 +17,7 @@ class Joystick: SKNode {
     var player: Fox?
     
     var delegate: SneakyJoystickDelegate?
-    var isMoving:Bool = false
+//    var isMoving:Bool = false
     
     //Gray joystick on the bottom
     var joystick = SKShapeNode()
@@ -81,11 +81,13 @@ class Joystick: SKNode {
         xValue = x / maxRange * speedFactor
         yValue = y / maxRange * speedFactor
         
-        isMoving = true
         
+        player?.walkingState()
         if let delegate = delegate {
             delegate.joystickMoved(to: CGPoint(x: xValue, y: yValue))
         }
+    
+        
 
     }
     
@@ -95,8 +97,8 @@ class Joystick: SKNode {
         yValue = 0
         stick.position = .zero
         
-        isMoving = false
-        
+        player?.walkingState()
+
         if let delegate = delegate {
             delegate.joystickMoved(to: CGPoint(x: xValue, y: yValue))
         }
