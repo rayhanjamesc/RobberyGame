@@ -10,10 +10,7 @@
 		1A5C23762C2A626C00133D4D /* EndGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C23752C2A626C00133D4D /* EndGameScene.swift */; };
 		1A5C237E2C2A647600133D4D /* CCTVRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C23772C2A647600133D4D /* CCTVRange.swift */; };
 		1A5C237F2C2A647600133D4D /* Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C23782C2A647600133D4D /* Range.swift */; };
-		1A5C23802C2A647600133D4D /* Bear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C237A2C2A647600133D4D /* Bear.swift */; };
 		1A5C23812C2A647600133D4D /* CCTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C237B2C2A647600133D4D /* CCTV.swift */; };
-		1A5C23822C2A647600133D4D /* Guard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C237C2C2A647600133D4D /* Guard.swift */; };
-		1A5C23852C2A648400133D4D /* GuardTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C23832C2A648400133D4D /* GuardTrack.swift */; };
 		1A5C23872C2A669F00133D4D /* GameCenterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C23862C2A669F00133D4D /* GameCenterHelper.swift */; };
 		1A5C238A2C2A66A800133D4D /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C23882C2A66A800133D4D /* Player.swift */; };
 		1A5C238C2C2A66B400133D4D /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C238B2C2A66B400133D4D /* StartScene.swift */; };
@@ -33,10 +30,7 @@
 		1A5C23752C2A626C00133D4D /* EndGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndGameScene.swift; sourceTree = "<group>"; };
 		1A5C23772C2A647600133D4D /* CCTVRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CCTVRange.swift; sourceTree = "<group>"; };
 		1A5C23782C2A647600133D4D /* Range.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Range.swift; sourceTree = "<group>"; };
-		1A5C237A2C2A647600133D4D /* Bear.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bear.swift; sourceTree = "<group>"; };
 		1A5C237B2C2A647600133D4D /* CCTV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CCTV.swift; sourceTree = "<group>"; };
-		1A5C237C2C2A647600133D4D /* Guard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Guard.swift; sourceTree = "<group>"; };
-		1A5C23832C2A648400133D4D /* GuardTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuardTrack.swift; sourceTree = "<group>"; };
 		1A5C23862C2A669F00133D4D /* GameCenterHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCenterHelper.swift; sourceTree = "<group>"; };
 		1A5C23882C2A66A800133D4D /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		1A5C238B2C2A66B400133D4D /* StartScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
@@ -78,19 +72,9 @@
 			isa = PBXGroup;
 			children = (
 				1A5C23792C2A647600133D4D /* PowerUp */,
-				1A5C237A2C2A647600133D4D /* Bear.swift */,
 				1A5C237B2C2A647600133D4D /* CCTV.swift */,
-				1A5C237C2C2A647600133D4D /* Guard.swift */,
 			);
 			path = Entities;
-			sourceTree = "<group>";
-		};
-		1A5C23842C2A648400133D4D /* Logic */ = {
-			isa = PBXGroup;
-			children = (
-				1A5C23832C2A648400133D4D /* GuardTrack.swift */,
-			);
-			path = Logic;
 			sourceTree = "<group>";
 		};
 		1A5C23892C2A66A800133D4D /* Models */ = {
@@ -121,7 +105,6 @@
 			isa = PBXGroup;
 			children = (
 				1A5C237D2C2A647600133D4D /* Entities */,
-				1A5C23842C2A648400133D4D /* Logic */,
 				1A5C23892C2A66A800133D4D /* Models */,
 				1A8A7D002C17F21B0023826B /* AppDelegate.swift */,
 				1A8A7D022C17F21B0023826B /* GameScene.sks */,
@@ -219,16 +202,13 @@
 				1A5C23872C2A669F00133D4D /* GameCenterHelper.swift in Sources */,
 				1A5C237E2C2A647600133D4D /* CCTVRange.swift in Sources */,
 				1A5C238A2C2A66A800133D4D /* Player.swift in Sources */,
-				1A5C23852C2A648400133D4D /* GuardTrack.swift in Sources */,
 				1A5C237F2C2A647600133D4D /* Range.swift in Sources */,
-				1A5C23822C2A647600133D4D /* Guard.swift in Sources */,
 				1A8A7D1A2C17F2AC0023826B /* Joystick.swift in Sources */,
 				1A5C23812C2A647600133D4D /* CCTV.swift in Sources */,
 				1A8A7D092C17F21B0023826B /* GameViewController.swift in Sources */,
 				1A5C23762C2A626C00133D4D /* EndGameScene.swift in Sources */,
 				1A8A7D012C17F21B0023826B /* AppDelegate.swift in Sources */,
 				1A5C238C2C2A66B400133D4D /* StartScene.swift in Sources */,
-				1A5C23802C2A647600133D4D /* Bear.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

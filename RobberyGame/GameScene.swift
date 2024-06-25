@@ -8,12 +8,31 @@
 import SpriteKit
 import GameplayKit
 import GameKit
+import Foundation
+
+//Variables for Contact Test Bit Mask (Colliding)
+let playerCol: UInt32 = 0x1 << 0
+let topCol: UInt32 = 0x1 << 1
+let rightCol: UInt32 = 0x1 << 2
+let bottomCol: UInt32 = 0x1 << 3
+let leftCol: UInt32 = 0x1 << 4
+let diagonalTopLeftCol: UInt32 = 0x1 << 5
+let diagonalTopRightCol: UInt32 = 0x1 << 6
+let diagonalBottomLeftCol: UInt32 = 0x1 << 7
+let diagonalBottomRightCol: UInt32 = 0x1 << 8
+let obstacle: UInt32 = 0x1 << 9
 
 class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     var match: GKMatch?
     var player1: Player!
     var player2: Player!
+    
+    //Creates and displays game over screen
+    var gameOverLabel = SKLabelNode(fontNamed: "Chalkduster")
+    
+    //Retry button
+    var retryButton = SKLabelNode(fontNamed: "Chalkduster")
     
     //Start multiplayer
     func playerSetUp(with match: GKMatch) {
@@ -117,18 +136,6 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     var isTouchingDiagonalBottomLeft = false
     var isTouchingDiagonalBottomRight = false
     
-    //Variables for Contact Test Bit Mask (Colliding)
-    let playerCol: UInt32 = 0x1 << 0
-    
-    let topCol: UInt32 = 0x1 << 1
-    let rightCol: UInt32 = 0x1 << 2
-    let bottomCol: UInt32 = 0x1 << 3
-    let leftCol: UInt32 = 0x1 << 4
-    let diagonalTopLeftCol: UInt32 = 0x1 << 5
-    let diagonalTopRightCol: UInt32 = 0x1 << 6
-    let diagonalBottomLeftCol: UInt32 = 0x1 << 7
-    let diagonalBottomRightCol: UInt32 = 0x1 << 8
-    
     //Timer properties
     var timerLabel: SKLabelNode!
     var countdown: Int = 3
@@ -146,7 +153,17 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         
         // Physics body for elements
-    
+        range1.physicsBody?.categoryBitMask = obstacle
+        range1.physicsBody?.collisionBitMask = playerCol
+        range2.physicsBody?.categoryBitMask = obstacle
+        range2.physicsBody?.collisionBitMask = playerCol
+        range3.physicsBody?.categoryBitMask = obstacle
+        range3.physicsBody?.collisionBitMask = playerCol
+        range4.physicsBody?.categoryBitMask = obstacle
+        range4.physicsBody?.collisionBitMask = playerCol
+        bear.physicsBody?.categoryBitMask = obstacle
+        bear.physicsBody?.collisionBitMask = playerCol
+        
         //Physics body for left walls
         
             room1_1.physicsBody = SKPhysicsBody(texture: room1_1.texture!, size: room1_1.size)
@@ -334,8 +351,8 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         
         //Category and collision masks for player node
         player.physicsBody?.categoryBitMask = playerCol
-        player.physicsBody?.collisionBitMask = topCol | rightCol | bottomCol | leftCol | diagonalTopLeftCol | diagonalTopRightCol | diagonalBottomLeftCol | diagonalBottomRightCol
-        player.physicsBody?.contactTestBitMask = topCol | rightCol | bottomCol | leftCol | diagonalTopLeftCol | diagonalTopRightCol | diagonalBottomLeftCol | diagonalBottomRightCol
+        player.physicsBody?.collisionBitMask = topCol | rightCol | bottomCol | leftCol | diagonalTopLeftCol | diagonalTopRightCol | diagonalBottomLeftCol | diagonalBottomRightCol | obstacle
+        player.physicsBody?.contactTestBitMask = topCol | rightCol | bottomCol | leftCol | diagonalTopLeftCol | diagonalTopRightCol | diagonalBottomLeftCol | diagonalBottomRightCol | obstacle
         
         joystick.position = CGPoint(x: -500, y: -225)
         joystick.zPosition = 2
@@ -346,7 +363,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
         //Camera node properties
-        cameraNode.position = CGPoint(x: 0, y: 0)
+        cameraNode.position = CGPoint(x: 300, y: 0)
         self.camera = cameraNode
         addChild(cameraNode)
         
@@ -692,6 +709,9 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         case diagonalBottomRightCol:
             isPlayerTouchingBorder = true
             isTouchingDiagonalBottomRight = true
+        case obstacle:
+            gameOver()
+            print("game over")
         default:
             break
         }
@@ -726,25 +746,23 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         //Stops the timer
         isTimerRunning = false
         removeAllActions()
-        
-        //Creates and displays game over screen
-        let gameOverLabel = SKLabelNode(fontNamed: "Chalkduster")
+    
         gameOverLabel.fontSize = 60
         gameOverLabel.fontColor = SKColor.red
         gameOverLabel.position = CGPoint(x: 0, y: 0)
         gameOverLabel.zPosition = 200
         gameOverLabel.text = "Game Over"
         gameOverLabel.name = "gameOver"
+        gameOverLabel.removeFromParent()
         cameraNode.addChild(gameOverLabel)
         
-        //Retry button
-        let retryButton = SKLabelNode(fontNamed: "Chalkduster")
         retryButton.fontSize = 40
         retryButton.fontColor = SKColor.green
         retryButton.position = CGPoint(x: 0, y: -50)
         retryButton.zPosition = 201
         retryButton.text = "Retry"
         retryButton.name = "retryButton"
+        retryButton.removeFromParent()
         cameraNode.addChild(retryButton)
     }
     
@@ -757,12 +775,12 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         cameraNode.position = CGPoint(x: 0, y: 0)
         
         //Resets timer
-        countdown = 3
+        countdown = 120
         timerLabel.text = "Time: \(countdown)"
         
         //Remove game over screen elements
-        cameraNode.childNode(withName: "gameOver")?.removeFromParent()
-        cameraNode.childNode(withName: "retryButton")?.removeFromParent()
+        gameOverLabel.removeFromParent()
+        retryButton.removeFromParent()
         
         //Reset game state
         isTimerRunning = false
@@ -771,3 +789,97 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         print("game reset")
     }
 }
+
+class Bear: SKSpriteNode {
+    init() {
+        // Load the image from your asset catalog
+        let texture = SKTexture(imageNamed: "guard") // Replace "Bear" with the name of your image asset
+        let originalSize = texture.size()
+        let scaledSize = CGSize(width: originalSize.width, height: originalSize.height)
+        
+        // Initialize the sprite node with the texture
+        super.init(texture: texture, color: .clear, size: scaledSize)
+        
+        // Set up physics body
+        let physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
+        physicsBody.isDynamic = false // Set to true if you want it to interact with other dynamic bodies
+        self.physicsBody = physicsBody
+        self.physicsBody?.categoryBitMask = obstacle
+        self.physicsBody?.collisionBitMask = playerCol
+        
+        // Set other properties as needed
+        name = "enemyBear"
+    }
+    
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class Guard: SKSpriteNode {
+    init() {
+        // Load the image from your asset catalog
+        let texture = SKTexture(imageNamed: "guard") // Replace "Bear" with the name of your image asset
+        let originalSize = texture.size()
+        let scaledSize = CGSize(width: originalSize.width*2, height: originalSize.height*2)
+        
+        // Initialize the sprite node with the texture
+        super.init(texture: texture, color: .clear, size: scaledSize)
+        
+        // Set up physics body
+        let physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
+        physicsBody.isDynamic = false // Set to true if you want it to interact with other dynamic bodies
+        self.physicsBody = physicsBody
+        self.physicsBody?.categoryBitMask = obstacle
+        self.physicsBody?.collisionBitMask = playerCol
+        
+        // Set other properties as needed
+        name = "enemyBear"
+    }
+    
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class GuardTrack: SKNode {
+    override init() {
+        super.init()
+
+        let bear = Bear()
+        bear.setScale(2)
+                    
+        self.addChild(bear)
+        
+        let moveRight = SKAction.moveBy(x: 500, y: 2, duration: 4)
+        let moveUp = SKAction.moveBy(x: 0, y: 250, duration: 3)
+        let moveLeft = SKAction.moveBy(x: -500, y: 2, duration: 4)
+        let moveDown = SKAction.moveBy(x: 0, y: -250, duration: 3)
+        
+        let flipHorizontallyRight = SKAction.run { bear.xScale = -2.0 }
+        let flipHorizontallyLeft = SKAction.run { bear.xScale = 2.0 }
+        
+         
+        // Create a sequence of actions with flipping included
+        let sequence = SKAction.sequence([
+            moveLeft,
+            moveUp,
+            flipHorizontallyRight,
+            moveRight,
+            moveDown,
+            flipHorizontallyLeft
+        ])
+        
+        let repeatForever = SKAction.repeatForever(sequence)
+        bear.run(repeatForever)
+
+
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+

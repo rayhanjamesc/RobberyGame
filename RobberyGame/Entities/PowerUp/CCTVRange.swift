@@ -6,6 +6,8 @@
 //
 
 import SpriteKit
+import GameplayKit
+import GameKit
 
 class CCTVRange: SKSpriteNode {
     init() {
@@ -21,8 +23,7 @@ class CCTVRange: SKSpriteNode {
         // Set up physics body
         let physicsBody = SKPhysicsBody(texture: texture, size: texture.size())
         physicsBody.isDynamic = false // Set to true if you want it to interact with other dynamic bodies
-        physicsBody.collisionBitMask = 0
-        physicsBody.contactTestBitMask = 0
+        
         self.physicsBody = physicsBody
 
 
