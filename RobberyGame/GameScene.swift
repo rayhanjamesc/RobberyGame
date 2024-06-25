@@ -14,7 +14,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     let joystick = Joystick()
     
     //Create player instance
-    let player = Fox()
+    let player = Cat()
 //    let player = SKSpriteNode(color: UIColor.red, size: CGSize(width: 50, height: 50))
 
     //Create camera node

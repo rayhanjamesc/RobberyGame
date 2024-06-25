@@ -14,7 +14,7 @@ protocol SneakyJoystickDelegate {
 }
 
 class Joystick: SKNode {
-    var player: Fox?
+    var player: Cat?
     
     var delegate: SneakyJoystickDelegate?
 //    var isMoving:Bool = false
