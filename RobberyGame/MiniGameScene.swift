@@ -79,7 +79,8 @@ class MiniGameScene: SKScene {
     }
     
     func setupImage() {
-        let art = SKSpriteNode(imageNamed: "Mario_Pixel")
+        let art = SKSpriteNode(imageNamed: "Monalisa_Pixel")
+        art.setScale(10)
         art.position = CGPoint(x: size.width / 2, y: size.height / 2)
         art.zPosition = -1
         addChild(art)

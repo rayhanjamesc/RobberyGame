@@ -85,6 +85,13 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     let bear = Bear()
     let track = GuardTrack()
     
+    // Interior Design
+    let stairs = SKSpriteNode(imageNamed: "Staircase")
+    let statue_cat = SKSpriteNode(imageNamed: "statue_cat")
+    let decor_top = SKSpriteNode(imageNamed: "Decor-Top")
+    let decor_mid = SKSpriteNode(imageNamed: "Decor-Mid")
+    let decor_down = SKSpriteNode(imageNamed: "Decor-Down")
+    
     //Game walls
     let room1_1 = SKSpriteNode(imageNamed: "room1_1.png")
     let room1_2 = SKSpriteNode(imageNamed: "room1_2.png")
@@ -192,7 +199,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             room1_2.physicsBody = SKPhysicsBody(texture: room1_2.texture!, size: room1_2.size)
             room1_2.physicsBody?.categoryBitMask = topCol
             room1_2.physicsBody?.collisionBitMask = playerCol
-            
+
             room1_3.physicsBody = SKPhysicsBody(texture: room1_3.texture!, size: room1_3.size)
             room1_3.physicsBody?.categoryBitMask = rightCol
             room1_3.physicsBody?.collisionBitMask = playerCol
@@ -398,7 +405,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
         //Camera node properties
-        cameraNode.position = CGPoint(x: 810, y: 40)
+        cameraNode.position = CGPoint(x: 1200, y: 40)
         self.camera = cameraNode
         addChild(cameraNode)
         
@@ -455,6 +462,10 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         room1_2.physicsBody?.isDynamic = false
         addChild(room1_2)
         
+        //Staircase
+        addChild(stairs)
+        stairs.position = CGPoint(x: 300, y: -50)
+    
         //Room 1_3
         room1_3.position = CGPoint(x: 385, y: 259)
         room1_3.physicsBody?.isDynamic = false
@@ -516,6 +527,12 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         room2_2.physicsBody?.isDynamic = false
         addChild(room2_2)
         
+        //Cat Statue
+        addChild(statue_cat)
+        statue_cat.position = CGPoint(x: 958, y: 0)
+        statue_cat.setScale(2)
+        
+        
         //Room 2_3
         room2_3.position = CGPoint(x: 1005, y: 401)
         room2_3.physicsBody?.isDynamic = false
@@ -525,6 +542,24 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         room2_4.position = CGPoint(x: 1104, y: 506)
         room2_4.physicsBody?.isDynamic = false
         addChild(room2_4)
+        
+        //Decor Top
+        addChild(decor_top)
+        decor_top.zPosition = 2
+        decor_top.position = CGPoint(x: 1297, y: 400)
+        decor_top.setScale(2)
+        
+        //Decor Mid
+        addChild(decor_mid)
+        decor_mid.zPosition = 2
+        decor_mid.position = CGPoint(x: 1297, y: 20)
+        decor_mid.setScale(2)
+        
+        //Decor Down
+        addChild(decor_down)
+        decor_down.zPosition = 2
+        decor_down.position = CGPoint(x: 1297, y: -375)
+        decor_down.setScale(2)
         
         //Room 2_5
         room2_5.position = CGPoint(x: 1297, y: 562)
