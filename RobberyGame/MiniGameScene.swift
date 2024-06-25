@@ -241,9 +241,9 @@ class MiniGameScene: SKScene {
         let finalCount = correctScore - errorScore
         print(correctScore, errorScore, finalCount)
         let accuracy = totalMarkedCoordinates > 0 ? finalCount : 0
-
+        let roundedAccuracy = Double(round(accuracy * 100) / 100)
         
-        return accuracy
+        return roundedAccuracy
     }
 
 //    
