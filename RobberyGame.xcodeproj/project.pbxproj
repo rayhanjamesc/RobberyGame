@@ -361,7 +361,7 @@
 				CODE_SIGN_ENTITLEMENTS = RobberyGame/RobberyGame.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = X95N2BVUA6;
+				DEVELOPMENT_TEAM = U542U52PMZ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -391,7 +391,7 @@
 				CODE_SIGN_ENTITLEMENTS = RobberyGame/RobberyGame.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = X95N2BVUA6;
+				DEVELOPMENT_TEAM = U542U52PMZ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

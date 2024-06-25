@@ -16,9 +16,9 @@ class PixelNode: SKShapeNode {
 class MiniGameScene: SKScene {
     
     //Constants for pixel grid size and spacing
-    let pixelSize: CGFloat = 10  // Size of each pixel
+    let pixelSize: CGFloat = 16 // Size of each pixel
     let pixelSpacing: CGFloat = 1  // Spacing between pixels
-    let numRows = 20
+    let numRows = 28
     let numColumns = 20
     
     var referencePixels: [[SKColor]] = []
@@ -35,6 +35,7 @@ class MiniGameScene: SKScene {
         setupTrace()
         setupFinishButton()
         setupReference()
+//        displayReferencePixels()
         
         //Add back to map button
         let mapButton = UIButton(type: .custom)
@@ -80,7 +81,7 @@ class MiniGameScene: SKScene {
     
     func setupImage() {
         let art = SKSpriteNode(imageNamed: "Monalisa_Pixel")
-        art.setScale(10)
+//        art.setScale(20)
         art.position = CGPoint(x: size.width / 2, y: size.height / 2)
         art.zPosition = -1
         addChild(art)
@@ -88,8 +89,52 @@ class MiniGameScene: SKScene {
     
     func setupReference() {
         referencePixels = Array(repeating: Array(repeating: .clear, count: numColumns), count: numRows)
+        
+        let markedCoordinates = [
+            (25, 9), (25, 10), (25, 11),
+                (24, 8), (24, 12), (24, 13),
+                (23, 7), (23, 14),
+                (22, 6), (22, 14),
+                (21, 6), (21, 15),
+                (20, 6), (20, 15),
+                (19, 6), (19, 15),
+                (18, 6), (18, 15),
+                (17, 7), (17, 15),
+                (16, 7), (16, 15),
+                (15, 6), (15, 16),
+                (14, 5), (14, 17),
+                (13, 4), (13, 18),
+                (12, 3), (12, 18),
+                (11, 3), (11, 18),
+                (10, 2), (10, 18),
+                (9, 1), (9, 18),
+                (8, 1), (8, 19),
+                (7, 1),
+                (6, 0)
+        ]
+        
+        for (row, column) in markedCoordinates {
+                referencePixels[row][column] = .black // or any other color you want to mark
+            }
     }
-    
+//    
+//    func displayReferencePixels() {
+//        for row in 0..<numRows {
+//            for column in 0..<numColumns {
+//                if referencePixels[row][column] != .clear {
+//                    let pixelNode = SKShapeNode(rectOf: CGSize(width: pixelSize, height: pixelSize))
+//                    pixelNode.position = CGPoint(
+//                        x: CGFloat(column) * (pixelSize + pixelSpacing),
+//                        y: CGFloat(row) * (pixelSize + pixelSpacing)
+//                    )
+//                    pixelNode.fillColor = referencePixels[row][column]
+//                    pixelNode.strokeColor = .clear
+//                    addChild(pixelNode)
+//                }
+//            }
+//        }
+//    }
+
     func setupTrace() {
         let startX = frame.midX - CGFloat(numColumns) / 2 * (pixelSize + pixelSpacing)
         let startY = frame.midY - CGFloat(numRows) / 2 * (pixelSize + pixelSpacing)
@@ -103,8 +148,9 @@ class MiniGameScene: SKScene {
                 trace.row = row
                 trace.column = column
                 
-                trace.position = CGPoint(x: startX + CGFloat(column) * (pixelSize + pixelSpacing),
-                                         y: startY + CGFloat(row) * (pixelSize + pixelSpacing))
+                trace.position = CGPoint(x: 8 + startX + CGFloat(column) * (pixelSize + pixelSpacing),
+                                         y: 8 + startY + CGFloat(row) * (pixelSize + pixelSpacing))
+//                trace.position = CGPoint(x: 2 + size.width / 2, y: 2 + size.height / 2)
                 trace.fillColor = .clear
                 trace.strokeColor = .black
                 addChild(trace)
@@ -122,6 +168,8 @@ class MiniGameScene: SKScene {
         if let pixelNode = self.atPoint(touchLocation) as? PixelNode {
             pixelNode.fillColor = .red
             playerPixels[pixelNode.row][pixelNode.column] = .red
+            
+            print(pixelNode.row, pixelNode.column)
         } else if let finishButton = self.atPoint(touchLocation) as? SKLabelNode, finishButton.name == "finishButton" {
             let accuracy = calculateAccuracy()
             print("Accuracy: \(accuracy)%")
@@ -138,26 +186,139 @@ class MiniGameScene: SKScene {
         }
     }
     
+    
     func calculateAccuracy() -> Double {
-        var correctPixels = 0
-        var totalPixels = 0
+        let markedCoordinates = [
+            (25, 9), (25, 10), (25, 11),
+            (24, 8), (24, 12), (24, 13),
+            (23, 7), (23, 14),
+            (22, 6), (22, 14),
+            (21, 6), (21, 15),
+            (20, 6), (20, 15),
+            (19, 6), (19, 15),
+            (18, 6), (18, 15),
+            (17, 7), (17, 15),
+            (16, 7), (16, 15),
+            (15, 6), (15, 16),
+            (14, 5), (14, 17),
+            (13, 4), (13, 18),
+            (12, 3), (12, 18),
+            (11, 3), (11, 18),
+            (10, 2), (10, 18),
+            (9, 1), (9, 18),
+            (8, 1), (8, 19),
+            (7, 1),
+            (6, 0)
+        ]
+        
+        var correctCount = 0
+        var wrongCount = 0
+        var inputCount = 0
+        let totalMarkedCoordinates = markedCoordinates.count
+        
+        // Create a set of marked coordinates for quick lookup
+        let markedCoordinatesSet = Set(markedCoordinates.map { "\($0.0),\($0.1)" })
         
         for row in 0..<numRows {
             for column in 0..<numColumns {
-                totalPixels += 1
-                if let playerColor = playerPixels[row][column], playerColor == referencePixels[row][column] {
-                    correctPixels += 1
+                let coordinateString = "\(row),\(column)"
+                if playerPixels[row][column] == .red {
+                    inputCount += 1
+                    if markedCoordinatesSet.contains(coordinateString) {
+                        correctCount += 1
+                    } else {
+                        wrongCount += 1
+                    }
                 }
             }
         }
+        print(correctCount, wrongCount, inputCount)
         
-        var accuracy = totalPixels > 0 ? (Double(correctPixels) / Double(totalPixels)) * 100 : 0
-        if accuracy > accuracyThreshold {
-            isTracingSuccessful = true
-        }
+        // Ensure the correct count is not less than zero
+        correctCount = max(correctCount, 0)
+        let errorScore = (Double(wrongCount) / Double(inputCount)) * 100
+        let correctScore = (Double(correctCount) / Double(totalMarkedCoordinates)) * 100
+        let finalCount = correctScore - errorScore
+        print(correctScore, errorScore, finalCount)
+        let accuracy = totalMarkedCoordinates > 0 ? finalCount : 0
+
         
-        return totalPixels > 0 ? (Double(correctPixels) / Double(totalPixels)) * 100 : 0
+        return accuracy
     }
+
+//    
+//    func calculateAccuracy() -> Double {
+//        let markedCoordinates = [
+//            (25, 9), (25, 10), (25, 11),
+//            (24, 8), (24, 12), (24, 13),
+//            (23, 7), (23, 14),
+//            (22, 6), (22, 14),
+//            (21, 6), (21, 15),
+//            (20, 6), (20, 15),
+//            (19, 6), (19, 15),
+//            (18, 6), (18, 15),
+//            (17, 7), (17, 15),
+//            (16, 7), (16, 15),
+//            (15, 6), (15, 16),
+//            (14, 5), (14, 17),
+//            (13, 4), (13, 18),
+//            (12, 3), (12, 18),
+//            (11, 3), (11, 18),
+//            (10, 2), (10, 18),
+//            (9, 1), (9, 18),
+//            (8, 1), (8, 19),
+//            (7, 1),
+//            (6, 0)
+//        ]
+//        
+//        var correctCount = 0
+//        var wrongCount = 0
+//        var inputCount = 0
+//        
+//        for (row, column) in markedCoordinates {
+//            inputCount += 1
+//            if playerPixels[row][column] == .red {
+//                correctCount += 1
+//            } else {
+//                wrongCount += 1
+//            }
+//        }
+//        
+//        let totalMarkedCoordinates = markedCoordinates.count
+//        let errorScore = (Double(wrongCount/inputCount)) * 100
+//        let correctScore = (Double(correctCount) / Double(totalMarkedCoordinates)) * 100
+//        let finalCount = correctScore - errorScore
+//        let accuracy = totalMarkedCoordinates > 0 ? finalCount : 0
+//
+//        
+//        return accuracy
+//    }
+
+//    func calculateAccuracy() -> Double {
+//        var correctPixels = 0
+//        var totalPixels = 0
+//        
+//        for row in 0..<numRows {
+//            for column in 0..<numColumns {
+//                totalPixels += 1
+//                let playerColor = playerPixels[row][column]
+//                if playerColor == referencePixels[row][column] {
+//                    correctPixels += 1
+//                }
+//            }
+//            
+//        }
+//        
+//        print("total pixels: \(totalPixels)")
+//        print("correct pixels: \(correctPixels)")
+//        
+//        var accuracy = totalPixels > 0 ? (Double(correctPixels) / Double(totalPixels)) * 100 : 0
+//        if accuracy > accuracyThreshold {
+//            isTracingSuccessful = true
+//        }
+//        
+//        return totalPixels > 0 ? (Double(correctPixels) / Double(totalPixels)) * 100 : 0
+//    }
     
     func setupFinishButton() {
         let finishButton = SKLabelNode(text: "Finish")
