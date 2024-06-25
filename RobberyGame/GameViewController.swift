@@ -37,7 +37,6 @@ class GameViewController: UIViewController {
         gameCenterHelper = GameCenterHelper()
         gameCenterHelper.delegate = self
         gameCenterHelper.authenticatePlayer()
-        gameCenterHelper.presentMatchmaker()
     }
     
     //Method to transition to Mini Game Scene
@@ -57,6 +56,7 @@ class GameViewController: UIViewController {
     
     //Method to transition to Game Scene
     func transitionToGameScene() {
+        gameCenterHelper.presentMatchmaker()
         if let view = self.view as! SKView? {
             let scene = GameScene(size: view.bounds.size)
             
@@ -99,7 +99,7 @@ extension GameViewController: GameCenterHelperDelegate {
     }
     
     func presentGame(match: GKMatch) {
-        performSegue(withIdentifier: "showGame", sender: match)
+        //performSegue(withIdentifier: "showGame", sender: match)
     }
 }
 
