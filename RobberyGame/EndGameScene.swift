@@ -192,7 +192,7 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             cctv1.addChild(range1)
             range1.position = CGPoint(x: 20, y: 15)
 
-            range1.startMovementAnimation(turnRight: false)
+            range1.startMovementAnimation(turnDirection: 1)
         
             room2_3.physicsBody = SKPhysicsBody(texture: room2_3.texture!, size: room2_3.size)
             room2_3.physicsBody?.categoryBitMask = leftCol
@@ -227,7 +227,7 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             cctv3.addChild(range3)
             cctv3.position = CGPoint(x: -85, y: 30)
             range3.position = CGPoint(x: 20, y: 10)
-            range3.startMovementAnimation(turnRight: false)
+            range3.startMovementAnimation(turnDirection: 3)
         
             room2_9.physicsBody = SKPhysicsBody(texture: room2_9.texture!, size: room2_9.size)
             room2_9.physicsBody?.categoryBitMask = rightCol
@@ -256,7 +256,7 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             cctv4.addChild(range4)
             range4.zRotation = .pi
             range4.position = CGPoint(x: 20, y: 13)
-            range4.startMovementAnimation(turnRight: true)
+            range4.startMovementAnimation(turnDirection: 4)
         
             room2_12.physicsBody = SKPhysicsBody(texture: room2_12.texture!, size: room2_12.size)
             room2_12.physicsBody?.categoryBitMask = rightCol
@@ -288,7 +288,7 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             cctv2.addChild(range2)
             range2.zRotation = .pi
             range2.position = CGPoint(x: 20, y: 13)
-            range2.startMovementAnimation(turnRight: true)
+            range2.startMovementAnimation(turnDirection: 2)
         
             room2_18.physicsBody = SKPhysicsBody(texture: room2_18.texture!, size: room2_18.size)
             room2_18.physicsBody?.categoryBitMask = leftCol

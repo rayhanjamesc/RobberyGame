@@ -224,10 +224,42 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             lineRight21.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 782, y: 65), to: CGPoint(x: 782, y: -500))
             lineRight21.physicsBody?.categoryBitMask = leftCol
             lineRight21.physicsBody?.collisionBitMask = playerCol
+            
+            lineLeft22.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 990, y: 500), to: CGPoint(x: 990, y: -150))
+            lineLeft22.physicsBody?.categoryBitMask = rightCol
+            lineLeft22.physicsBody?.collisionBitMask = playerCol
+            
+            lineBottom22.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 990, y: -150), to: CGPoint(x: 1025, y: -150))
+            lineBottom22.physicsBody?.categoryBitMask = topCol
+            lineBottom22.physicsBody?.collisionBitMask = playerCol
+            
+            lineRight22.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1025, y: -150), to: CGPoint(x: 1025, y: 500))
+            lineRight22.physicsBody?.categoryBitMask = leftCol
+            lineRight22.physicsBody?.collisionBitMask = playerCol
         
-        lineLeft21.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 750, y: -500), to: CGPoint(x: 750, y: 65))
-        lineLeft21.physicsBody?.categoryBitMask = rightCol
-        lineLeft21.physicsBody?.collisionBitMask = playerCol
+            lineLeft23.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1560, y: -400), to: CGPoint(x: 1560, y: 112))
+            lineLeft23.physicsBody?.categoryBitMask = rightCol
+            lineLeft23.physicsBody?.collisionBitMask = playerCol
+            
+            lineTop23.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1560, y: 112), to: CGPoint(x: 1600, y: 112))
+            lineTop23.physicsBody?.categoryBitMask = bottomCol
+            lineTop23.physicsBody?.collisionBitMask = playerCol
+            
+            lineRight23.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1600, y: 112), to: CGPoint(x: 1600, y: -400))
+            lineRight23.physicsBody?.categoryBitMask = leftCol
+            lineRight23.physicsBody?.collisionBitMask = playerCol
+        
+        lineLeft24.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1825, y: 500), to: CGPoint(x: 1825, y: -120))
+        lineLeft24.physicsBody?.categoryBitMask = rightCol
+        lineLeft24.physicsBody?.collisionBitMask = playerCol
+        
+        lineBottom24.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1825, y: -120), to: CGPoint(x: 1855, y: -120))
+        lineBottom24.physicsBody?.categoryBitMask = topCol
+        lineBottom24.physicsBody?.collisionBitMask = playerCol
+        
+        lineRight24.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1855, y: -120), to: CGPoint(x: 1855, y: 500))
+        lineRight24.physicsBody?.categoryBitMask = leftCol
+        lineRight24.physicsBody?.collisionBitMask = playerCol
 
             room2_1.physicsBody = SKPhysicsBody(texture: room2_1.texture!, size: room2_1.size)
             room2_1.physicsBody?.categoryBitMask = leftCol
@@ -243,7 +275,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             cctv1.addChild(range1)
             range1.position = CGPoint(x: 20, y: -5)
 
-            range1.startMovementAnimation(turnRight: false)
+            range1.startMovementAnimation(turnDirection: 1)
         
             room2_3.physicsBody = SKPhysicsBody(texture: room2_3.texture!, size: room2_3.size)
             room2_3.physicsBody?.categoryBitMask = leftCol
@@ -278,7 +310,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             cctv3.addChild(range3)
             cctv3.position = CGPoint(x: -85, y: 30)
             range3.position = CGPoint(x: 20, y: 10)
-            range3.startMovementAnimation(turnRight: true)
+            range3.startMovementAnimation(turnDirection: 3)
         
             room2_9.physicsBody = SKPhysicsBody(texture: room2_9.texture!, size: room2_9.size)
             room2_9.physicsBody?.categoryBitMask = rightCol
@@ -307,7 +339,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             cctv4.addChild(range4)
             range4.zRotation = .pi
             range4.position = CGPoint(x: 20, y: 13)
-            range4.startMovementAnimation(turnRight: false)
+            range4.startMovementAnimation(turnDirection: 4)
         
             room2_12.physicsBody = SKPhysicsBody(texture: room2_12.texture!, size: room2_12.size)
             room2_12.physicsBody?.categoryBitMask = rightCol
@@ -339,7 +371,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             cctv2.addChild(range2)
             range2.zRotation = .pi
             range2.position = CGPoint(x: 20, y: 13)
-            range2.startMovementAnimation(turnRight: true)
+            range2.startMovementAnimation(turnDirection: 2)
         
             room2_18.physicsBody = SKPhysicsBody(texture: room2_18.texture!, size: room2_18.size)
             room2_18.physicsBody?.categoryBitMask = leftCol
@@ -398,7 +430,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
         //Camera node properties
-        cameraNode.position = CGPoint(x: 810, y: 40)
+        cameraNode.position = CGPoint(x: 1700, y: 40)
         self.camera = cameraNode
         addChild(cameraNode)
         
@@ -494,7 +526,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         self.addChild(lineRight21)
         
         //Partition 2_2
-        partition2_2.position = CGPoint(x: 1010, y: 100)
+        partition2_2.position = CGPoint(x: 1005, y: 142)
         partition2_2.physicsBody?.isDynamic = false
         partition2_2.xScale = 1.85
         partition2_2.yScale = 1.85
@@ -505,6 +537,33 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         self.addChild(lineBottom22)
         lineRight22.physicsBody?.isDynamic = false
         self.addChild(lineRight22)
+        
+        //Partition 2_3
+        partition2_3.position = CGPoint(x: 1580, y: -180)
+        partition2_3.physicsBody?.isDynamic = false
+        partition2_3.xScale = 1.85
+        partition2_3.yScale = 2.6
+        addChild(partition2_3)
+        lineLeft23.physicsBody?.isDynamic = false
+        self.addChild(lineLeft23)
+        lineTop23.physicsBody?.isDynamic = false
+        self.addChild(lineTop23)
+        lineRight23.physicsBody?.isDynamic = false
+        self.addChild(lineRight23)
+        
+        //Partition 2_4
+        partition2_4.position = CGPoint(x: 1840, y: 160)
+        partition2_4.physicsBody?.isDynamic = false
+        partition2_4.zPosition = 200
+        partition2_4.xScale = 1.85
+        partition2_4.yScale = 1.85
+        addChild(partition2_4)
+        lineLeft24.physicsBody?.isDynamic = false
+        self.addChild(lineLeft24)
+        lineBottom22.physicsBody?.isDynamic = false
+        self.addChild(lineBottom24)
+        lineRight24.physicsBody?.isDynamic = false
+        self.addChild(lineRight24)
         
         //Room 2_1
         room2_1.position = CGPoint(x: 511, y: 259)
