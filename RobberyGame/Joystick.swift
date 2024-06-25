@@ -38,6 +38,9 @@ class Joystick: SKNode {
     //Variable for joystick speed
     var joystickAction: ((_ x: CGFloat, _ y: CGFloat) -> ())?
     
+    var cumulativeMovement: CGFloat = 0 // Add this property
+
+    
     //Properties for the whole joystick
     override init() {
         
@@ -81,14 +84,19 @@ class Joystick: SKNode {
         xValue = x / maxRange * speedFactor
         yValue = y / maxRange * speedFactor
         
+        // Calculate the distance moved
+        let distanceMoved = sqrt(x * x + y * y)
+        cumulativeMovement += distanceMoved
+
+        // Check if the cumulative movement exceeds the threshold
+        if cumulativeMovement >= 500 {
+            player?.walkingState()
+            cumulativeMovement = 0 // Reset the cumulative movement
+        }
         
-        player?.walkingState()
-        if let delegate = delegate {
+                if let delegate = delegate {
             delegate.joystickMoved(to: CGPoint(x: xValue, y: yValue))
         }
-    
-        
-
     }
     
     //Stops player movement when joystick is released
@@ -97,7 +105,7 @@ class Joystick: SKNode {
         yValue = 0
         stick.position = .zero
         
-        player?.walkingState()
+        player?.idleState()
 
         if let delegate = delegate {
             delegate.joystickMoved(to: CGPoint(x: xValue, y: yValue))

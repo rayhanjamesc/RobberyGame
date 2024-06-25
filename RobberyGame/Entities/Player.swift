@@ -49,7 +49,7 @@ class Fox: SKSpriteNode {
         }
         
         // Create the animation action
-        let animation = SKAction.animate(with: textures, timePerFrame: 0.3)
+        let animation = SKAction.animate(with: textures, timePerFrame: 0.2)
         let repeatAction = SKAction.repeatForever(animation)
 
         // Remove any existing "idle" action and run the walk animation
