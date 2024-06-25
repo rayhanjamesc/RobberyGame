@@ -46,6 +46,7 @@ class Joystick: SKNode {
         joystick = SKShapeNode(path: joystickPath.cgPath, centered: true)
         joystick.fillColor = UIColor.gray
         joystick.strokeColor = UIColor.clear
+        joystick.alpha = 0.4
         
         //Black movable stick
         let stickRect = CGRect(x: 0, y: 0, width: 60, height: 60)

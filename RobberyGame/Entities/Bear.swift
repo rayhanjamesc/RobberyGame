@@ -16,6 +16,7 @@ class Bear: SKSpriteNode {
         
         // Initialize the sprite node with the texture
         super.init(texture: texture, color: .clear, size: scaledSize)
+        self.setScale(1.5)
         
         // Set up physics body
         let physicsBody = SKPhysicsBody(texture: texture, size: texture.size())

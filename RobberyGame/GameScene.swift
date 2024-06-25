@@ -14,8 +14,9 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     let joystick = Joystick()
     
     //Create player instance
-    let player = SKSpriteNode(color: UIColor.red, size: CGSize(width: 50, height: 50))
-    
+    let player = Fox()
+//    let player = SKSpriteNode(color: UIColor.red, size: CGSize(width: 50, height: 50))
+
     //Create camera node
     let cameraNode = SKCameraNode()
     
@@ -272,8 +273,9 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         player.physicsBody?.collisionBitMask = topCol | rightCol | bottomCol | leftCol | diagonalTopLeftCol | diagonalTopRightCol | diagonalBottomLeftCol | diagonalBottomRightCol
         player.physicsBody?.contactTestBitMask = topCol | rightCol | bottomCol | leftCol | diagonalTopLeftCol | diagonalTopRightCol | diagonalBottomLeftCol | diagonalBottomRightCol
         
-        joystick.position = CGPoint(x: -500, y: -225)
+        joystick.position = CGPoint(x: -500, y: -200)
         joystick.zPosition = 2
+        joystick.setScale(1.5)
         
         //Add physics to player instance
         player.position = CGPoint(x: 0, y: 0)
@@ -284,6 +286,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         cameraNode.position = CGPoint(x: 0, y: 0)
         self.camera = cameraNode
         addChild(cameraNode)
+        cameraNode.setScale(0.5)
         
         //Append joystick and player to cameraNode as a child
         cameraNode.addChild(joystick)
@@ -304,7 +307,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         playButton.text = "Play"
         playButton.fontSize = 24
         playButton.fontColor = SKColor.green
-        playButton.position = CGPoint(x: 0, y: 0)
+        playButton.position = CGPoint(x: -50, y: 0)
         playButton.name = "playButton"
         cameraNode.addChild(playButton)
         
@@ -740,5 +743,11 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         startTimer()
         
         print("game reset")
+    }
+    
+    
+    func zoomCamera(to scale: CGFloat, duration: TimeInterval) {
+        let zoomAction = SKAction.scaleX(to: scale, duration: duration)
+        cameraNode.run(zoomAction)
     }
 }

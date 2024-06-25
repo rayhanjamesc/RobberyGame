@@ -12,7 +12,6 @@ class GuardTrack: SKNode {
         super.init()
 
         let bear = Bear()
-        bear.setScale(2)
                     
         self.addChild(bear)
         
@@ -21,8 +20,8 @@ class GuardTrack: SKNode {
         let moveLeft = SKAction.moveBy(x: -500, y: 2, duration: 4)
         let moveDown = SKAction.moveBy(x: 0, y: -250, duration: 3)
         
-        let flipHorizontallyRight = SKAction.run { bear.xScale = -2.0 }
-        let flipHorizontallyLeft = SKAction.run { bear.xScale = 2.0 }
+        let flipHorizontallyRight = SKAction.run { bear.xScale = -1.5 }
+        let flipHorizontallyLeft = SKAction.run { bear.xScale = 1.5 }
         
          
         // Create a sequence of actions with flipping included
