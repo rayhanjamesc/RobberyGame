@@ -21,6 +21,7 @@ let diagonalTopRightCol: UInt32 = 0x1 << 6
 let diagonalBottomLeftCol: UInt32 = 0x1 << 7
 let diagonalBottomRightCol: UInt32 = 0x1 << 8
 let obstacle: UInt32 = 0x1 << 9
+let traceCol: UInt32 = 0x1 << 10
 
 class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
@@ -33,6 +34,9 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     //Retry button
     var retryButton = SKLabelNode(fontNamed: "Chalkduster")
+    
+    //Trace button
+    let traceButton = UIButton(type: .custom)
     
     //Start multiplayer
     func playerSetUp(with match: GKMatch) {
@@ -98,6 +102,9 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     let partition2_2 = SKSpriteNode(imageNamed: "partitionwall2_2")
     let partition2_3 = SKSpriteNode(imageNamed: "partitionwall2_3")
     let partition2_4 = SKSpriteNode(imageNamed: "partitionwall2_4")
+    let partitionMain = SKSpriteNode(imageNamed: "partitionMain.png")
+    let partitionLeft = SKSpriteNode(imageNamed: "partitionLeft.png")
+    let partitionRight = SKSpriteNode(imageNamed: "partitionRight.png")
     
     //Lines for partitions
     let lineLeft21 = SKShapeNode()
@@ -112,6 +119,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     let lineLeft24 = SKShapeNode()
     let lineBottom24 = SKShapeNode()
     let lineRight24 = SKShapeNode()
+    let traceLine = SKShapeNode()
     
     let room2_1 = SKSpriteNode(imageNamed: "room2_1.png")
     let room2_2 = SKSpriteNode(imageNamed: "room2_2.png")
@@ -144,6 +152,9 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     let room3_8 = SKSpriteNode(imageNamed: "room3_8.png")
     let room3_9 = SKSpriteNode(imageNamed: "room3_9.png")
     
+    //Interactable items
+    let painting = SKSpriteNode(imageNamed: "MonaLisa")
+    
     //Checking if player is currently colliding with respective borders
     var isPlayerTouchingBorder = false
     var isTouchingTop = false
@@ -154,6 +165,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     var isTouchingDiagonalTopRight = false
     var isTouchingDiagonalBottomLeft = false
     var isTouchingDiagonalBottomRight = false
+    var isTriggeringTrace = false
     
     //Timer properties
     var timerLabel: SKLabelNode!
@@ -249,17 +261,17 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             lineRight23.physicsBody?.categoryBitMask = leftCol
             lineRight23.physicsBody?.collisionBitMask = playerCol
         
-        lineLeft24.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1825, y: 500), to: CGPoint(x: 1825, y: -120))
-        lineLeft24.physicsBody?.categoryBitMask = rightCol
-        lineLeft24.physicsBody?.collisionBitMask = playerCol
-        
-        lineBottom24.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1825, y: -120), to: CGPoint(x: 1855, y: -120))
-        lineBottom24.physicsBody?.categoryBitMask = topCol
-        lineBottom24.physicsBody?.collisionBitMask = playerCol
-        
-        lineRight24.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1855, y: -120), to: CGPoint(x: 1855, y: 500))
-        lineRight24.physicsBody?.categoryBitMask = leftCol
-        lineRight24.physicsBody?.collisionBitMask = playerCol
+            lineLeft24.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1825, y: 500), to: CGPoint(x: 1825, y: -120))
+            lineLeft24.physicsBody?.categoryBitMask = rightCol
+            lineLeft24.physicsBody?.collisionBitMask = playerCol
+            
+            lineBottom24.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1825, y: -120), to: CGPoint(x: 1855, y: -120))
+            lineBottom24.physicsBody?.categoryBitMask = topCol
+            lineBottom24.physicsBody?.collisionBitMask = playerCol
+            
+            lineRight24.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1855, y: -120), to: CGPoint(x: 1855, y: 500))
+            lineRight24.physicsBody?.categoryBitMask = leftCol
+            lineRight24.physicsBody?.collisionBitMask = playerCol
 
             room2_1.physicsBody = SKPhysicsBody(texture: room2_1.texture!, size: room2_1.size)
             room2_1.physicsBody?.categoryBitMask = leftCol
@@ -413,13 +425,21 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             room3_9.physicsBody?.categoryBitMask = leftCol
             room3_9.physicsBody?.collisionBitMask = playerCol
         
+            partitionMain.physicsBody = SKPhysicsBody(texture: partitionMain.texture!, size: partitionMain.size)
+            partitionMain.physicsBody?.categoryBitMask = topCol
+            partitionMain.physicsBody?.collisionBitMask = playerCol
+        
+            traceLine.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 2520, y: 300), to: CGPoint(x: 2720, y: 300))
+            traceLine.physicsBody?.categoryBitMask = traceCol
+            traceLine.physicsBody?.collisionBitMask = playerCol
+        
         //Create physics body for player
         player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: player.size.width, height: player.size.height))
         
         //Category and collision masks for player node
         player.physicsBody?.categoryBitMask = playerCol
-        player.physicsBody?.collisionBitMask = topCol | rightCol | bottomCol | leftCol | diagonalTopLeftCol | diagonalTopRightCol | diagonalBottomLeftCol | diagonalBottomRightCol | obstacle
-        player.physicsBody?.contactTestBitMask = topCol | rightCol | bottomCol | leftCol | diagonalTopLeftCol | diagonalTopRightCol | diagonalBottomLeftCol | diagonalBottomRightCol | obstacle
+        player.physicsBody?.collisionBitMask = topCol | rightCol | bottomCol | leftCol | diagonalTopLeftCol | diagonalTopRightCol | diagonalBottomLeftCol | diagonalBottomRightCol | obstacle | traceCol
+        player.physicsBody?.contactTestBitMask = topCol | rightCol | bottomCol | leftCol | diagonalTopLeftCol | diagonalTopRightCol | diagonalBottomLeftCol | diagonalBottomRightCol | obstacle | traceCol
         
         joystick.position = CGPoint(x: -500, y: -225)
         joystick.zPosition = 2
@@ -430,7 +450,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
         //Camera node properties
-        cameraNode.position = CGPoint(x: 1700, y: 40)
+        cameraNode.position = CGPoint(x: 2500, y: 170)
         self.camera = cameraNode
         addChild(cameraNode)
         
@@ -458,18 +478,23 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         cameraNode.addChild(playButton)
         
         //Add trace button
-        let traceButton = UIButton(type: .custom)
-        traceButton.setTitle("Start tracing", for: .normal)
-        traceButton.setTitleColor(.blue, for: .normal)
+        traceButton.accessibilityIdentifier = "traceButton"
         traceButton.addTarget(self, action: #selector(traceButtonPressed), for: .touchUpInside)
         self.view?.addSubview(traceButton)
-        traceButton.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        traceButton.frame = CGRect(x: 600, y: 270, width: 100, height: 100)
+        traceButton.isHidden = true
+        
+        //Set image for trace button
+        if let buttonImage = UIImage(named: "ActionButton.svg") {
+            traceButton.setImage(buttonImage, for: .normal)
+        }
         
         //Add walls to the scene
         setupWalls()
     }
     
     @objc func traceButtonPressed() {
+        hideTrace()
         if let gameViewController = self.view?.window?.rootViewController as? GameViewController {
             gameViewController.transitionToMiniGameScene()
         }
@@ -709,6 +734,27 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         room3_9.position = CGPoint(x: 2184  , y: -381)
         room3_9.physicsBody?.isDynamic = false
         addChild(room3_9)
+        
+        //Partition Main
+        partitionMain.position = CGPoint(x: 2619  , y: 410)
+        partitionMain.physicsBody?.isDynamic = false
+        partitionMain.zPosition = 5
+        addChild(partitionMain)
+        
+        //Set trace line
+        traceLine.physicsBody?.isDynamic = false
+        self.addChild(traceLine)
+        
+        //Painting
+        painting.position = CGPoint(x: 0, y: 0)
+        painting.zPosition = 6
+        painting.xScale = 2
+        painting.yScale = 2
+        partitionMain.addChild(painting)
+        
+        //Partition Left
+        
+        //Partition Right
     }
     
     //Handling collision response
@@ -723,15 +769,19 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            let location = touch.location(in: self)
-            let touchedNode = atPoint(location)
-            
-            if touchedNode.name == "playButton" {
-                startTimer()
-            } else if touchedNode.name == "retryButton" {
-                resetGame()
-            } else {
-                joystick.moveJoystick(touch: touch)
+            let location = touch.location(in: self.view)
+            if let touchedView = self.view?.hitTest(location, with: event) {
+                if touchedView is UIButton, let button = touchedView as? UIButton, button.accessibilityIdentifier == "traceButton" {
+                    traceButtonPressed()
+                } else if let touchedNode = self.atPoint(location) as? SKNode {
+                    if touchedNode.name == "playButton" {
+                        startTimer()
+                    } else if touchedNode.name == "retryButton" {
+                        resetGame()
+                    } else {
+                        joystick.moveJoystick(touch: touch)
+                    }
+                }
             }
         }
     }
@@ -785,6 +835,10 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             cameraNode.position.y += 5
             isTouchingDiagonalBottomLeft = false
             isPlayerTouchingBorder = false
+        } else if isTriggeringTrace {
+            showTrace()
+            cameraNode.position.x += cameraMovement.x
+            cameraNode.position.y += cameraMovement.y
         } else {
             cameraNode.position.x += cameraMovement.x
             cameraNode.position.y += cameraMovement.y
@@ -831,7 +885,8 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             isTouchingDiagonalBottomRight = true
         case obstacle:
             gameOver()
-            print("game over")
+        case traceCol:
+            isTriggeringTrace = true
         default:
             break
         }
@@ -907,6 +962,15 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         startTimer()
         
         print("game reset")
+    }
+    
+    func hideTrace() {
+        print("hide trace called")
+        traceButton.isHidden = true
+    }
+    
+    func showTrace() {
+        traceButton.isHidden = false
     }
 }
 
