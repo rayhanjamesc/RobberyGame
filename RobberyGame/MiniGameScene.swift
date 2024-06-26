@@ -29,6 +29,9 @@ class MiniGameScene: SKScene {
     var isTracingSuccessful: Bool = false
     var accuracyLabel: SKLabelNode!
     
+    var artNode: SKSpriteNode!
+    var resultNode: SKSpriteNode?
+    
     override func didMove(to view: SKView) {
         self.size = CGSize(width: 1334, height: 750)
         self.scaleMode = .aspectFit
@@ -55,6 +58,8 @@ class MiniGameScene: SKScene {
     
     @objc func retryButtonPressed() {
         resetMiniGame()
+        resultNode?.removeFromParent()
+        resultNode = nil
     }
     
     @objc func backButtonPressed() {
@@ -68,6 +73,7 @@ class MiniGameScene: SKScene {
         let accuracy = calculateAccuracy()
         if accuracy >= accuracyThreshold {
             displayResult(win: true)
+            replaceArtWithPainting()
         } else {
             displayResult(win: false)
             resetMiniGame()
@@ -133,12 +139,17 @@ class MiniGameScene: SKScene {
     }
     
     func setupImage() {
-        let art = SKSpriteNode(imageNamed: "MonalisaTracing")
-        art.alpha = 0.4
-        art.setScale(1.67)
-        art.position = CGPoint(x: size.width / 2, y: size.height / 2 - 1)
-        art.zPosition = -1
-        addChild(art)
+        artNode = SKSpriteNode(imageNamed: "MonalisaTracing")
+        artNode.alpha = 0.4
+        artNode.setScale(1.67)
+        artNode.position = CGPoint(x: size.width / 2, y: size.height / 2 - 1)
+        artNode.zPosition = -1
+        addChild(artNode)
+    }
+    
+    func replaceArtWithPainting() {
+        artNode.texture = SKTexture(imageNamed: "MonalisaOnly")
+        artNode.alpha = 1.0
     }
     
     func setupGuide() {
@@ -339,10 +350,14 @@ class MiniGameScene: SKScene {
     }
     
     func displayResult(win: Bool) {
+        if let resultNode = resultNode {
+            resultNode.removeFromParent()
+        }
         let resultTexture = SKTexture(imageNamed: win ? "winTexture" : "loseTexture")
-        let resultNode = SKSpriteNode(texture: resultTexture)
-        resultNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
-        resultNode.setScale(0.8)
-        addChild(resultNode)
+        resultNode = SKSpriteNode(texture: resultTexture)
+        resultNode?.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        resultNode?.setScale(0.8)
+        resultNode?.zPosition = 5
+        addChild(resultNode!)
     }
 }
