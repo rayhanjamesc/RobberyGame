@@ -41,24 +41,6 @@ class MiniGameScene: SKScene {
         setupGuide()
         setupBackButton()
         loadPixelProgress()
-        displayResult()
-        
-        // Add back to map button
-        let mapButton = UIButton(type: .custom)
-        mapButton.setTitle("Back to map", for: .normal)
-        mapButton.setTitleColor(.blue, for: .normal)
-        mapButton.addTarget(self, action: #selector(mapButtonPressed), for: .touchUpInside)
-        self.view?.addSubview(mapButton)
-        mapButton.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        
-        // Add retry button
-//        let retryButton = SKLabelNode(fontNamed: "Helvetica")
-//        retryButton.text = "Retry"
-//        retryButton.fontSize = 24
-//        retryButton.fontColor = SKColor.green
-//        retryButton.position = CGPoint(x: 0, y: 50)
-//        retryButton.name = "Retry"
-//        addChild(retryButton)
         
         // Initialize and add accuracy label
         accuracyLabel = SKLabelNode(fontNamed: "Helvetica")
@@ -70,16 +52,25 @@ class MiniGameScene: SKScene {
         // Set the background color
         self.backgroundColor = UIColor(Color.theme.backgroundColor)
     }
-
     
-    @objc func mapButtonPressed() {
+    @objc func retryButtonPressed() {
+        resetMiniGame()
+    }
+    
+    @objc func backButtonPressed() {
         savePixelProgress()
         if let gameViewController = self.view?.window?.rootViewController as? GameViewController {
-            if isTracingSuccessful {
-                // gameViewController.transitionToEndGameScene()
-            } else {
-                gameViewController.transitionToGameScene()
-            }
+            gameViewController.transitionToGameScene()
+        }
+    }
+    
+    @objc func finishButtonPressed() {
+        let accuracy = calculateAccuracy()
+        if accuracy >= accuracyThreshold {
+            displayResult(win: true)
+        } else {
+            displayResult(win: false)
+            resetMiniGame()
         }
     }
     
@@ -96,26 +87,21 @@ class MiniGameScene: SKScene {
         UserDefaults.standard.set(touchedPixels, forKey: "touchedPixels")
         print("Saved pixel data: \(touchedPixels)") // Debug print statement
     }
-
-
     
     func loadPixelProgress() {
-        // Initialize playerPixels with .clear
         playerPixels = Array(repeating: Array(repeating: .clear, count: numColumns), count: numRows)
         
         if let savedPixels = UserDefaults.standard.array(forKey: "touchedPixels") as? [[Int]] {
             for pixel in savedPixels {
-                if pixel.count == 3 { // Ensure the sub-array has exactly 3 elements
+                if pixel.count == 3 {
                     let row = pixel[0]
                     let column = pixel[1]
                     let colorValue = pixel[2]
                     let pixelColor: SKColor = (colorValue == 1) ? .green : .red
-
-                    // Check if the row and column indices are within bounds
+                    
                     if row < numRows && column < numColumns {
                         playerPixels[row][column] = pixelColor
-
-                        // Update the corresponding PixelNode
+                        
                         if let pixelNode = self.children.first(where: { node in
                             guard let pixelNode = node as? PixelNode else { return false }
                             return pixelNode.row == row && pixelNode.column == column
@@ -133,15 +119,10 @@ class MiniGameScene: SKScene {
             print("No saved pixel data found.")
         }
     }
-
-
-
     
     func resetMiniGame() {
-        // Clear player pixels
         playerPixels = Array(repeating: Array(repeating: .clear, count: numColumns), count: numRows)
         
-        // Clear pixel nodes
         for node in self.children {
             if let pixelNode = node as? PixelNode {
                 pixelNode.fillColor = .clear
@@ -195,7 +176,7 @@ class MiniGameScene: SKScene {
         ]
         
         for (row, column) in markedCoordinates {
-            referencePixels[row][column] = .black // or any other color you want to mark
+            referencePixels[row][column] = .black
         }
     }
     
@@ -208,7 +189,6 @@ class MiniGameScene: SKScene {
             for column in 0..<numColumns {
                 let trace = PixelNode(rectOf: CGSize(width: pixelSize, height: pixelSize))
                 
-                // Set row and column properties
                 trace.row = row
                 trace.column = column
                 
@@ -229,13 +209,12 @@ class MiniGameScene: SKScene {
         let touchLocation = touch.location(in: self)
         colorPixel(at: touchLocation)
     }
-
+    
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let touchLocation = touch.location(in: self)
         colorPixel(at: touchLocation)
     }
-
     
     func colorPixel(at location: CGPoint) {
         if let pixelNode = self.atPoint(location) as? PixelNode {
@@ -248,8 +227,6 @@ class MiniGameScene: SKScene {
             }
         }
     }
-
-
     
     func calculateAccuracy() -> Double {
         let markedCoordinates = [
@@ -280,7 +257,6 @@ class MiniGameScene: SKScene {
         var inputCount = 0
         let totalMarkedCoordinates = markedCoordinates.count
         
-        // Create a set of marked coordinates for quick lookup
         let markedCoordinatesSet = Set(markedCoordinates.map { "\($0.0),\($0.1)" })
         
         for row in 0..<numRows {
@@ -299,7 +275,6 @@ class MiniGameScene: SKScene {
         }
         print(correctCount, wrongCount, inputCount)
         
-        // Ensure the correct count is not less than zero
         correctCount = max(correctCount, 0)
         let errorScore = (Double(wrongCount) / Double(inputCount)) * 100
         let correctScore = (Double(correctCount) / Double(totalMarkedCoordinates)) * 100
@@ -312,53 +287,37 @@ class MiniGameScene: SKScene {
         }
         print(roundedAccuracy)
         
-        // Update the accuracy label
         accuracyLabel.text = "Accuracy: \(Int(roundedAccuracy))%"
         
         return roundedAccuracy
     }
     
     func setupFinishButton() {
-//        let finishButton = SKLabelNode(text: "Finish")
-//        finishButton.fontSize = 30
-//        finishButton.fontColor = .green
-//        finishButton.position = CGPoint(x: 800, y: size.height / 2)
-//        finishButton.name = "finishButton"
-//        addChild(finishButton)
-        
-        //Add finish button
         let finishButton = UIButton(type: .custom)
         finishButton.accessibilityIdentifier = "finishButton"
-//        finishButton.addTarget(self, action: #selector(finishButtonPressed), for: .touchUpInside)
+        finishButton.addTarget(self, action: #selector(finishButtonPressed), for: .touchUpInside)
         self.view?.addSubview(finishButton)
         finishButton.frame = CGRect(x: 600, y: 270, width: 150, height: 100)
         
-//        electricButton.isHidden = true
-        
-        //Set image for trace button
         if let buttonImage = UIImage(named: "FinishButton-Default.svg") {
             finishButton.setImage(buttonImage, for: .normal)
         }
-    
-//        finishButton.position = CGPoint(x: 900, y: size.height / 2)
+        
         finishButton.layer.zPosition = 3
-//        finishButton.addTarget(self, action: #selector(traceButtonPressed), for: .touchUpInside)
     }
     
-    // setup retry button
     func setupRetryButton() {
         let retryButton = UIButton(type: .custom)
         retryButton.accessibilityIdentifier = "retryButton"
         retryButton.frame = CGRect(x: 200, y: 25, width: 150, height: 100)
         
-        if let buttonImage = UIImage(named: "RetryButton") { // Use a supported image format
+        if let buttonImage = UIImage(named: "RetryButton") {
             retryButton.setImage(buttonImage, for: .normal)
         }
         
         retryButton.imageView?.contentMode = .scaleAspectFit
         retryButton.layer.zPosition = 3
-//        retryButton.isHidden = true // Initially hidden
-//        retryButton.addTarget(self, action: #selector(retryButtonPressed), for: .touchUpInside)
+        retryButton.addTarget(self, action: #selector(retryButtonPressed), for: .touchUpInside)
         
         self.view?.addSubview(retryButton)
     }
@@ -368,66 +327,22 @@ class MiniGameScene: SKScene {
         backButton.accessibilityIdentifier = "backButton"
         backButton.frame = CGRect(x: 50, y: 25, width: 150, height: 100)
         
-        if let buttonImage = UIImage(named: "BackButton") { // Use a supported image format
+        if let buttonImage = UIImage(named: "BackButton") {
             backButton.setImage(buttonImage, for: .normal)
         }
         
         backButton.imageView?.contentMode = .scaleAspectFit
         backButton.layer.zPosition = 3
-//        retryButton.isHidden = true // Initially hidden
-//        retryButton.addTarget(self, action: #selector(retryButtonPressed), for: .touchUpInside)
+        backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         
         self.view?.addSubview(backButton)
     }
     
-    func displayResult() {
-        let winTexture = SKTexture(imageNamed: "escape_png") // Use the name of your image file
-            let winNode = SKSpriteNode(texture: winTexture)
-
-            
-            // Set the position of the result node to the center of the screen
-            winNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
-            
-            // Optionally, you can set the scale of the result node
-            winNode.setScale(0.8) // Adjust the scale as needed
-            
-            // Add the result node to the scene
-            addChild(winNode)
-        
-        
-//        let loseTexture = SKTexture(imageNamed: "lose_png") // Use the name of your image file
-//            let loseNode = SKSpriteNode(texture: loseTexture)
-//
-//            
-//            // Set the position of the result node to the center of the screen
-//            loseNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
-//            
-//            // Optionally, you can set the scale of the result node
-//            loseNode.setScale(0.8) // Adjust the scale as needed
-//            
-//            // Add the result node to the scene
-//            addChild(loseNode)
-    }
-
-    
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else { return }
-        let touchLocation = touch.location(in: self)
-        
-        if let finishButton = self.atPoint(touchLocation) as? SKLabelNode, finishButton.name == "finishButton" {
-            let accuracy = calculateAccuracy()
-            print("Accuracy: \(accuracy)%")
-            
-            if accuracy < accuracyThreshold {
-                // Shows retry button if accuracy is below threshold
-                if let retryButton = self.view?.subviews.first(where: { $0 is UIButton && ($0 as! UIButton).title(for: .normal) == "Retry"}) {
-                    retryButton.isHidden = false
-                }
-            }
-        } else if let retryButton = self.atPoint(touchLocation) as? SKLabelNode, retryButton.name == "Retry" {
-            // Handle retry button click
-            resetMiniGame()
-        }
+    func displayResult(win: Bool) {
+        let resultTexture = SKTexture(imageNamed: win ? "winTexture" : "loseTexture")
+        let resultNode = SKSpriteNode(texture: resultTexture)
+        resultNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        resultNode.setScale(0.8)
+        addChild(resultNode)
     }
 }
