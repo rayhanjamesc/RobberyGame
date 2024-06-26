@@ -153,9 +153,9 @@ class MiniGameScene: SKScene {
     
     func setupImage() {
         let art = SKSpriteNode(imageNamed: "MonalisaTracing")
-        art.alpha = 1
-        art.setScale(1.2)
-        art.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        art.alpha = 0.4
+        art.setScale(1.67)
+        art.position = CGPoint(x: size.width / 2, y: size.height / 2 - 1)
         art.zPosition = -1
         addChild(art)
     }
@@ -381,18 +381,32 @@ class MiniGameScene: SKScene {
     }
     
     func displayResult() {
-        let resultTexture = SKTexture(imageNamed: "Success") // Use the name of your image file
-            let resultNode = SKSpriteNode(texture: resultTexture)
+        let winTexture = SKTexture(imageNamed: "escape_png") // Use the name of your image file
+            let winNode = SKSpriteNode(texture: winTexture)
 
             
             // Set the position of the result node to the center of the screen
-            resultNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
+            winNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
             
             // Optionally, you can set the scale of the result node
-            resultNode.setScale(2.0) // Adjust the scale as needed
+            winNode.setScale(0.8) // Adjust the scale as needed
             
             // Add the result node to the scene
-            addChild(resultNode)
+            addChild(winNode)
+        
+        
+//        let loseTexture = SKTexture(imageNamed: "lose_png") // Use the name of your image file
+//            let loseNode = SKSpriteNode(texture: loseTexture)
+//
+//            
+//            // Set the position of the result node to the center of the screen
+//            loseNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
+//            
+//            // Optionally, you can set the scale of the result node
+//            loseNode.setScale(0.8) // Adjust the scale as needed
+//            
+//            // Add the result node to the scene
+//            addChild(loseNode)
     }
 
     
