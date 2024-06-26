@@ -31,10 +31,13 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     var player2: Player!
     
     //Creates and displays game over screen
-    var gameOverLabel = SKLabelNode(fontNamed: "Chalkduster")
+    let gameOverImage = SKSpriteNode(imageNamed: "BustedPopup.svg")
     
     //Retry button
-    var retryButton = SKLabelNode(fontNamed: "Chalkduster")
+    let retryButton = SKSpriteNode(imageNamed: "replayButtonDefault.svg")
+    
+    //Black screen for game over background
+    let blackScreen = SKSpriteNode(color: .black, size: CGSize(width: 1500, height: 1000))
     
     //Trace button
     let traceButton = UIButton(type: .custom)
@@ -560,9 +563,9 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
         //Camera node properties
-        cameraNode.position = CGPoint(x: 1500, y: 0)
+        cameraNode.position = CGPoint(x: 3000, y: 0)
         self.camera = cameraNode
-        cameraNode.setScale(2.5)
+        cameraNode.setScale(0.5)
         addChild(cameraNode)
         
         //Append joystick and player to cameraNode as a child
@@ -1280,23 +1283,29 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         //Stops the timer
         isTimerRunning = false
         removeAllActions()
-    
-        gameOverLabel.fontSize = 60
-        gameOverLabel.fontColor = SKColor.red
-        gameOverLabel.position = CGPoint(x: 0, y: 0)
-        gameOverLabel.zPosition = 200
-        gameOverLabel.text = "Game Over"
-        gameOverLabel.name = "gameOver"
-        gameOverLabel.removeFromParent()
-        cameraNode.addChild(gameOverLabel)
         
-        retryButton.fontSize = 40
-        retryButton.fontColor = SKColor.green
-        retryButton.position = CGPoint(x: 0, y: -50)
+        player.removeFromParent()
+        
+        //Black screen as background for game over image
+        blackScreen.position = CGPoint(x: 0, y: 0)
+        blackScreen.zPosition = 199
+        blackScreen.name = "blackScreen"
+        cameraNode.addChild(blackScreen)
+    
+        //Configure game over image
+        gameOverImage.position = CGPoint(x: 0, y: -10)
+        gameOverImage.zPosition = 200
+        gameOverImage.xScale = 3
+        gameOverImage.yScale = 3
+        gameOverImage.name = "gameOverImage"
+        cameraNode.addChild(gameOverImage)
+        
+        //Configure retry button
+        retryButton.position = CGPoint(x: 0, y: -100)
         retryButton.zPosition = 201
-        retryButton.text = "Retry"
+        retryButton.xScale = 3
+        retryButton.yScale = 3
         retryButton.name = "retryButton"
-        retryButton.removeFromParent()
         cameraNode.addChild(retryButton)
     }
     
@@ -1308,12 +1317,18 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         //Resets camera position
         cameraNode.position = CGPoint(x: 0, y: 0)
         
+        //Adds back player node
+        cameraNode.addChild(player)
+        
+        //Removes black background
+        blackScreen.removeFromParent()
+        
         //Resets timer
         countdown = 120
         timerLabel.text = "Time: \(countdown)"
         
         //Remove game over screen elements
-        gameOverLabel.removeFromParent()
+        gameOverImage.removeFromParent()
         retryButton.removeFromParent()
         
         //Reset game state
