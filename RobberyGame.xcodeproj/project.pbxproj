@@ -18,6 +18,8 @@
 		1A8A7D1A2C17F2AC0023826B /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8A7D192C17F2AC0023826B /* Joystick.swift */; };
 		1AD066F52C25290700DC384D /* MiniGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD066F42C25290700DC384D /* MiniGameScene.swift */; };
 		324CA1402C2C035700C71D21 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324CA13F2C2C035700C71D21 /* Color.swift */; };
+		324CA1422C2C1D1F00C71D21 /* EscapeNowNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324CA1412C2C1D1F00C71D21 /* EscapeNowNode.swift */; };
+		324CA1442C2C1D2D00C71D21 /* TryAgainNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324CA1432C2C1D2D00C71D21 /* TryAgainNode.swift */; };
 		32DA2EEA2C2960A4008E7298 /* CCTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA2EE92C2960A4008E7298 /* CCTV.swift */; };
 		32DA2EF12C2966D6008E7298 /* GuardTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA2EF02C2966D6008E7298 /* GuardTrack.swift */; };
 		32DA2EF32C2967A7008E7298 /* Bear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA2EF22C2967A7008E7298 /* Bear.swift */; };
@@ -38,6 +40,8 @@
 		1A8A7D192C17F2AC0023826B /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 		1AD066F42C25290700DC384D /* MiniGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniGameScene.swift; sourceTree = "<group>"; };
 		324CA13F2C2C035700C71D21 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		324CA1412C2C1D1F00C71D21 /* EscapeNowNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EscapeNowNode.swift; sourceTree = "<group>"; };
+		324CA1432C2C1D2D00C71D21 /* TryAgainNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TryAgainNode.swift; sourceTree = "<group>"; };
 		32DA2EE92C2960A4008E7298 /* CCTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCTV.swift; sourceTree = "<group>"; };
 		32DA2EF02C2966D6008E7298 /* GuardTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuardTrack.swift; sourceTree = "<group>"; };
 		32DA2EF22C2967A7008E7298 /* Bear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bear.swift; sourceTree = "<group>"; };
@@ -59,6 +63,8 @@
 		1A8A7CF42C17F21B0023826B = {
 			isa = PBXGroup;
 			children = (
+				324CA1432C2C1D2D00C71D21 /* TryAgainNode.swift */,
+				324CA1412C2C1D1F00C71D21 /* EscapeNowNode.swift */,
 				1A8A7CFF2C17F21B0023826B /* RobberyGame */,
 				1A8A7CFE2C17F21B0023826B /* Products */,
 			);
@@ -204,7 +210,9 @@
 				1AD066F52C25290700DC384D /* MiniGameScene.swift in Sources */,
 				324CA1402C2C035700C71D21 /* Color.swift in Sources */,
 				32DA2EF12C2966D6008E7298 /* GuardTrack.swift in Sources */,
+				324CA1442C2C1D2D00C71D21 /* TryAgainNode.swift in Sources */,
 				32DA2EF82C29A973008E7298 /* CCTVRange.swift in Sources */,
+				324CA1422C2C1D1F00C71D21 /* EscapeNowNode.swift in Sources */,
 				1A8A7D1A2C17F2AC0023826B /* Joystick.swift in Sources */,
 				1A8A7D092C17F21B0023826B /* GameViewController.swift in Sources */,
 				1A8A7D012C17F21B0023826B /* AppDelegate.swift in Sources */,

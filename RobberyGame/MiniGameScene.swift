@@ -17,7 +17,7 @@ class PixelNode: SKShapeNode {
 class MiniGameScene: SKScene {
     
     // Constants for pixel grid size and spacing
-    let pixelSize: CGFloat = 19.2 // Size of each pixel
+    let pixelSize: CGFloat = 19.4 // Size of each pixel
     let pixelSpacing: CGFloat = 1  // Spacing between pixels
     let numRows = 28
     let numColumns = 20
@@ -25,7 +25,7 @@ class MiniGameScene: SKScene {
     var referencePixels: [[SKColor]] = []
     var playerPixels: [[SKColor?]] = []
     
-    let accuracyThreshold: Double = 100.0
+    let accuracyThreshold: Double = 70.0
     var isTracingSuccessful: Bool = false
     var accuracyLabel: SKLabelNode!
     
@@ -36,8 +36,12 @@ class MiniGameScene: SKScene {
         setupImage()
         setupTrace()
         setupFinishButton()
+        setupRetryButton()
         setupReference()
+        setupGuide()
+        setupBackButton()
         loadPixelProgress()
+        displayResult()
         
         // Add back to map button
         let mapButton = UIButton(type: .custom)
@@ -48,13 +52,13 @@ class MiniGameScene: SKScene {
         mapButton.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         
         // Add retry button
-        let retryButton = SKLabelNode(fontNamed: "Helvetica")
-        retryButton.text = "Retry"
-        retryButton.fontSize = 24
-        retryButton.fontColor = SKColor.green
-        retryButton.position = CGPoint(x: 0, y: 50)
-        retryButton.name = "Retry"
-        addChild(retryButton)
+//        let retryButton = SKLabelNode(fontNamed: "Helvetica")
+//        retryButton.text = "Retry"
+//        retryButton.fontSize = 24
+//        retryButton.fontColor = SKColor.green
+//        retryButton.position = CGPoint(x: 0, y: 50)
+//        retryButton.name = "Retry"
+//        addChild(retryButton)
         
         // Initialize and add accuracy label
         accuracyLabel = SKLabelNode(fontNamed: "Helvetica")
@@ -148,11 +152,20 @@ class MiniGameScene: SKScene {
     }
     
     func setupImage() {
-        let art = SKSpriteNode(imageNamed: "Monalisa_Pixel")
+        let art = SKSpriteNode(imageNamed: "MonalisaTracing")
+        art.alpha = 1
         art.setScale(1.2)
-        art.position = CGPoint(x: size.width / 3 - 77, y: size.height / 2)
+        art.position = CGPoint(x: size.width / 2, y: size.height / 2)
         art.zPosition = -1
         addChild(art)
+    }
+    
+    func setupGuide() {
+        let guide = SKSpriteNode(imageNamed: "MonalisaGuide")
+        guide.setScale(2)
+        guide.position = CGPoint(x: 160, y: size.height / 4 + 40)
+        guide.zPosition = -1
+        addChild(guide)
     }
     
     func setupReference() {
@@ -199,7 +212,7 @@ class MiniGameScene: SKScene {
                 trace.row = row
                 trace.column = column
                 
-                trace.position = CGPoint(x: 9.6 + startX / 2.8 + CGFloat(column) * (pixelSize + pixelSpacing),
+                trace.position = CGPoint(x: 242 + startX / 2 + CGFloat(column) * (pixelSize + pixelSpacing),
                                          y: 9.6 + startY + CGFloat(row) * (pixelSize + pixelSpacing))
                 trace.fillColor = .clear
                 trace.strokeColor = .black
@@ -306,13 +319,83 @@ class MiniGameScene: SKScene {
     }
     
     func setupFinishButton() {
-        let finishButton = SKLabelNode(text: "Finish")
-        finishButton.fontSize = 30
-        finishButton.fontColor = .green
-        finishButton.position = CGPoint(x: 800, y: size.height / 2)
-        finishButton.name = "finishButton"
-        addChild(finishButton)
+//        let finishButton = SKLabelNode(text: "Finish")
+//        finishButton.fontSize = 30
+//        finishButton.fontColor = .green
+//        finishButton.position = CGPoint(x: 800, y: size.height / 2)
+//        finishButton.name = "finishButton"
+//        addChild(finishButton)
+        
+        //Add finish button
+        let finishButton = UIButton(type: .custom)
+        finishButton.accessibilityIdentifier = "finishButton"
+//        finishButton.addTarget(self, action: #selector(finishButtonPressed), for: .touchUpInside)
+        self.view?.addSubview(finishButton)
+        finishButton.frame = CGRect(x: 600, y: 270, width: 150, height: 100)
+        
+//        electricButton.isHidden = true
+        
+        //Set image for trace button
+        if let buttonImage = UIImage(named: "FinishButton-Default.svg") {
+            finishButton.setImage(buttonImage, for: .normal)
+        }
+    
+//        finishButton.position = CGPoint(x: 900, y: size.height / 2)
+        finishButton.layer.zPosition = 3
+//        finishButton.addTarget(self, action: #selector(traceButtonPressed), for: .touchUpInside)
     }
+    
+    // setup retry button
+    func setupRetryButton() {
+        let retryButton = UIButton(type: .custom)
+        retryButton.accessibilityIdentifier = "retryButton"
+        retryButton.frame = CGRect(x: 200, y: 25, width: 150, height: 100)
+        
+        if let buttonImage = UIImage(named: "RetryButton") { // Use a supported image format
+            retryButton.setImage(buttonImage, for: .normal)
+        }
+        
+        retryButton.imageView?.contentMode = .scaleAspectFit
+        retryButton.layer.zPosition = 3
+//        retryButton.isHidden = true // Initially hidden
+//        retryButton.addTarget(self, action: #selector(retryButtonPressed), for: .touchUpInside)
+        
+        self.view?.addSubview(retryButton)
+    }
+    
+    func setupBackButton() {
+        let backButton = UIButton(type: .custom)
+        backButton.accessibilityIdentifier = "backButton"
+        backButton.frame = CGRect(x: 50, y: 25, width: 150, height: 100)
+        
+        if let buttonImage = UIImage(named: "BackButton") { // Use a supported image format
+            backButton.setImage(buttonImage, for: .normal)
+        }
+        
+        backButton.imageView?.contentMode = .scaleAspectFit
+        backButton.layer.zPosition = 3
+//        retryButton.isHidden = true // Initially hidden
+//        retryButton.addTarget(self, action: #selector(retryButtonPressed), for: .touchUpInside)
+        
+        self.view?.addSubview(backButton)
+    }
+    
+    func displayResult() {
+        let resultTexture = SKTexture(imageNamed: "Success") // Use the name of your image file
+            let resultNode = SKSpriteNode(texture: resultTexture)
+
+            
+            // Set the position of the result node to the center of the screen
+            resultNode.position = CGPoint(x: size.width / 2, y: size.height / 2)
+            
+            // Optionally, you can set the scale of the result node
+            resultNode.setScale(2.0) // Adjust the scale as needed
+            
+            // Add the result node to the scene
+            addChild(resultNode)
+    }
+
+    
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
