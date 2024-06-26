@@ -479,6 +479,10 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             bottomElectricLine.physicsBody?.categoryBitMask = electricCol
             bottomElectricLine.physicsBody?.collisionBitMask = playerCol
         
+            onLaser.physicsBody = SKPhysicsBody(texture: onLaser.texture!, size: onLaser.size)
+            onLaser.physicsBody?.categoryBitMask = obstacle
+            onLaser.physicsBody?.collisionBitMask = playerCol
+        
         //Create physics body for player
         player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: player.size.width, height: player.size.height))
         
@@ -561,8 +565,10 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     @objc func electricButtonPressed() {
         if onElectricalBox.isHidden == false {
             electricOff()
+            offLasers()
         } else if onElectricalBox.isHidden == true {
             electricOn()
+            onLasers()
         }
     }
     
@@ -836,6 +842,14 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         offElectricalBox.xScale = 1.0
         onElectricalBox.yScale = 0.5
         
+        //Lasers
+        addChild(offLaser)
+        addChild(onLaser)
+        offLaser.isHidden = true
+        onLaser.position = CGPoint(x: 2619, y: 170)
+        onLaser.physicsBody?.isDynamic = false
+        offLaser.position = CGPoint(x: 2619, y: 170)
+        
         bottomElectricLine.physicsBody?.isDynamic = false
         self.addChild(bottomElectricLine)
         
@@ -861,8 +875,6 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         
         lineTop32.physicsBody?.isDynamic = false
         self.addChild(lineTop32)
-        
-        //Partition Right
     }
     
     //Handling collision response
@@ -895,6 +907,8 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             if let touchedView = self.view?.hitTest(location, with: event) {
                 if touchedView is UIButton, let button = touchedView as? UIButton, button.accessibilityIdentifier == "traceButton" {
                     traceButtonPressed()
+                } else if touchedView is UIButton, let button = touchedView as? UIButton, button.accessibilityIdentifier == "electricButton" {
+                    electricButtonPressed()
                 } else if let touchedNode = self.atPoint(location) as? SKNode {
                     if touchedNode.name == "playButton" {
                         startTimer()
@@ -1116,11 +1130,17 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     }
     
     func offLasers() {
-        
+        onLaser.isHidden = true
+        offLaser.isHidden = false
+        onLaser.physicsBody?.categoryBitMask = 0
+        onLaser.physicsBody?.collisionBitMask = 0
     }
     
     func onLasers() {
-        
+        onLaser.isHidden = false
+        offLaser.isHidden = true
+        onLaser.physicsBody?.categoryBitMask = obstacle
+        onLaser.physicsBody?.collisionBitMask = playerCol
     }
 }
 
