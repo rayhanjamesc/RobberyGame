@@ -86,10 +86,12 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     let cctv2 = CCTVDown()
     let cctv3 = CCTVTop()
     let cctv4 = CCTVDown()
+    let cctvPainting = CCTVTop()
     let range1 = CCTVRange()
     let range2 = CCTVRange()
     let range3 = CCTVRange()
     let range4 = CCTVRange()
+    let rangePainting = CCTVRange()
     let bear = Bear()
     let track = GuardTrack()
     
@@ -482,6 +484,14 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             onLaser.physicsBody = SKPhysicsBody(texture: onLaser.texture!, size: onLaser.size)
             onLaser.physicsBody?.categoryBitMask = obstacle
             onLaser.physicsBody?.collisionBitMask = playerCol
+            
+            cctvPainting.zPosition = 3
+            cctvPainting.position = CGPoint(x: 0, y: 100)
+            partitionMain.addChild(cctvPainting)
+            cctvPainting.addChild(rangePainting)
+            
+            rangePainting.physicsBody?.categoryBitMask = obstacle
+            rangePainting.physicsBody?.collisionBitMask = playerCol
         
         //Create physics body for player
         player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: player.size.width, height: player.size.height))
@@ -916,6 +926,8 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
                         resetGame()
                     } else {
                         joystick.moveJoystick(touch: touch)
+                        onLasers()
+                        electricOn()
                     }
                 }
             }
@@ -930,6 +942,8 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         joystick.resetJoystick()
+        onLasers()
+        electricOn()
     }
     
     func joystickMoved(to direction: CGPoint) {
@@ -1134,6 +1148,9 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         offLaser.isHidden = false
         onLaser.physicsBody?.categoryBitMask = 0
         onLaser.physicsBody?.collisionBitMask = 0
+        rangePainting.isHidden = true
+        rangePainting.physicsBody?.categoryBitMask = 0
+        rangePainting.physicsBody?.collisionBitMask = 0
     }
     
     func onLasers() {
@@ -1141,6 +1158,9 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         offLaser.isHidden = true
         onLaser.physicsBody?.categoryBitMask = obstacle
         onLaser.physicsBody?.collisionBitMask = playerCol
+        rangePainting.isHidden = false
+        rangePainting.physicsBody?.categoryBitMask = obstacle
+        rangePainting.physicsBody?.collisionBitMask = playerCol
     }
 }
 
