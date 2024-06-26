@@ -112,6 +112,9 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     let partitionLeft = SKSpriteNode(imageNamed: "partitionLeft.png")
     let partitionRight = SKSpriteNode(imageNamed: "partitionRight.png")
     
+    //Exit
+    let exitClosed = SKSpriteNode(imageNamed: "exitClosed.png")
+    
     //Lines for partitions
     let lineLeft21 = SKShapeNode()
     let lineTop21 = SKShapeNode()
@@ -885,6 +888,10 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         
         lineTop32.physicsBody?.isDynamic = false
         self.addChild(lineTop32)
+        
+        //Exit
+        addChild(exitClosed)
+        exitClosed.position = CGPoint(x: 2895, y: -500)
     }
     
     //Handling collision response
