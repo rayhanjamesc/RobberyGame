@@ -17,6 +17,7 @@
 		1A8A7D112C17F21C0023826B /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 1A8A7D102C17F21C0023826B /* Base */; };
 		1A8A7D1A2C17F2AC0023826B /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8A7D192C17F2AC0023826B /* Joystick.swift */; };
 		1AD066F52C25290700DC384D /* MiniGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD066F42C25290700DC384D /* MiniGameScene.swift */; };
+		324CA1402C2C035700C71D21 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324CA13F2C2C035700C71D21 /* Color.swift */; };
 		32DA2EEA2C2960A4008E7298 /* CCTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA2EE92C2960A4008E7298 /* CCTV.swift */; };
 		32DA2EF12C2966D6008E7298 /* GuardTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA2EF02C2966D6008E7298 /* GuardTrack.swift */; };
 		32DA2EF32C2967A7008E7298 /* Bear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA2EF22C2967A7008E7298 /* Bear.swift */; };
@@ -36,6 +37,7 @@
 		1A8A7D102C17F21C0023826B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1A8A7D192C17F2AC0023826B /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 		1AD066F42C25290700DC384D /* MiniGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniGameScene.swift; sourceTree = "<group>"; };
+		324CA13F2C2C035700C71D21 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		32DA2EE92C2960A4008E7298 /* CCTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCTV.swift; sourceTree = "<group>"; };
 		32DA2EF02C2966D6008E7298 /* GuardTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuardTrack.swift; sourceTree = "<group>"; };
 		32DA2EF22C2967A7008E7298 /* Bear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bear.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 		1A8A7CFF2C17F21B0023826B /* RobberyGame */ = {
 			isa = PBXGroup;
 			children = (
+				324CA13E2C2C034100C71D21 /* Extra */,
 				32DA2EEF2C2966C4008E7298 /* Logic */,
 				32DA2EEC2C296545008E7298 /* Entities */,
 				1A8A7D002C17F21B0023826B /* AppDelegate.swift */,
@@ -87,6 +90,14 @@
 				1A8A7D0F2C17F21C0023826B /* LaunchScreen.storyboard */,
 			);
 			path = RobberyGame;
+			sourceTree = "<group>";
+		};
+		324CA13E2C2C034100C71D21 /* Extra */ = {
+			isa = PBXGroup;
+			children = (
+				324CA13F2C2C035700C71D21 /* Color.swift */,
+			);
+			path = Extra;
 			sourceTree = "<group>";
 		};
 		32DA2EEC2C296545008E7298 /* Entities */ = {
@@ -191,6 +202,7 @@
 			files = (
 				1A8A7D072C17F21B0023826B /* GameScene.swift in Sources */,
 				1AD066F52C25290700DC384D /* MiniGameScene.swift in Sources */,
+				324CA1402C2C035700C71D21 /* Color.swift in Sources */,
 				32DA2EF12C2966D6008E7298 /* GuardTrack.swift in Sources */,
 				32DA2EF82C29A973008E7298 /* CCTVRange.swift in Sources */,
 				1A8A7D1A2C17F2AC0023826B /* Joystick.swift in Sources */,
