@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "P. Button_Play_Default@5x.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -7,6 +7,7 @@
 
 import Foundation
 import SpriteKit
+import SwiftUI
 
 class PixelNode: SKShapeNode {
     var row: Int = 0
@@ -26,6 +27,7 @@ class MiniGameScene: SKScene {
     
     let accuracyThreshold: Double = 100.0
     var isTracingSuccessful: Bool = false
+    
     
     override func didMove(to view: SKView) {
         self.size = CGSize(width: 1334, height: 750)
@@ -53,7 +55,12 @@ class MiniGameScene: SKScene {
         retryButton.position = CGPoint(x: 0, y: 50)
         retryButton.name = "Retry"
         addChild(retryButton)
+        
+        // Set the background color
+        self.backgroundColor = UIColor(Color.theme.background)
+
     }
+    
     
     @objc func mapButtonPressed() {
         if let gameViewController = self.view?.window?.rootViewController as? GameViewController {
@@ -82,7 +89,7 @@ class MiniGameScene: SKScene {
     func setupImage() {
         let art = SKSpriteNode(imageNamed: "Monalisa_Pixel")
 //        art.setScale(20)
-        art.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        art.position = CGPoint(x: size.width / 3, y: size.height / 2)
         art.zPosition = -1
         addChild(art)
     }
@@ -148,7 +155,7 @@ class MiniGameScene: SKScene {
                 trace.row = row
                 trace.column = column
                 
-                trace.position = CGPoint(x: 8 + startX + CGFloat(column) * (pixelSize + pixelSpacing),
+                trace.position = CGPoint(x: 8 + startX/2.5 + CGFloat(column) * (pixelSize + pixelSpacing),
                                          y: 8 + startY + CGFloat(row) * (pixelSize + pixelSpacing))
 //                trace.position = CGPoint(x: 2 + size.width / 2, y: 2 + size.height / 2)
                 trace.fillColor = .clear
@@ -321,11 +328,33 @@ class MiniGameScene: SKScene {
 //    }
     
     func setupFinishButton() {
-        let finishButton = SKLabelNode(text: "Finish")
-        finishButton.fontSize = 30
-        finishButton.fontColor = .green
-        finishButton.position = CGPoint(x: 300, y: size.height / 2)
-        finishButton.name = "finishButton"
-        addChild(finishButton)
+        //                let finishButton = SKLabelNode(text: "Finish")
+        //        finishButton.fontSize = 30
+        //        finishButton.fontColor = .green
+        //        finishButton.position = CGPoint(x: 300, y: size.height / 2)
+        //        finishButton.name = "finishButton"
+        //        addChild(finishButton)
+        //
+        
+        let finishButton = UIButton(type: .custom)
+        if let finishButtonImage = UIImage(named: "finish.svg") {
+            finishButton.setImage(finishButtonImage, for: .normal)
+            
+            //        finishButton.layer.position(x: 30, y:40)
+            
+            //        finishButton.addTarget(self, action: #selector(finishButtonPressed), for: .touchUpInside)
+            
+            
+            //        finishButton.addTarget(self, action: #selector(finishButtonPressed), for: .touchUpInside)
+            
+            // Set the position and size of the button
+            finishButton.frame = CGRect(x: (self.view?.bounds.width ?? 0) / 2 - 50,
+                                        y: (self.view?.bounds.height ?? 0) / 2 - 50,
+                                        width: 200,
+                                        height: 100)
+            
+            // Add the button to the view
+            self.view?.addSubview(finishButton)
+        }
     }
 }
