@@ -753,6 +753,10 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         partitionMain.addChild(painting)
         
         //Partition Left
+        partitionLeft.position = CGPoint(x: 2500, y: 100)
+        partitionLeft.xScale = 1.85
+        partitionRight.yScale = 1.85
+        addChild(partitionLeft)
         
         //Partition Right
     }
@@ -765,6 +769,17 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             
             return
         }
+    }
+    
+    func didEnd(_ contact: SKPhysicsContact) {
+        let firstBody = contact.bodyA
+        let secondBody = contact.bodyB
+        
+        if (firstBody.categoryBitMask == playerCol && secondBody.categoryBitMask == traceCol) ||
+        (firstBody.categoryBitMask == traceCol && secondBody.categoryBitMask == playerCol) {
+         isTriggeringTrace = false
+         hideTrace()
+     }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -842,6 +857,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         } else {
             cameraNode.position.x += cameraMovement.x
             cameraNode.position.y += cameraMovement.y
+            hideTrace()
         }
     }
     
@@ -891,6 +907,8 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             break
         }
     }
+    
+    
     
     func startTimer() {
         if !isTimerRunning {
