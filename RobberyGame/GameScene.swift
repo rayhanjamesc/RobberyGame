@@ -112,6 +112,9 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     let partitionLeft = SKSpriteNode(imageNamed: "partitionLeft.png")
     let partitionRight = SKSpriteNode(imageNamed: "partitionRight.png")
     
+    let leftStandingBarrier = SKSpriteNode(imageNamed: "leftStandingBarrier.png")
+    let rightStandingBarrier = SKSpriteNode(imageNamed: "rightStandingBarrier.png")
+    
     //Exit
     let exitClosed = SKSpriteNode(imageNamed: "exitClosed.png")
     
@@ -138,6 +141,11 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     let lineTop32 = SKShapeNode()
     
     let bottomElectricLine = SKShapeNode()
+    
+    let bottomLineBarrier1 = SKShapeNode()
+    let rightLineBarrier1 = SKShapeNode()
+    let bottomLineBarrier2 = SKShapeNode()
+    let leftLineBarrier2 = SKShapeNode()
     
     let room2_1 = SKSpriteNode(imageNamed: "room2_1.png")
     let room2_2 = SKSpriteNode(imageNamed: "room2_2.png")
@@ -496,6 +504,35 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             rangePainting.physicsBody?.categoryBitMask = obstacle
             rangePainting.physicsBody?.collisionBitMask = playerCol
         
+            //Barriers
+            addChild(leftStandingBarrier)
+            leftStandingBarrier.position = CGPoint(x: 2340, y: 170)
+            leftStandingBarrier.xScale = 2.0
+            leftStandingBarrier.yScale = 2.0
+            
+            addChild(rightStandingBarrier)
+            rightStandingBarrier.position = CGPoint(x: 2890, y: 170)
+            
+        addChild(bottomLineBarrier1)
+        bottomLineBarrier1.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 2220, y: 60), to: CGPoint(x: 2458, y: 60))
+        bottomLineBarrier1.physicsBody?.categoryBitMask = topCol
+        bottomLineBarrier1.physicsBody?.collisionBitMask = playerCol
+        
+        addChild(rightLineBarrier1)
+        rightLineBarrier1.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 2458, y: 60), to: CGPoint(x: 2458, y: 300))
+        rightLineBarrier1.physicsBody?.categoryBitMask = leftCol
+        rightLineBarrier1.physicsBody?.collisionBitMask = playerCol
+        
+        addChild(bottomLineBarrier2)
+        bottomLineBarrier2.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 2770, y: 60), to: CGPoint(x: 3050, y: 60))
+        bottomLineBarrier2.physicsBody?.categoryBitMask = topCol
+        bottomLineBarrier2.physicsBody?.collisionBitMask = playerCol
+        
+        addChild(leftLineBarrier2)
+        leftLineBarrier2.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 2770, y: 60), to: CGPoint(x: 2770, y: 300))
+        leftLineBarrier2.physicsBody?.categoryBitMask = rightCol
+        leftLineBarrier2.physicsBody?.collisionBitMask = playerCol
+            
         //Create physics body for player
         player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: player.size.width, height: player.size.height))
         
