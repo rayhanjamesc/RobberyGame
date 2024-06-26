@@ -17,10 +17,19 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     var player2: Player!
     
     //Creates and displays game over screen
-    var gameOverLabel = SKLabelNode(fontNamed: "Chalkduster")
+    let gameOverImage = SKSpriteNode(imageNamed: "BustedPopup.svg")
     
     //Retry button
-    var retryButton = SKLabelNode(fontNamed: "Chalkduster")
+    let retryButton = SKSpriteNode(imageNamed: "replayButtonDefault.svg")
+    
+    //Black screen for game over background
+    let blackScreen = SKSpriteNode(color: .black, size: CGSize(width: 1500, height: 1000))
+    
+    //Win screen
+    let winScreen = SKSpriteNode(imageNamed: "SuccessPopup.svg")
+    
+    //Back to home button after winning
+    let homeButton = SKSpriteNode(imageNamed: "homeButtonDefault.svg")
     
     //Trace button
     let traceButton = UIButton(type: .custom)
@@ -81,14 +90,21 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     let bear = Bear()
     let track = GuardTrack()
     
+    // Interior Design
+    let stairs = SKSpriteNode(imageNamed: "Staircase")
+    let statue_cat = SKSpriteNode(imageNamed: "statue_cat")
+    let decor_top = SKSpriteNode(imageNamed: "Decor-Top")
+    let decor_mid = SKSpriteNode(imageNamed: "Decor-Mid")
+    let decor_down = SKSpriteNode(imageNamed: "Decor-Down")
+    
     //Game walls
-    let room1_1 = SKSpriteNode(imageNamed: "room1_1.png")
-    let room1_2 = SKSpriteNode(imageNamed: "room1_2.png")
-    let room1_3 = SKSpriteNode(imageNamed: "room1_3.png")
-    let hallway1_1 = SKSpriteNode(imageNamed: "hallway1_1.png")
-    let hallway1_2 = SKSpriteNode(imageNamed: "hallway1_2.png")
-    let room1_4 = SKSpriteNode(imageNamed: "room1_4.png")
-    let room1_5 = SKSpriteNode(imageNamed: "room1_5.png")
+    let room1_1 = SKSpriteNode(imageNamed: "room1_1New.png")
+    let room1_2 = SKSpriteNode(imageNamed: "room1_2New.png")
+    let room1_3 = SKSpriteNode(imageNamed: "room1_3New.png")
+    let hallway1_1 = SKSpriteNode(imageNamed: "hallway1_1New.png")
+    let hallway1_2 = SKSpriteNode(imageNamed: "hallway1_2New.png")
+    let room1_4 = SKSpriteNode(imageNamed: "room1_4New.png")
+    let room1_5 = SKSpriteNode(imageNamed: "room1_5New.png")
     
     let partition2_1 = SKSpriteNode(imageNamed: "partitionwall2_1")
     let partition2_2 = SKSpriteNode(imageNamed: "partitionwall2_2")
@@ -97,6 +113,9 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     let partitionMain = SKSpriteNode(imageNamed: "partitionMain.png")
     let partitionLeft = SKSpriteNode(imageNamed: "partitionLeft.png")
     let partitionRight = SKSpriteNode(imageNamed: "partitionRight.png")
+    
+    let leftStandingBarrier = SKSpriteNode(imageNamed: "leftStandingBarrier.png")
+    let rightStandingBarrier = SKSpriteNode(imageNamed: "rightStandingBarrier.png")
     
     //Exit
     let exitOpened = SKSpriteNode(imageNamed: "exitOpened.png")
@@ -125,36 +144,41 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     let bottomElectricLine = SKShapeNode()
     
-    let room2_1 = SKSpriteNode(imageNamed: "room2_1.png")
-    let room2_2 = SKSpriteNode(imageNamed: "room2_2.png")
-    let room2_3 = SKSpriteNode(imageNamed: "room2_3.png")
-    let room2_4 = SKSpriteNode(imageNamed: "room2_4.png")
-    let room2_5 = SKSpriteNode(imageNamed: "room2_5.png")
-    let room2_6 = SKSpriteNode(imageNamed: "room2_6.png")
-    let room2_7 = SKSpriteNode(imageNamed: "room2_7.png")
-    let room2_8 = SKSpriteNode(imageNamed: "room2_8.png")
-    let room2_9 = SKSpriteNode(imageNamed: "room2_9.png")
-    let hallway2_1 = SKSpriteNode(imageNamed: "hallway2_1.png")
-    let hallway2_2 = SKSpriteNode(imageNamed: "hallway2_2.png")
-    let room2_10 = SKSpriteNode(imageNamed: "room2_10.png")
-    let room2_11 = SKSpriteNode(imageNamed: "room2_11.png")
-    let room2_12 = SKSpriteNode(imageNamed: "room2_12.png")
-    let room2_13 = SKSpriteNode(imageNamed: "room2_13.png")
-    let room2_14 = SKSpriteNode(imageNamed: "room2_14.png")
-    let room2_15 = SKSpriteNode(imageNamed: "room2_15.png")
-    let room2_16 = SKSpriteNode(imageNamed: "room2_16.png")
-    let room2_17 = SKSpriteNode(imageNamed: "room2_17.png")
-    let room2_18 = SKSpriteNode(imageNamed: "room2_18.png")
+    let bottomLineBarrier1 = SKShapeNode()
+    let rightLineBarrier1 = SKShapeNode()
+    let bottomLineBarrier2 = SKShapeNode()
+    let leftLineBarrier2 = SKShapeNode()
     
-    let room3_1 = SKSpriteNode(imageNamed: "room3_1.png")
-    let room3_2 = SKSpriteNode(imageNamed: "room3_2.png")
-    let room3_3 = SKSpriteNode(imageNamed: "room3_3.png")
-    let room3_4 = SKSpriteNode(imageNamed: "room3_4.png")
-    let room3_5 = SKSpriteNode(imageNamed: "room3_5.png")
-    let room3_6 = SKSpriteNode(imageNamed: "room3_6.png")
-    let room3_7 = SKSpriteNode(imageNamed: "room3_7.png")
-    let room3_8 = SKSpriteNode(imageNamed: "room3_8.png")
-    let room3_9 = SKSpriteNode(imageNamed: "room3_9.png")
+    let room2_1 = SKSpriteNode(imageNamed: "room2_1New.png")
+    let room2_2 = SKSpriteNode(imageNamed: "room2_2New.png")
+    let room2_3 = SKSpriteNode(imageNamed: "room2_3New.png")
+    let room2_4 = SKSpriteNode(imageNamed: "room2_4New.png")
+    let room2_5 = SKSpriteNode(imageNamed: "room2_5New.png")
+    let room2_6 = SKSpriteNode(imageNamed: "room2_6New.png")
+    let room2_7 = SKSpriteNode(imageNamed: "room2_7New.png")
+    let room2_8 = SKSpriteNode(imageNamed: "room2_8New.png")
+    let room2_9 = SKSpriteNode(imageNamed: "room2_9New.png")
+    let hallway2_1 = SKSpriteNode(imageNamed: "hallway2_1New.png")
+    let hallway2_2 = SKSpriteNode(imageNamed: "hallway2_2New.png")
+    let room2_10 = SKSpriteNode(imageNamed: "room2_10New.png")
+    let room2_11 = SKSpriteNode(imageNamed: "room2_11New.png")
+    let room2_12 = SKSpriteNode(imageNamed: "room2_12New.png")
+    let room2_13 = SKSpriteNode(imageNamed: "room2_13New.png")
+    let room2_14 = SKSpriteNode(imageNamed: "room2_14New.png")
+    let room2_15 = SKSpriteNode(imageNamed: "room2_15New.png")
+    let room2_16 = SKSpriteNode(imageNamed: "room2_16New.png")
+    let room2_17 = SKSpriteNode(imageNamed: "room2_17New.png")
+    let room2_18 = SKSpriteNode(imageNamed: "room2_18New.png")
+    
+    let room3_1 = SKSpriteNode(imageNamed: "room3_1New.png")
+    let room3_2 = SKSpriteNode(imageNamed: "room3_2New.png")
+    let room3_3 = SKSpriteNode(imageNamed: "room3_3New.png")
+    let room3_4 = SKSpriteNode(imageNamed: "room3_4New.png")
+    let room3_5 = SKSpriteNode(imageNamed: "room3_5New.png")
+    let room3_6 = SKSpriteNode(imageNamed: "room3_6New.png")
+    let room3_7 = SKSpriteNode(imageNamed: "room3_7New.png")
+    let room3_8 = SKSpriteNode(imageNamed: "room3_8New.png")
+    let room3_9 = SKSpriteNode(imageNamed: "room3_9New.png")
     
     //Interactable items
     let painting = SKSpriteNode(imageNamed: "MonaLisa")
@@ -178,7 +202,7 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     //Timer properties
     var timerLabel: SKLabelNode!
-    var countdown: Int = 3
+    var countdown: Int = 120
     var isTimerRunning = false
     
     override func didMove(to view: SKView) {
@@ -482,25 +506,56 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             rangePainting.physicsBody?.categoryBitMask = obstacle
             rangePainting.physicsBody?.collisionBitMask = playerCol
         
+            //Barriers
+            addChild(leftStandingBarrier)
+            leftStandingBarrier.position = CGPoint(x: 2340, y: 170)
+            leftStandingBarrier.xScale = 2.0
+            leftStandingBarrier.yScale = 2.0
+            
+            addChild(rightStandingBarrier)
+            rightStandingBarrier.position = CGPoint(x: 2890, y: 170)
+            
+            addChild(bottomLineBarrier1)
+            bottomLineBarrier1.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 2220, y: 60), to: CGPoint(x: 2458, y: 60))
+            bottomLineBarrier1.physicsBody?.categoryBitMask = topCol
+            bottomLineBarrier1.physicsBody?.collisionBitMask = playerCol
+            
+            addChild(rightLineBarrier1)
+            rightLineBarrier1.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 2458, y: 60), to: CGPoint(x: 2458, y: 300))
+            rightLineBarrier1.physicsBody?.categoryBitMask = leftCol
+            rightLineBarrier1.physicsBody?.collisionBitMask = playerCol
+            
+            addChild(bottomLineBarrier2)
+            bottomLineBarrier2.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 2770, y: 60), to: CGPoint(x: 3050, y: 60))
+            bottomLineBarrier2.physicsBody?.categoryBitMask = topCol
+            bottomLineBarrier2.physicsBody?.collisionBitMask = playerCol
+            
+            addChild(leftLineBarrier2)
+            leftLineBarrier2.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 2770, y: 60), to: CGPoint(x: 2770, y: 300))
+            leftLineBarrier2.physicsBody?.categoryBitMask = rightCol
+            leftLineBarrier2.physicsBody?.collisionBitMask = playerCol
+        
         //Create physics body for player
         player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: player.size.width, height: player.size.height))
         
         //Category and collision masks for player node
         player.physicsBody?.categoryBitMask = playerCol
-        player.physicsBody?.collisionBitMask = topCol | rightCol | bottomCol | leftCol | diagonalTopLeftCol | diagonalTopRightCol | diagonalBottomLeftCol | diagonalBottomRightCol | obstacle | traceCol | electricCol
-        player.physicsBody?.contactTestBitMask = topCol | rightCol | bottomCol | leftCol | diagonalTopLeftCol | diagonalTopRightCol | diagonalBottomLeftCol | diagonalBottomRightCol | obstacle | traceCol | electricCol
+        player.physicsBody?.collisionBitMask = topCol | rightCol | bottomCol | leftCol | diagonalTopLeftCol | diagonalTopRightCol | diagonalBottomLeftCol | diagonalBottomRightCol | obstacle | traceCol | electricCol | winCol
+        player.physicsBody?.contactTestBitMask = topCol | rightCol | bottomCol | leftCol | diagonalTopLeftCol | diagonalTopRightCol | diagonalBottomLeftCol | diagonalBottomRightCol | obstacle | traceCol | electricCol | winCol
         
         joystick.position = CGPoint(x: -500, y: -225)
         joystick.zPosition = 2
         
         //Add physics to player instance
         player.position = CGPoint(x: 0, y: 0)
+        player.zPosition = 10
         
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
         //Camera node properties
-        cameraNode.position = CGPoint(x: 2550, y: -100)
+        cameraNode.position = CGPoint(x: 3000, y: 0)
         self.camera = cameraNode
+        cameraNode.setScale(0.5)
         addChild(cameraNode)
         
         //Append joystick and player to cameraNode as a child
@@ -516,15 +571,6 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         timerLabel.position = CGPoint(x: 0, y: -200)
         timerLabel.text = "Time: \(countdown)"
         cameraNode.addChild(timerLabel)
-        
-        //Add play button
-        let playButton = SKLabelNode(fontNamed: "Helvetica")
-        playButton.text = "Play"
-        playButton.fontSize = 24
-        playButton.fontColor = SKColor.green
-        playButton.position = CGPoint(x: 0, y: 0)
-        playButton.name = "playButton"
-        cameraNode.addChild(playButton)
         
         //Add trace button
         traceButton.accessibilityIdentifier = "traceButton"
@@ -571,6 +617,12 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         }
     }
     
+    @objc func goHome() {
+        if let gameViewController = self.view?.window?.rootViewController as? GameViewController {
+            gameViewController.transitionToStartScene()
+        }
+    }
+    
     //Add walls to the map
     func setupWalls() {
         // Room 1_1
@@ -582,6 +634,40 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         room1_2.position = CGPoint(x: 175, y: 339)
         room1_2.physicsBody?.isDynamic = false
         addChild(room1_2)
+        
+        //Staircase
+        addChild(stairs)
+        stairs.position = CGPoint(x: 300, y: -50)
+        
+        var stairLeft1 = SKShapeNode()
+        addChild(stairLeft1)
+        stairLeft1.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 200, y: 50), to: CGPoint(x: 200, y: 150))
+        stairLeft1.physicsBody?.categoryBitMask = rightCol
+        stairLeft1.physicsBody?.collisionBitMask = playerCol
+        
+        var stairTop1 = SKShapeNode()
+        addChild(stairTop1)
+        stairTop1.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 200, y: 145), to: CGPoint(x: 385, y: 210))
+        stairTop1.physicsBody?.categoryBitMask = bottomCol
+        stairTop1.physicsBody?.collisionBitMask = playerCol
+        
+        var stairBottom1 = SKShapeNode()
+        addChild(stairBottom1)
+        stairBottom1.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 200, y: 50), to: CGPoint(x: 385, y: 115))
+        stairBottom1.physicsBody?.categoryBitMask = topCol
+        stairBottom1.physicsBody?.collisionBitMask = playerCol
+        
+        var stairLeft2 = SKShapeNode()
+        addChild(stairLeft2)
+        stairLeft2.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 200, y: -300), to: CGPoint(x: 200, y: -215))
+        stairLeft2.physicsBody?.categoryBitMask = rightCol
+        stairLeft2.physicsBody?.collisionBitMask = playerCol
+        
+        var stairTop2 = SKShapeNode()
+        addChild(stairTop2)
+        stairTop2.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 200, y: -215), to: CGPoint(x: 385, y: -150))
+        stairTop2.physicsBody?.categoryBitMask = bottomCol
+        stairTop2.physicsBody?.collisionBitMask = playerCol
         
         //Room 1_3
         room1_3.position = CGPoint(x: 385, y: 259)
@@ -671,6 +757,30 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         room2_2.physicsBody?.isDynamic = false
         addChild(room2_2)
         
+        //Cat statue
+        addChild(statue_cat)
+        statue_cat.position = CGPoint(x: 958, y: 0)
+        statue_cat.setScale(2)
+        statue_cat.zPosition = 11
+        
+        var catBottomLine = SKShapeNode()
+        addChild(catBottomLine)
+        catBottomLine.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 920, y: -75), to: CGPoint(x: 990, y: -75))
+        catBottomLine.physicsBody?.categoryBitMask = topCol
+        catBottomLine.physicsBody?.collisionBitMask = playerCol
+        
+        var catLeftLine = SKShapeNode()
+        addChild(catLeftLine)
+        catLeftLine.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 920, y: -75), to: CGPoint(x: 920, y: 10))
+        catLeftLine.physicsBody?.categoryBitMask = rightCol
+        catLeftLine.physicsBody?.collisionBitMask = playerCol
+        
+        var catTopLine = SKShapeNode()
+        addChild(catTopLine)
+        catTopLine.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 920, y: 10), to: CGPoint(x: 990, y: 10))
+        catTopLine.physicsBody?.categoryBitMask = bottomCol
+        catTopLine.physicsBody?.collisionBitMask = playerCol
+        
         //Room 2_3
         room2_3.position = CGPoint(x: 1005, y: 401)
         room2_3.physicsBody?.isDynamic = false
@@ -680,6 +790,91 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         room2_4.position = CGPoint(x: 1104, y: 506)
         room2_4.physicsBody?.isDynamic = false
         addChild(room2_4)
+        
+        //Decor Top
+           addChild(decor_top)
+           decor_top.zPosition = 2
+           decor_top.position = CGPoint(x: 1297, y: 400)
+           decor_top.setScale(2)
+        
+        var topDecorBottom1 = SKShapeNode()
+        addChild(topDecorBottom1)
+        topDecorBottom1.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1100, y: 325), to: CGPoint(x: 1300, y: 275))
+        topDecorBottom1.physicsBody?.categoryBitMask = topCol
+        topDecorBottom1.physicsBody?.collisionBitMask = playerCol
+        
+        var topDecorLeft = SKShapeNode()
+        addChild(topDecorLeft)
+        topDecorLeft.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1100, y: 325), to: CGPoint(x: 1100, y: 400))
+        topDecorLeft.physicsBody?.categoryBitMask = rightCol
+        topDecorLeft.physicsBody?.collisionBitMask = playerCol
+        
+        var topDecorBottom2 = SKShapeNode()
+        addChild(topDecorBottom2)
+        topDecorBottom2.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1300, y: 275), to: CGPoint(x: 1500, y: 325))
+        topDecorBottom2.physicsBody?.categoryBitMask = topCol
+        topDecorBottom2.physicsBody?.collisionBitMask = playerCol
+        
+        var topDecorRight = SKShapeNode()
+        addChild(topDecorRight)
+        topDecorRight.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1500, y: 325), to: CGPoint(x: 1500, y: 400))
+        topDecorRight.physicsBody?.categoryBitMask = leftCol
+        topDecorRight.physicsBody?.collisionBitMask = playerCol
+        
+        
+           //Decor Mid
+           addChild(decor_mid)
+           decor_mid.zPosition = 2
+           decor_mid.position = CGPoint(x: 1297, y: 20)
+           decor_mid.setScale(2)
+        
+        var midDecorBottom = SKShapeNode()
+        addChild(midDecorBottom)
+        midDecorBottom.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1130, y: -100), to: CGPoint(x: 1470, y: -100))
+        midDecorBottom.physicsBody?.categoryBitMask = topCol
+        midDecorBottom.physicsBody?.collisionBitMask = playerCol
+        
+        var midDecorRight = SKShapeNode()
+        addChild(midDecorRight)
+        midDecorRight.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1470, y: -100), to: CGPoint(x: 1470, y: 140))
+        midDecorRight.physicsBody?.categoryBitMask = leftCol
+        midDecorRight.physicsBody?.collisionBitMask = playerCol
+        
+        var midDecorTop = SKShapeNode()
+        addChild(midDecorTop)
+        midDecorTop.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1470, y: 140), to: CGPoint(x: 1130, y: 140))
+        midDecorTop.physicsBody?.categoryBitMask = bottomCol
+        midDecorTop.physicsBody?.collisionBitMask = playerCol
+        
+        var midDecorLeft = SKShapeNode()
+        addChild(midDecorLeft)
+        midDecorLeft.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1130, y: 140), to: CGPoint(x: 1130, y: -100))
+        midDecorLeft.physicsBody?.categoryBitMask = rightCol
+        midDecorLeft.physicsBody?.collisionBitMask = playerCol
+           
+           //Decor Down
+           addChild(decor_down)
+           decor_down.zPosition = 2
+           decor_down.position = CGPoint(x: 1297, y: -375)
+           decor_down.setScale(2)
+        
+        var bottomDecorTop = SKShapeNode()
+        addChild(bottomDecorTop)
+        bottomDecorTop.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1100, y: -280), to: CGPoint(x: 1500, y: -280))
+        bottomDecorTop.physicsBody?.categoryBitMask = bottomCol
+        bottomDecorTop.physicsBody?.collisionBitMask = playerCol
+        
+        var bottomDecorLeft = SKShapeNode()
+        addChild(bottomDecorLeft)
+        bottomDecorLeft.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1100, y: -280), to: CGPoint(x: 1100, y: -500))
+        bottomDecorLeft.physicsBody?.categoryBitMask = rightCol
+        bottomDecorLeft.physicsBody?.collisionBitMask = playerCol
+        
+        var bottomDecorRight = SKShapeNode()
+        addChild(bottomDecorRight)
+        bottomDecorRight.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: 1500, y: -280), to: CGPoint(x: 1500, y: -500))
+        bottomDecorRight.physicsBody?.categoryBitMask = leftCol
+        bottomDecorRight.physicsBody?.collisionBitMask = playerCol
         
         //Room 2_5
         room2_5.position = CGPoint(x: 1297, y: 562)
@@ -878,6 +1073,10 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         //Exit
         addChild(exitOpened)
         exitOpened.position = CGPoint(x: 2895, y: -500)
+        exitOpened.physicsBody = SKPhysicsBody(texture: exitOpened.texture!, size: exitOpened.size)
+        exitOpened.physicsBody?.categoryBitMask = winCol
+        exitOpened.physicsBody?.collisionBitMask = playerCol
+
     }
     
     //Handling collision response
@@ -907,17 +1106,29 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self.view)
-            if let touchedView = self.view?.hitTest(location, with: event) {
-                if touchedView is UIButton, let button = touchedView as? UIButton, button.accessibilityIdentifier == "traceButton" {
+
+            // Check if the touch hits a UIButton
+            if let touchedView = self.view?.hitTest(location, with: event), touchedView is UIButton {
+                let button = touchedView as! UIButton
+                if button.accessibilityIdentifier == "traceButton" {
                     traceButtonPressed()
-                } else if touchedView is UIButton, let button = touchedView as? UIButton, button.accessibilityIdentifier == "electricButton" {
+                } else if button.accessibilityIdentifier == "electricButton" {
                     electricButtonPressed()
-                } else if let touchedNode = self.atPoint(location) as? SKNode {
-                    if touchedNode.name == "playButton" {
-                        startTimer()
-                    } else if touchedNode.name == "retryButton" {
+                }
+            } else {
+                // Convert the touch location to the scene's coordinate space
+                let sceneLocation = self.convertPoint(fromView: location)
+                let touchedNode = self.atPoint(sceneLocation)
+
+                // Check if the touch hits an SKNode
+                if let touchedNode = touchedNode as? SKNode {
+                    if touchedNode.name == "retryButton" {
+                        print("reset")
                         resetGame()
+                    } else if touchedNode.name == "homeButton" {
+                        goHome()
                     } else {
+                        startTimer()
                         joystick.moveJoystick(touch: touch)
                         onLasers()
                         electricOn()
@@ -926,6 +1137,7 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             }
         }
     }
+
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
@@ -1037,12 +1249,12 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             isTriggeringTrace = true
         case electricCol:
             isTriggeringElectrical = true
+        case winCol:
+            win()
         default:
             break
         }
     }
-    
-    
     
     func startTimer() {
         if !isTimerRunning {
@@ -1069,27 +1281,57 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         }
     }
     
+    func win() {
+        //Black screen as background for win image
+        blackScreen.position = CGPoint(x: 0, y: 0)
+        blackScreen.zPosition = 199
+        blackScreen.name = "blackScreen"
+        cameraNode.addChild(blackScreen)
+        
+        //Configure win screen image
+        winScreen.position = CGPoint(x: 0, y: -10)
+        winScreen.zPosition = 200
+        winScreen.xScale = 3
+        winScreen.yScale = 3
+        winScreen.name = "winScreen"
+        cameraNode.addChild(winScreen)
+        
+        //Configure home button
+        homeButton.position = CGPoint(x: 0, y: -100)
+        homeButton.zPosition = 201
+        homeButton.xScale = 3
+        homeButton.yScale = 3
+        homeButton.name = "homeButton"
+        cameraNode.addChild(homeButton)
+    }
+    
     func gameOver() {
         //Stops the timer
         isTimerRunning = false
         removeAllActions()
-    
-        gameOverLabel.fontSize = 60
-        gameOverLabel.fontColor = SKColor.red
-        gameOverLabel.position = CGPoint(x: 0, y: 0)
-        gameOverLabel.zPosition = 200
-        gameOverLabel.text = "Game Over"
-        gameOverLabel.name = "gameOver"
-        gameOverLabel.removeFromParent()
-        cameraNode.addChild(gameOverLabel)
         
-        retryButton.fontSize = 40
-        retryButton.fontColor = SKColor.green
-        retryButton.position = CGPoint(x: 0, y: -50)
+        player.removeFromParent()
+        
+        //Black screen as background for game over image
+        blackScreen.position = CGPoint(x: 0, y: 0)
+        blackScreen.zPosition = 199
+        blackScreen.name = "blackScreen"
+        cameraNode.addChild(blackScreen)
+    
+        //Configure game over image
+        gameOverImage.position = CGPoint(x: 0, y: -10)
+        gameOverImage.zPosition = 200
+        gameOverImage.xScale = 3
+        gameOverImage.yScale = 3
+        gameOverImage.name = "gameOverImage"
+        cameraNode.addChild(gameOverImage)
+        
+        //Configure retry button
+        retryButton.position = CGPoint(x: 0, y: -100)
         retryButton.zPosition = 201
-        retryButton.text = "Retry"
+        retryButton.xScale = 3
+        retryButton.yScale = 3
         retryButton.name = "retryButton"
-        retryButton.removeFromParent()
         cameraNode.addChild(retryButton)
     }
     
@@ -1101,12 +1343,18 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         //Resets camera position
         cameraNode.position = CGPoint(x: 0, y: 0)
         
+        //Adds back player node
+        cameraNode.addChild(player)
+        
+        //Removes black background
+        blackScreen.removeFromParent()
+        
         //Resets timer
         countdown = 120
         timerLabel.text = "Time: \(countdown)"
         
         //Remove game over screen elements
-        gameOverLabel.removeFromParent()
+        gameOverImage.removeFromParent()
         retryButton.removeFromParent()
         
         //Reset game state

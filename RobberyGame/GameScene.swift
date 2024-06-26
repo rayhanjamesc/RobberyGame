@@ -23,6 +23,7 @@ let diagonalBottomRightCol: UInt32 = 0x1 << 8
 let obstacle: UInt32 = 0x1 << 9
 let traceCol: UInt32 = 0x1 << 10
 let electricCol: UInt32 = 0x1 << 11
+let winCol: UInt32 = 0x1 << 12
 
 class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
@@ -38,6 +39,12 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     //Black screen for game over background
     let blackScreen = SKSpriteNode(color: .black, size: CGSize(width: 1500, height: 1000))
+    
+    //Win screen
+    let winScreen = SKSpriteNode(imageNamed: "SuccessPopup.svg")
+    
+    //Back to home button after winning
+    let homeButton = SKSpriteNode(imageNamed: "homeButtonDefault.svg")
     
     //Trace button
     let traceButton = UIButton(type: .custom)
@@ -210,7 +217,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     //Timer properties
     var timerLabel: SKLabelNode!
-    var countdown: Int = 3
+    var countdown: Int = 120
     var isTimerRunning = false
     
     override func didMove(to view: SKView) {
@@ -543,15 +550,13 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             leftLineBarrier2.physicsBody?.categoryBitMask = rightCol
             leftLineBarrier2.physicsBody?.collisionBitMask = playerCol
         
-        
-            
         //Create physics body for player
         player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: player.size.width, height: player.size.height))
         
         //Category and collision masks for player node
         player.physicsBody?.categoryBitMask = playerCol
-        player.physicsBody?.collisionBitMask = topCol | rightCol | bottomCol | leftCol | diagonalTopLeftCol | diagonalTopRightCol | diagonalBottomLeftCol | diagonalBottomRightCol | obstacle | traceCol | electricCol
-        player.physicsBody?.contactTestBitMask = topCol | rightCol | bottomCol | leftCol | diagonalTopLeftCol | diagonalTopRightCol | diagonalBottomLeftCol | diagonalBottomRightCol | obstacle | traceCol | electricCol
+        player.physicsBody?.collisionBitMask = topCol | rightCol | bottomCol | leftCol | diagonalTopLeftCol | diagonalTopRightCol | diagonalBottomLeftCol | diagonalBottomRightCol | obstacle | traceCol | electricCol | winCol
+        player.physicsBody?.contactTestBitMask = topCol | rightCol | bottomCol | leftCol | diagonalTopLeftCol | diagonalTopRightCol | diagonalBottomLeftCol | diagonalBottomRightCol | obstacle | traceCol | electricCol | winCol
         
         joystick.position = CGPoint(x: -500, y: -225)
         joystick.zPosition = 2
@@ -624,6 +629,12 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         } else if onElectricalBox.isHidden == true {
             electricOn()
             onLasers()
+        }
+    }
+    
+    @objc func goHome() {
+        if let gameViewController = self.view?.window?.rootViewController as? GameViewController {
+            gameViewController.transitionToStartScene()
         }
     }
     
@@ -1077,6 +1088,10 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         //Exit
         addChild(exitClosed)
         exitClosed.position = CGPoint(x: 2895, y: -500)
+        exitClosed.physicsBody = SKPhysicsBody(texture: exitClosed.texture!, size: exitClosed.size)
+        exitClosed.physicsBody?.categoryBitMask = 0
+        exitClosed.physicsBody?.collisionBitMask = playerCol
+
     }
     
     //Handling collision response
@@ -1125,6 +1140,8 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
                     if touchedNode.name == "retryButton" {
                         print("reset")
                         resetGame()
+                    } else if touchedNode.name == "homeButton" {
+                        goHome()
                     } else {
                         startTimer()
                         joystick.moveJoystick(touch: touch)
@@ -1247,12 +1264,12 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             isTriggeringTrace = true
         case electricCol:
             isTriggeringElectrical = true
+        case winCol:
+            win()
         default:
             break
         }
     }
-    
-    
     
     func startTimer() {
         if !isTimerRunning {
@@ -1277,6 +1294,30 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             
             //Handle timer end (add game over later)
         }
+    }
+    
+    func win() {
+        //Black screen as background for win image
+        blackScreen.position = CGPoint(x: 0, y: 0)
+        blackScreen.zPosition = 199
+        blackScreen.name = "blackScreen"
+        cameraNode.addChild(blackScreen)
+        
+        //Configure win screen image
+        winScreen.position = CGPoint(x: 0, y: -10)
+        winScreen.zPosition = 200
+        winScreen.xScale = 3
+        winScreen.yScale = 3
+        winScreen.name = "winScreen"
+        cameraNode.addChild(winScreen)
+        
+        //Configure home button
+        homeButton.position = CGPoint(x: 0, y: -100)
+        homeButton.zPosition = 201
+        homeButton.xScale = 3
+        homeButton.yScale = 3
+        homeButton.name = "homeButton"
+        cameraNode.addChild(homeButton)
     }
     
     func gameOver() {

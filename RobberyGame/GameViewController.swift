@@ -19,7 +19,7 @@ class GameViewController: UIViewController {
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
-            let scene = StartScene(size: view.bounds.size)
+            let scene = EndGameScene(size: view.bounds.size)
             // Set the scale mode to scale to fit the window
             scene.scaleMode = .aspectFill
             
@@ -74,6 +74,21 @@ class GameViewController: UIViewController {
     func transitionToEndGameScene() {
         if let view = self.view as! SKView? {
             let scene = EndGameScene(size: view.bounds.size)
+            
+            scene.scaleMode = .aspectFill
+            view.presentScene(scene)
+            
+            view.ignoresSiblingOrder = true
+            view.showsFPS = false
+            view.showsNodeCount = false
+            view.showsPhysics = false
+        }
+    }
+    
+    //Method to transition to Start Scene
+    func transitionToStartScene() {
+        if let view = self.view as! SKView? {
+            let scene = StartScene(size: view.bounds.size)
             
             scene.scaleMode = .aspectFill
             view.presentScene(scene)
