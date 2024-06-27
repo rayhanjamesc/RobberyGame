@@ -23,19 +23,11 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     //Create player instance
     var player = SKSpriteNode()
+    var remotePlayer = SKSpriteNode()
     
     //Create camera node
     let cameraNode = SKCameraNode()
     
-    
-    //Setup multiplayer
-    func startMultiplayerGame(with match: GKMatch) {
-            self.match = match
-            
-            // Set up player 1 and player 2
-            let player = playerA
-    }
-        
     func handleReceivedData(_ data: Data) {
         // Decode and process the received data
         // For example, update player positions based on received data
@@ -297,8 +289,10 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         joystick.position = CGPoint(x: -500, y: -225)
         joystick.zPosition = 2
         
-        //Add physics to player instance
-        player.position = CGPoint(x: 0, y: 0)
+        //Assign player position when start game
+        playerA.position = CGPoint(x: 0, y: 0)
+        playerB.position = CGPoint(x: 0, y: 0)
+        print("assign players position")
         
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
@@ -309,7 +303,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         
         //Append joystick and player to cameraNode as a child
         cameraNode.addChild(joystick)
-        cameraNode.addChild(player)
+//        cameraNode.addChild(player)
         
         joystick.delegate = self
         

@@ -8,6 +8,7 @@
 import SpriteKit
 
 class Fox: SKSpriteNode {
+    var isLocalPlayer = false
     init() {
         // Load the image from your asset catalog
         let texture = SKTexture(imageNamed: "playerTwo") // Replace "Bear" with the name of your image asset
@@ -86,7 +87,7 @@ class FoxWalk: SKSpriteNode {
         
         // Set other properties as needed
         name = "playerTwo" //"fox_walk"
-
+        
         
         
     }
@@ -97,6 +98,7 @@ class FoxWalk: SKSpriteNode {
 }
 
 class Cat: SKSpriteNode {
+    var isLocalPlayer = false
     init() {
         // Load the image from your asset catalog
         let texture = SKTexture(imageNamed: "playerOne") // Replace "Bear" with the name of your image asset

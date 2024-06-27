@@ -161,11 +161,24 @@ extension GameViewController: GKMatchmakerViewControllerDelegate {
             // Local player is PlayerA, remote player is PlayerB
             gameScene.playerA.name = localPlayer?.alias
             gameScene.playerB.name = remotePlayer?.alias
+            gameScene.playerA.isLocalPlayer = true
         } else {
             // Local player is PlayerB, remote player is PlayerA
             gameScene.playerA.name = remotePlayer?.alias
             gameScene.playerB.name = localPlayer?.alias
+            gameScene.playerB.isLocalPlayer = true
         }
+        
+        if gameScene.playerA.isLocalPlayer {
+            gameScene.player = gameScene.playerA
+            gameScene.remotePlayer = gameScene.playerB
+        } else {
+            gameScene.player = gameScene.playerB
+            gameScene.remotePlayer = gameScene.playerA
+        }
+        
+        gameScene.cameraNode.addChild(gameScene.player)
+        gameScene.addChild(gameScene.remotePlayer)
         print("player classes assigned")
     }
     
@@ -201,11 +214,7 @@ extension GameViewController: GKMatchDelegate {
             gameScene.playerB.position = position
         }
     }
-    
-    func startGame(with match: GKMatch) {
-        guard let gameScene = self.view as? SKView, let scene = gameScene.scene as? GameScene else { return }
-        scene.startMultiplayerGame(with: match)
-    }
+
 }
 
 
