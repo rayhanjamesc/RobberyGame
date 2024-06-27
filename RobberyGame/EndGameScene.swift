@@ -43,9 +43,9 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         print("match")
             
         // Set up player 1 and player 2
-        let player1Texture = SKTexture(imageNamed: "playerOne.png")
+//        let player1Texture = SKTexture(imageNamed: "playerOne.png")
 //        player1 = Player(playerName: "Player 1", texture: player1Texture)
-//        player1.position = CGPoint(x: size.width * 0.2, y: size.height / 2)
+        player1.position = CGPoint(x: size.width * 0.2, y: size.height / 2)
         player1 = Cat()
         addChild(player1)
         print("Player One initiated")
@@ -70,7 +70,7 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     let joystick = Joystick()
     
     //Create player instance
-    let player = Cat()
+    let player = Fox()
     
     //Create camera node
     let cameraNode = SKCameraNode()
