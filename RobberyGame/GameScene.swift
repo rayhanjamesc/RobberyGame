@@ -28,8 +28,8 @@ let winCol: UInt32 = 0x1 << 12
 class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     var match: GKMatch?
-    var player1: Player!
-    var player2: Player!
+    var player1: Cat!
+    var player2: Fox!
     
     //Creates and displays game over screen
     let gameOverImage = SKSpriteNode(imageNamed: "BustedPopup.svg")
@@ -58,14 +58,16 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         print("match")
             
         // Set up player 1 and player 2
-        let player1Texture = SKTexture(imageNamed: "playerOne.png")
-        player1 = Player(playerName: "Player 1", texture: player1Texture)
+//        let player1Texture = SKTexture(imageNamed: "playerOne.png")
+//        player1 = Player(playerName: "Player 1", texture: player1Texture)
+        player1 = Cat()
         player1.position = CGPoint(x: size.width * 0.2, y: size.height / 2)
         addChild(player1)
         print("Player One initiated")
-        
-        let player2Texture = SKTexture(imageNamed: "playerTwo.png")
-        player2 = Player(playerName: "Player 2", texture: player2Texture)
+//
+//        let player2Texture = SKTexture(imageNamed: "playerTwo.png")
+//        player2 = Player(playerName: "Player 2", texture: player2Texture)
+        player2 = Fox()
         player2.position = CGPoint(x: size.width * 0.8, y: size.height / 2)
         addChild(player2)
         print("Player two initiated")
@@ -83,7 +85,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     let joystick = Joystick()
     
     //Create player instance
-    let player = SKSpriteNode(color: UIColor.red, size: CGSize(width: 50, height: 50))
+    let player = Cat()
     
     //Create camera node
     let cameraNode = SKCameraNode()
@@ -550,8 +552,11 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             leftLineBarrier2.physicsBody?.categoryBitMask = rightCol
             leftLineBarrier2.physicsBody?.collisionBitMask = playerCol
         
+        let playerTexture = SKTexture(imageNamed: "Cat_Idle_1")
+        let textureSize = playerTexture.size()
+        
         //Create physics body for player
-        player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: player.size.width, height: player.size.height))
+        player.physicsBody = SKPhysicsBody(texture: playerTexture, size: textureSize)
         
         //Category and collision masks for player node
         player.physicsBody?.categoryBitMask = playerCol
@@ -560,6 +565,9 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         
         joystick.position = CGPoint(x: -500, y: -225)
         joystick.zPosition = 2
+        joystick.setScale(1.5)
+        joystick.delegate = self
+        joystick.player = player
         
         //Add physics to player instance
         player.position = CGPoint(x: 0, y: 0)
@@ -568,7 +576,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
         //Camera node properties
-        cameraNode.position = CGPoint(x: 3000, y: 0)
+        cameraNode.position = CGPoint(x: 0, y: 0)
         self.camera = cameraNode
         cameraNode.setScale(0.5)
         addChild(cameraNode)
@@ -578,6 +586,7 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         cameraNode.addChild(player)
         
         joystick.delegate = self
+        joystick.player = player
         
         //Add timer label
         timerLabel = SKLabelNode(fontNamed: "Helvetica")
@@ -1168,6 +1177,12 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     func joystickMoved(to direction: CGPoint) {
         let cameraMovement = CGPoint(x: direction.x * 10, y: direction.y * 10)
+        
+        if direction.x > 0 {
+            player.flipPlayer(direction: true)
+        } else if direction.x < 0 {
+            player.flipPlayer(direction: false)
+        }
         
         if isTouchingTop {
             cameraNode.position.y -= 5

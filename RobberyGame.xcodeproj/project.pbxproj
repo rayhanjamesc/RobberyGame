@@ -12,7 +12,6 @@
 		1A5C237F2C2A647600133D4D /* Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C23782C2A647600133D4D /* Range.swift */; };
 		1A5C23812C2A647600133D4D /* CCTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C237B2C2A647600133D4D /* CCTV.swift */; };
 		1A5C23872C2A669F00133D4D /* GameCenterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C23862C2A669F00133D4D /* GameCenterHelper.swift */; };
-		1A5C238A2C2A66A800133D4D /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C23882C2A66A800133D4D /* Player.swift */; };
 		1A5C238C2C2A66B400133D4D /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5C238B2C2A66B400133D4D /* StartScene.swift */; };
 		1A8A7D012C17F21B0023826B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8A7D002C17F21B0023826B /* AppDelegate.swift */; };
 		1A8A7D032C17F21B0023826B /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1A8A7D022C17F21B0023826B /* GameScene.sks */; };
@@ -23,6 +22,9 @@
 		1A8A7D0E2C17F21C0023826B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A8A7D0D2C17F21C0023826B /* Assets.xcassets */; };
 		1A8A7D112C17F21C0023826B /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 1A8A7D102C17F21C0023826B /* Base */; };
 		1A8A7D1A2C17F2AC0023826B /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A8A7D192C17F2AC0023826B /* Joystick.swift */; };
+		1ABB525D2C2CFE7D006124F1 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABB525C2C2CFE7D006124F1 /* Player.swift */; };
+		1ABB52602C2D0C50006124F1 /* EscapeNowNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABB525E2C2D0C50006124F1 /* EscapeNowNode.swift */; };
+		1ABB52612C2D0C50006124F1 /* TryAgainNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABB525F2C2D0C50006124F1 /* TryAgainNode.swift */; };
 		1AD066F52C25290700DC384D /* MiniGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD066F42C25290700DC384D /* MiniGameScene.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,7 +34,6 @@
 		1A5C23782C2A647600133D4D /* Range.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Range.swift; sourceTree = "<group>"; };
 		1A5C237B2C2A647600133D4D /* CCTV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CCTV.swift; sourceTree = "<group>"; };
 		1A5C23862C2A669F00133D4D /* GameCenterHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameCenterHelper.swift; sourceTree = "<group>"; };
-		1A5C23882C2A66A800133D4D /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		1A5C238B2C2A66B400133D4D /* StartScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
 		1A5C238D2C2A66B800133D4D /* RobberyGame.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RobberyGame.entitlements; sourceTree = "<group>"; };
 		1A8A7CFD2C17F21B0023826B /* RobberyGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RobberyGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -45,6 +46,9 @@
 		1A8A7D0D2C17F21C0023826B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A8A7D102C17F21C0023826B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1A8A7D192C17F2AC0023826B /* Joystick.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
+		1ABB525C2C2CFE7D006124F1 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		1ABB525E2C2D0C50006124F1 /* EscapeNowNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EscapeNowNode.swift; sourceTree = "<group>"; };
+		1ABB525F2C2D0C50006124F1 /* TryAgainNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TryAgainNode.swift; sourceTree = "<group>"; };
 		1AD066F42C25290700DC384D /* MiniGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniGameScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -71,6 +75,7 @@
 		1A5C237D2C2A647600133D4D /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				1ABB525C2C2CFE7D006124F1 /* Player.swift */,
 				1A5C23792C2A647600133D4D /* PowerUp */,
 				1A5C237B2C2A647600133D4D /* CCTV.swift */,
 			);
@@ -80,7 +85,6 @@
 		1A5C23892C2A66A800133D4D /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				1A5C23882C2A66A800133D4D /* Player.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -88,6 +92,8 @@
 		1A8A7CF42C17F21B0023826B = {
 			isa = PBXGroup;
 			children = (
+				1ABB525E2C2D0C50006124F1 /* EscapeNowNode.swift */,
+				1ABB525F2C2D0C50006124F1 /* TryAgainNode.swift */,
 				1A8A7CFF2C17F21B0023826B /* RobberyGame */,
 				1A8A7CFE2C17F21B0023826B /* Products */,
 			);
@@ -201,13 +207,15 @@
 				1AD066F52C25290700DC384D /* MiniGameScene.swift in Sources */,
 				1A5C23872C2A669F00133D4D /* GameCenterHelper.swift in Sources */,
 				1A5C237E2C2A647600133D4D /* CCTVRange.swift in Sources */,
-				1A5C238A2C2A66A800133D4D /* Player.swift in Sources */,
+				1ABB525D2C2CFE7D006124F1 /* Player.swift in Sources */,
 				1A5C237F2C2A647600133D4D /* Range.swift in Sources */,
+				1ABB52602C2D0C50006124F1 /* EscapeNowNode.swift in Sources */,
 				1A8A7D1A2C17F2AC0023826B /* Joystick.swift in Sources */,
 				1A5C23812C2A647600133D4D /* CCTV.swift in Sources */,
 				1A8A7D092C17F21B0023826B /* GameViewController.swift in Sources */,
 				1A5C23762C2A626C00133D4D /* EndGameScene.swift in Sources */,
 				1A8A7D012C17F21B0023826B /* AppDelegate.swift in Sources */,
+				1ABB52612C2D0C50006124F1 /* TryAgainNode.swift in Sources */,
 				1A5C238C2C2A66B400133D4D /* StartScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

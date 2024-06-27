@@ -13,8 +13,8 @@ import Foundation
 class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     var match: GKMatch?
-    var player1: Player!
-    var player2: Player!
+    var player1: Cat!
+    var player2: Fox!
     
     //Creates and displays game over screen
     let gameOverImage = SKSpriteNode(imageNamed: "BustedPopup.svg")
@@ -44,13 +44,15 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             
         // Set up player 1 and player 2
         let player1Texture = SKTexture(imageNamed: "playerOne.png")
-        player1 = Player(playerName: "Player 1", texture: player1Texture)
-        player1.position = CGPoint(x: size.width * 0.2, y: size.height / 2)
+//        player1 = Player(playerName: "Player 1", texture: player1Texture)
+//        player1.position = CGPoint(x: size.width * 0.2, y: size.height / 2)
+        player1 = Cat()
         addChild(player1)
         print("Player One initiated")
         
-        let player2Texture = SKTexture(imageNamed: "playerTwo.png")
-        player2 = Player(playerName: "Player 2", texture: player2Texture)
+//        let player2Texture = SKTexture(imageNamed: "playerTwo.png")
+//        player2 = Player(playerName: "Player 2", texture: player2Texture)
+        player2 = Fox()
         player2.position = CGPoint(x: size.width * 0.8, y: size.height / 2)
         addChild(player2)
         print("Player two initiated")
@@ -68,7 +70,7 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     let joystick = Joystick()
     
     //Create player instance
-    let player = SKSpriteNode(color: UIColor.red, size: CGSize(width: 50, height: 50))
+    let player = Cat()
     
     //Create camera node
     let cameraNode = SKCameraNode()
@@ -535,8 +537,11 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
             leftLineBarrier2.physicsBody?.categoryBitMask = rightCol
             leftLineBarrier2.physicsBody?.collisionBitMask = playerCol
         
+        let playerTexture = SKTexture(imageNamed: "Cat_Idle_1")
+        let textureSize = playerTexture.size()
+        
         //Create physics body for player
-        player.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: player.size.width, height: player.size.height))
+        player.physicsBody = SKPhysicsBody(texture: playerTexture, size: textureSize)
         
         //Category and collision masks for player node
         player.physicsBody?.categoryBitMask = playerCol
@@ -553,7 +558,7 @@ class EndGameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
         //Camera node properties
-        cameraNode.position = CGPoint(x: 3000, y: 0)
+        cameraNode.position = CGPoint(x: 0, y: 0)
         self.camera = cameraNode
         cameraNode.setScale(0.5)
         addChild(cameraNode)

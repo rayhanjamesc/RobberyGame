@@ -14,8 +14,10 @@ protocol SneakyJoystickDelegate {
 }
 
 class Joystick: SKNode {
+    var player: Cat?
     
     var delegate: SneakyJoystickDelegate?
+//    var isMoving:Bool = false
     
     //Gray joystick on the bottom
     var joystick = SKShapeNode()
@@ -36,6 +38,8 @@ class Joystick: SKNode {
     //Variable for joystick speed
     var joystickAction: ((_ x: CGFloat, _ y: CGFloat) -> ())?
     
+    var cumulativeMovement: CGFloat = 0
+    
     //Properties for the whole joystick
     override init() {
         
@@ -46,6 +50,7 @@ class Joystick: SKNode {
         joystick = SKShapeNode(path: joystickPath.cgPath, centered: true)
         joystick.fillColor = UIColor.gray
         joystick.strokeColor = UIColor.clear
+        joystick.alpha = 0.4
         joystick.zPosition = 197
         
         //Black movable stick
@@ -79,6 +84,16 @@ class Joystick: SKNode {
         xValue = x / maxRange * speedFactor
         yValue = y / maxRange * speedFactor
         
+        //Calculate distance moved
+        let distanceMoved = sqrt(x * x + y * y)
+        cumulativeMovement += distanceMoved
+        
+        //Check if cumulative movement exceeds threshold
+        if cumulativeMovement >= 500 {
+            player?.walkingState()
+            cumulativeMovement = 0 //Resets cumulative movement
+        }
+        
         if let delegate = delegate {
             delegate.joystickMoved(to: CGPoint(x: xValue, y: yValue))
         }
@@ -88,6 +103,14 @@ class Joystick: SKNode {
     func resetJoystick() {
         xValue = 0
         yValue = 0
+        stick.position = .zero
+        
+        player?.idleState()
+        
+        if let delegate = delegate {
+            delegate.joystickMoved(to: CGPoint(x: xValue, y: yValue))
+        }
+        
         if let joystickAction = joystickAction {
             joystickAction(xValue, yValue)
         }
