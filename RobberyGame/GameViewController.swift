@@ -11,9 +11,14 @@ import GameplayKit
 import GameKit
 
 class GameViewController: UIViewController {
+    var match: GKMatch!
+    var localPlayer: GKPlayer?
+    var remotePlayer: GKPlayer?
     
-    private var gameCenterHelper: GameCenterHelper!
+    var gameViewController: GameViewController!
 
+    var gameScene: GameScene!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,14 +39,25 @@ class GameViewController: UIViewController {
             view.showsPhysics = false
         }
         
-        gameCenterHelper = GameCenterHelper()
-        gameCenterHelper.delegate = self
-        gameCenterHelper.authenticatePlayer()
+        authenticateLocalPlayer()
+    }
+    
+    func authenticateLocalPlayer() {
+        let localPlayer = GKLocalPlayer.local
+        localPlayer.authenticateHandler = { viewController, error in
+            if let vc = viewController {
+                self.present(vc, animated: true, completion: nil)
+            } else if localPlayer.isAuthenticated {
+                self.localPlayer = localPlayer
+                print("Player is authenticated")
+            } else {
+                print("Player is not authenticated: \(error?.localizedDescription ?? "Unknown error")")
+            }
+        }
     }
     
     //Method to transition to Game Scene
     func transitionToGameScene() {
-        gameCenterHelper.presentMatchmaker()
         if let view = self.view as! SKView? {
             let scene = GameScene(size: view.bounds.size)
             
@@ -54,7 +70,7 @@ class GameViewController: UIViewController {
             view.showsPhysics = false
         }
     }
-    
+        
     //Method to transition to Mini Game Scene
     func transitionToMiniGameScene() {
         if let view = self.view as! SKView? {
@@ -98,31 +114,98 @@ class GameViewController: UIViewController {
     }
 }
 
-extension GameViewController: GameCenterHelperDelegate {
-    func didChangeAuthStatus(isAuthenticated: Bool) {
-//        buttonMultiplayer.isEnabled = isAuthenticated
+extension GameViewController: GKMatchmakerViewControllerDelegate {
+    
+    func findMatch() {
+        let request = GKMatchRequest()
+        request.minPlayers = 2
+        request.maxPlayers = 2
+        request.inviteMessage = "Let's steal painting together!"
+        
+        let matchmakerVC = GKMatchmakerViewController(matchRequest: request)!
+        matchmakerVC.matchmakerDelegate = self
+        self.present(matchmakerVC, animated: true, completion: nil)
+        print("present matchmaker")
     }
     
-    func presentGameCenterAuth(viewController: UIViewController?) {
-        guard let vc = viewController else {return}
-        self.present(vc, animated: true)
+    func matchmakerViewControllerWasCancelled(_ viewController: GKMatchmakerViewController) {
+        viewController.dismiss(animated: true, completion: nil)
     }
     
-    func presentMatchmaking(viewController: UIViewController?) {
-        guard let vc = viewController else {return}
-        self.present(vc, animated: true)
+    func matchmakerViewController(_ viewController: GKMatchmakerViewController, didFailWithError error: Error) {
+        viewController.dismiss(animated: true, completion: nil)
+        print("Error finding match: \(error.localizedDescription)")
     }
     
-    func presentGame(match: GKMatch) {
-        //performSegue(withIdentifier: "showGame", sender: match)
+    func matchmakerViewController(_ viewController: GKMatchmakerViewController, didFind match: GKMatch) {
+        viewController.dismiss(animated: true, completion: nil)
+        self.match = match
+        self.match?.delegate = self
+        assignPlayers(match: match)
     }
+    
+    func assignPlayers(match: GKMatch) {
+        guard let localPlayer = localPlayer else { return }
+        if let remotePlayer = match.players.first(where: { $0.gamePlayerID != localPlayer.gamePlayerID }) {
+            self.remotePlayer = remotePlayer
+            // Assign players to classes
+            assignPlayerClasses()
+        }
+        print("players assigned")
+    }
+    
+    func assignPlayerClasses() {
+        guard let scene = self.view as? SKView, let gameScene = scene.scene as? GameScene else { return }
+
+        if localPlayer?.gamePlayerID ?? "" < remotePlayer?.gamePlayerID ?? "" {
+            // Local player is PlayerA, remote player is PlayerB
+            gameScene.playerA.name = localPlayer?.alias
+            gameScene.playerB.name = remotePlayer?.alias
+        } else {
+            // Local player is PlayerB, remote player is PlayerA
+            gameScene.playerA.name = remotePlayer?.alias
+            gameScene.playerB.name = localPlayer?.alias
+        }
+        print("player classes assigned")
+    }
+    
 }
 
 extension GameViewController: GKMatchDelegate {
+    
     func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
+        let position = try? JSONDecoder().decode(CGPoint.self, from: data)
+        if let position = position {
+            // Update the corresponding player's position in the game scene
+            updatePlayerPosition(player: player, position: position)
+        }
+        print("update player position")
+    }
+
+    func sendPlayerPosition(position: CGPoint) {
+        guard let match = match else { return }
+        do {
+            let data = try JSONEncoder().encode(position)
+            try match.sendData(toAllPlayers: data, with: .reliable)
+        } catch {
+            print("Failed to send data: \(error.localizedDescription)")
+        }
+        print("send player position")
+    }
+
+    func updatePlayerPosition(player: GKPlayer, position: CGPoint) {
+        guard let scene = self.view as? SKView, let gameScene = scene.scene as? GameScene else { return }
+        if player.gamePlayerID == gameScene.playerA.name {
+            gameScene.playerA.position = position
+        } else if player.gamePlayerID == gameScene.playerB.name {
+            gameScene.playerB.position = position
+        }
+    }
+    
+    func startGame(with match: GKMatch) {
         guard let gameScene = self.view as? SKView, let scene = gameScene.scene as? GameScene else { return }
-            
-        // Handle received data (e.g., update player positions)
-        //scene.handleReceivedData(data)
+        scene.startMultiplayerGame(with: match)
     }
 }
+
+

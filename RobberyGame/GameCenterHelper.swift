@@ -11,7 +11,7 @@ import GameKit
 protocol GameCenterHelperDelegate: AnyObject {
     func didChangeAuthStatus(isAuthenticated: Bool)
     func presentGameCenterAuth(viewController: UIViewController?)
-    func presentMatchmaking(viewController: UIViewController?)
+    func presentMatchmaking(viewController: UIViewController?) //present the matchmaker
     func presentGame(match: GKMatch)
 }
 

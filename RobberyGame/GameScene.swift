@@ -12,20 +12,50 @@ import GameKit
 class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     var match: GKMatch?
-    var localPlayer: Fox!
-    var remotePlayer: Cat!
+    var playerA = Fox()
+    var playerB = Cat()
+    
+    //Reference to GameViewController
+    weak var gameViewController: GameViewController?
     
     //Create joystick on scene
     let joystick = Joystick()
     
     //Create player instance
-    let player = SKSpriteNode(color: UIColor.red, size: CGSize(width: 50, height: 50))
+    var player = SKSpriteNode()
     
     //Create camera node
     let cameraNode = SKCameraNode()
     
-    //Reference to GameViewController
-    weak var gameViewController: GameViewController?
+    
+    //Setup multiplayer
+    func startMultiplayerGame(with match: GKMatch) {
+            self.match = match
+            
+            // Set up player 1 and player 2
+            let player = playerA
+    }
+        
+    func handleReceivedData(_ data: Data) {
+        // Decode and process the received data
+        // For example, update player positions based on received data
+    }
+        
+    override func update(_ currentTime: TimeInterval) {
+        super.update(currentTime)
+            
+        // Send player positions to other player
+        if let match = match {
+            let playerData = createDataToSend()
+            try? match.sendData(toAllPlayers: playerData, with: .reliable)
+        }
+    }
+        
+    func createDataToSend() -> Data {
+        // Create data to send to the other player
+        // For example, player positions
+        return Data()
+    }
     
     //Win mechanic conditional
     

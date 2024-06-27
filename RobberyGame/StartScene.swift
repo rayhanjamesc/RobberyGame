@@ -7,6 +7,7 @@
 
 import Foundation
 import SpriteKit
+import GameKit
 
 class StartScene: SKScene {
     override func didMove(to view: SKView) {
@@ -22,6 +23,8 @@ class StartScene: SKScene {
     @objc func startButtonPressed() {
         if let gameViewController = self.view?.window?.rootViewController as? GameViewController {
             
+            //gameViewController.gameCenterHelper.presentMatchmaker()
+            gameViewController.findMatch()
             gameViewController.transitionToGameScene()
         }
     }

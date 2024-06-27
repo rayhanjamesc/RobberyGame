@@ -14,8 +14,8 @@
             filePath = "RobberyGame/GameScene.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "649"
-            endingLineNumber = "649"
+            startingLineNumber = "679"
+            endingLineNumber = "679"
             landmarkName = "updateTimer()"
             landmarkType = "7">
          </BreakpointContent>

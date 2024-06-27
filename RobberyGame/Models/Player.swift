@@ -10,7 +10,7 @@ import SpriteKit
 class Fox: SKSpriteNode {
     init() {
         // Load the image from your asset catalog
-        let texture = SKTexture(imageNamed: "Fox_Idle_1") // Replace "Bear" with the name of your image asset
+        let texture = SKTexture(imageNamed: "playerTwo") // Replace "Bear" with the name of your image asset
         let originalSize = texture.size()
         let scaledSize = CGSize(width: originalSize.width, height: originalSize.height)
         
@@ -29,7 +29,7 @@ class Fox: SKSpriteNode {
     func idleState(){
         var textures: [SKTexture] = []
         for i in 1 ... 2 {
-            let texture = SKTexture(imageNamed: "Fox_Idle_\(i)")
+            let texture = SKTexture(imageNamed: "playerTwo")
             textures.append(texture)
         }
         
@@ -44,7 +44,7 @@ class Fox: SKSpriteNode {
     func walkingState(){
         var textures: [SKTexture] = []
         for i in 1 ... 4 {
-            let texture = SKTexture(imageNamed: "Fox_Walk_\(i)")
+            let texture = SKTexture(imageNamed: "playerTwo")
             textures.append(texture)
         }
         
@@ -66,12 +66,13 @@ class Fox: SKSpriteNode {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 }
 
 class FoxWalk: SKSpriteNode {
     init() {
         // Load the image from your asset catalog
-        let texture = SKTexture(imageNamed: "Fox_Walk_1") // Replace "Bear" with the name of your image asset
+        let texture = SKTexture(imageNamed: "playerTwo") // Replace "Bear" with the name of your image asset
         let originalSize = texture.size()
         let scaledSize = CGSize(width: originalSize.width, height: originalSize.height)
         
@@ -84,7 +85,7 @@ class FoxWalk: SKSpriteNode {
         self.physicsBody = physicsBody
         
         // Set other properties as needed
-        name = "fox_walk"
+        name = "playerTwo" //"fox_walk"
 
         
         
@@ -98,7 +99,7 @@ class FoxWalk: SKSpriteNode {
 class Cat: SKSpriteNode {
     init() {
         // Load the image from your asset catalog
-        let texture = SKTexture(imageNamed: "cat") // Replace "Bear" with the name of your image asset
+        let texture = SKTexture(imageNamed: "playerOne") // Replace "Bear" with the name of your image asset
         let originalSize = texture.size()
         let scaledSize = CGSize(width: originalSize.width, height: originalSize.height)
         
