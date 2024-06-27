@@ -20,6 +20,8 @@
 		324CA1402C2C035700C71D21 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324CA13F2C2C035700C71D21 /* Color.swift */; };
 		324CA1422C2C1D1F00C71D21 /* EscapeNowNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324CA1412C2C1D1F00C71D21 /* EscapeNowNode.swift */; };
 		324CA1442C2C1D2D00C71D21 /* TryAgainNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324CA1432C2C1D2D00C71D21 /* TryAgainNode.swift */; };
+		3260906E2C2D597900AE56E0 /* foley.wav in Resources */ = {isa = PBXBuildFile; fileRef = 3260906C2C2D597900AE56E0 /* foley.wav */; };
+		3260906F2C2D597900AE56E0 /* backgroundMusic.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 3260906D2C2D597900AE56E0 /* backgroundMusic.mp3 */; };
 		32DA2EEA2C2960A4008E7298 /* CCTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA2EE92C2960A4008E7298 /* CCTV.swift */; };
 		32DA2EF12C2966D6008E7298 /* GuardTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA2EF02C2966D6008E7298 /* GuardTrack.swift */; };
 		32DA2EF32C2967A7008E7298 /* Bear.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DA2EF22C2967A7008E7298 /* Bear.swift */; };
@@ -42,6 +44,8 @@
 		324CA13F2C2C035700C71D21 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		324CA1412C2C1D1F00C71D21 /* EscapeNowNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EscapeNowNode.swift; sourceTree = "<group>"; };
 		324CA1432C2C1D2D00C71D21 /* TryAgainNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TryAgainNode.swift; sourceTree = "<group>"; };
+		3260906C2C2D597900AE56E0 /* foley.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = foley.wav; sourceTree = "<group>"; };
+		3260906D2C2D597900AE56E0 /* backgroundMusic.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = backgroundMusic.mp3; sourceTree = "<group>"; };
 		32DA2EE92C2960A4008E7298 /* CCTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCTV.swift; sourceTree = "<group>"; };
 		32DA2EF02C2966D6008E7298 /* GuardTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuardTrack.swift; sourceTree = "<group>"; };
 		32DA2EF22C2967A7008E7298 /* Bear.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bear.swift; sourceTree = "<group>"; };
@@ -81,6 +85,8 @@
 		1A8A7CFF2C17F21B0023826B /* RobberyGame */ = {
 			isa = PBXGroup;
 			children = (
+				3260906D2C2D597900AE56E0 /* backgroundMusic.mp3 */,
+				3260906C2C2D597900AE56E0 /* foley.wav */,
 				324CA13E2C2C034100C71D21 /* Extra */,
 				32DA2EEF2C2966C4008E7298 /* Logic */,
 				32DA2EEC2C296545008E7298 /* Entities */,
@@ -191,6 +197,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3260906E2C2D597900AE56E0 /* foley.wav in Resources */,
+				3260906F2C2D597900AE56E0 /* backgroundMusic.mp3 in Resources */,
 				1A8A7D032C17F21B0023826B /* GameScene.sks in Resources */,
 				1A8A7D0C2C17F21B0023826B /* Base in Resources */,
 				1A8A7D0E2C17F21C0023826B /* Assets.xcassets in Resources */,

@@ -38,6 +38,10 @@ class Joystick: SKNode {
     //Variable for joystick speed
     var joystickAction: ((_ x: CGFloat, _ y: CGFloat) -> ())?
     
+    //Variable for sfx
+    var foleySFX: SKAudioNode!
+
+    
     var cumulativeMovement: CGFloat = 0 // Add this property
 
     
@@ -75,6 +79,11 @@ class Joystick: SKNode {
     
     //Moving the joystick
     func moveJoystick(touch: UITouch) {
+        
+        if let musicURL = Bundle.main.url(forResource: "foleySFX", withExtension: "wav") {
+                foleySFX = SKAudioNode(url: musicURL)
+                addChild(foleySFX)
+            }
     
         let p = touch.location(in: self)
         let x = p.x.clamped(-maxRange, maxRange)

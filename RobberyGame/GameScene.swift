@@ -324,6 +324,11 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         
         //Add walls to the scene
         setupWalls()
+        
+        // Play background music
+        let backgroundMusic = SKAudioNode(fileNamed: "backgroundMusic.mp3")
+        backgroundMusic.autoplayLooped = true
+        addChild(backgroundMusic)
     }
     
     @objc func traceButtonPressed() {
