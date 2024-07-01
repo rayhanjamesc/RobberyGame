@@ -8,6 +8,7 @@
 import SpriteKit
 import GameplayKit
 import GameKit
+import CoreGraphics
 
 class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
@@ -27,27 +28,6 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
     
     //Create camera node
     let cameraNode = SKCameraNode()
-    
-    func handleReceivedData(_ data: Data) {
-        // Decode and process the received data
-        // For example, update player positions based on received data
-    }
-        
-    override func update(_ currentTime: TimeInterval) {
-        super.update(currentTime)
-            
-        // Send player positions to other player
-        if let match = match {
-            let playerData = createDataToSend()
-            try? match.sendData(toAllPlayers: playerData, with: .reliable)
-        }
-    }
-        
-    func createDataToSend() -> Data {
-        // Create data to send to the other player
-        // For example, player positions
-        return Data()
-    }
     
     //Win mechanic conditional
     
@@ -292,7 +272,6 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         //Assign player position when start game
         playerA.position = CGPoint(x: 0, y: 0)
         playerB.position = CGPoint(x: 0, y: 0)
-        print("assign players position")
         
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
@@ -334,6 +313,22 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         
         //Add walls to the scene
         setupWalls()
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        super.update(currentTime)
+        
+        if let match = match {
+            let position = player.position
+            let positionData = Data(bytes: &self.position, count: MemoryLayout<CGPoint>.size)
+                do {
+                    let positionData = try JSONEncoder().encode(position)
+                    try match.sendData(toAllPlayers: positionData, with: .reliable)
+                    print("Sent position: \(position)")
+                } catch {
+                    print("Error sending position data: \(error.localizedDescription)")
+                }
+        }
     }
     
     @objc func traceButtonPressed() {
@@ -720,6 +715,26 @@ class GameScene: SKScene, SneakyJoystickDelegate, SKPhysicsContactDelegate {
         startTimer()
         
         print("game reset")
+    }
+}
+
+extension CGPoint: Codable {
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(x, forKey: .x)
+        try container.encode(y, forKey: .y)
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let x = try container.decode(CGFloat.self, forKey: .x)
+        let y = try container.decode(CGFloat.self, forKey: .y)
+        self.init(x: x, y: y)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case x
+        case y
     }
 }
 

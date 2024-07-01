@@ -22,8 +22,6 @@ class StartScene: SKScene {
     
     @objc func startButtonPressed() {
         if let gameViewController = self.view?.window?.rootViewController as? GameViewController {
-            
-            //gameViewController.gameCenterHelper.presentMatchmaker()
             gameViewController.findMatch()
             gameViewController.transitionToGameScene()
         }

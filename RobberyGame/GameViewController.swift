@@ -156,6 +156,8 @@ extension GameViewController: GKMatchmakerViewControllerDelegate {
     
     func assignPlayerClasses() {
         guard let scene = self.view as? SKView, let gameScene = scene.scene as? GameScene else { return }
+        
+        gameScene.match = self.match
 
         if localPlayer?.gamePlayerID ?? "" < remotePlayer?.gamePlayerID ?? "" {
             // Local player is PlayerA, remote player is PlayerB
@@ -185,36 +187,31 @@ extension GameViewController: GKMatchmakerViewControllerDelegate {
 }
 
 extension GameViewController: GKMatchDelegate {
-    
     func match(_ match: GKMatch, didReceive data: Data, fromRemotePlayer player: GKPlayer) {
-        let position = try? JSONDecoder().decode(CGPoint.self, from: data)
-        if let position = position {
-            // Update the corresponding player's position in the game scene
-            updatePlayerPosition(player: player, position: position)
-        }
-        print("update player position")
-    }
-
-    func sendPlayerPosition(position: CGPoint) {
-        guard let match = match else { return }
-        do {
-            let data = try JSONEncoder().encode(position)
-            try match.sendData(toAllPlayers: data, with: .reliable)
-        } catch {
-            print("Failed to send data: \(error.localizedDescription)")
-        }
-        print("send player position")
-    }
-
-    func updatePlayerPosition(player: GKPlayer, position: CGPoint) {
         guard let scene = self.view as? SKView, let gameScene = scene.scene as? GameScene else { return }
-        if player.gamePlayerID == gameScene.playerA.name {
-            gameScene.playerA.position = position
-        } else if player.gamePlayerID == gameScene.playerB.name {
-            gameScene.playerB.position = position
+
+        // Decode the received position data
+        do {
+            let position = try JSONDecoder().decode(CGPoint.self, from: data)
+                    
+            // Update remote player's position on the main thread
+            DispatchQueue.main.async {
+                gameScene.remotePlayer.position = position
+//                gameScene.addChild(gameScene.remotePlayer)
+                print("Received position: \(position)")
+            }
+        } catch {
+            print("Error decoding position data: \(error.localizedDescription)")
         }
     }
-
+    
+    func match(_ match: GKMatch, player: GKPlayer, didChange state: GKPlayerConnectionState) {
+        if state == .disconnected {
+            print("Player disconnected: \(player.alias)")
+        }
+    }
 }
+
+
 
 
